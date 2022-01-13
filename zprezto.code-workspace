@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../.zprezto"
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {
+		"python.pythonPath": "/Users/anders.swanson/opt/anaconda3/envs/deal/bin/python"
+	}
+}
