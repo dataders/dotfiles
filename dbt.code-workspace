@@ -1,0 +1,101 @@
+{
+  "folders": [
+    {
+      "name": "jaffle_shop",
+      "path": "../jaffle_shop"
+    },
+    {
+      "name": "mart_core",
+      "path": "../mart_core"
+    },
+    {
+      "name": "mart_ml",
+      "path": "../mart_ml"
+    },
+    {
+      "name": "profiles dir",
+      "path": "../../.dbt"
+    },
+    {
+      "name": "synapse-sql",
+      "path": "../synapse-sql"
+    },
+    {
+      "name": "dbt_pipelines",
+      "path": "../dbt_pipelines"
+    },
+    {
+      "path": "../AEAP.Core"
+    },
+    {
+      "name": "data_eng_docs",
+      "path": "../data_eng_docs"
+    }
+  ],
+  "settings": {
+    "files.associations": {
+      "*.sql": "jinja-sql",
+      "**/target/**": "",
+      "**/build/*.yml": "azure-pipelines"
+    },
+    "findrelated.rulesets": [
+      {
+          "name": "sql",
+          "rules": [
+              {
+                  "pattern": "^(.*/)?models/(.*/)?(.+\\.sql)$",
+                  "locators": [
+                      "**/compiled/**/$3"
+                  ]
+              },
+              {
+                  "pattern": "^(.*/)?compiled/(.*/)?(.+\\.sql)$",
+                  "locators": [
+                      "**/run/**/$3"
+                  ]
+              },
+              {
+                  "pattern": "^(.*/)?run/(.*/)?(.+\\.sql)$",
+                  "locators": [
+                      "**/models/**/$3"
+                  ]
+              }
+          ]
+      }
+    ],
+    "findrelated.applyRulesets": [
+      "sql"
+    ],
+    //theme settings
+    "workbench.colorTheme": "Monokai Dimmed",
+    "workbench.editor.highlightModifiedTabs": true,
+    "editor.rulers": [80],
+    "editor.renderWhitespace": "all", 
+    "workbench.editor.labelFormat": "medium",
+    "workbench.editor.revealIfOpen": true,
+    
+    // misc settings
+    "debug.internalConsoleOptions": "neverOpen",
+    "launch": {
+      "version": "0.2.0",
+      "configurations": [
+        {
+          "name": "dbt 1",
+          "type": "python",
+          "request": "launch",
+          "program": "/Users/anders.swanson/opt/anaconda3/envs/dbt_sqlserver/bin/dbt",
+          // "program": "/Users/anders.swanson/opt/anaconda3/envs/dbt_sqlserver/lib/python3.6/site-packages/dbt/main.py",
+          // "program": "dbt",
+          "cwd": "/Users/anders.swanson/repos/avaitsml_dbt",
+          // "cwd": "../avaitsml_dbt",
+          "console": "integratedTerminal",
+          "args": ["run", "--target", "sqlserver"]
+        }
+      ]
+    },
+    // "python.pythonPath": "/Users/anders.swanson/opt/anaconda3/envs/dbt/bin/python",
+    "python.formatting.provider": "black",
+    "sql.linter.executablePath": "/Users/anders.swanson/opt/anaconda3/envs/dbt/bin/sqlfluff"
+    // "editor.formatOnSave": true
+  }
+}

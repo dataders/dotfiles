@@ -1,0 +1,96 @@
+{
+  "folders": [
+    {
+      "name": "jaffle_shop",
+      "path": "../jaffle_shop"
+    },
+    {
+      "name": "dbt-firebolt",
+      "path": "../dbt-firebolt"
+    },
+    {
+      "name": "dbt-external-tables",
+      "path": "../dbt-external-tables"
+    },
+    {
+      "name": "sqlfluff",
+      "path": "../sqlfluff"
+    },
+    {
+      "name": "dbt-adapter-tests",
+      "path": "../dbt-adapter-tests"
+    },
+    {
+      "name": "dbt",
+      "path": "../dbt"
+    },
+    {
+      "name": "profiles dir",
+      "path": "../../.dbt"
+    },
+    {
+      "name": "dbt-coalesce-demo",
+      "path": "../dbt-coalesce-demo"
+    }
+  ],
+  "settings": {
+    "files.associations": {
+      "*.sql": "jinja-sql",
+      "*.yml": "yaml",
+      "**/target/**": ""
+    },
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/__pycache__": true
+    },
+    "findrelated.workspaceRulesets": [
+      {
+          "name": "sql",
+          "rules": [
+              {
+                  "pattern": "^(.*/)?models/(.*/)?(.+\\.sql)$",
+                  "locators": [
+                      "**/compiled/**/$3"
+                  ]
+              },
+              {
+                  "pattern": "^(.*/)?compiled/(.*/)?(.+\\.sql)$",
+                  "locators": [
+                      "**/run/**/$3"
+                  ]
+              },
+              {
+                  "pattern": "^(.*/)?run/(.*/)?(.+\\.sql)$",
+                  "locators": [
+                      "**/models/**/$3"
+                  ]
+              }
+          ]
+      }
+    ],
+    //theme settings
+    "workbench.colorTheme": "Tomorrow Night Blue",
+    "workbench.editor.highlightModifiedTabs": true,
+    "workbench.editor.labelFormat": "medium",
+    "workbench.editor.revealIfOpen": true,
+    "editor.rulers": [80],
+    // misc settings
+    "debug.internalConsoleOptions": "neverOpen",
+    "circleci-vscode.apiToken": "18108c35edf186a15a4c073095bc710ddbe92a38",
+    "python.pythonPath": "/Users/anders.swanson/opt/anaconda3/envs/dbtdev/bin/python",
+    
+    "sql.linter.executablePath": "/Users/anders.swanson/opt/anaconda3/envs/dbt/bin/sqlfluff",
+    "python.formatting.provider": "black",
+    "findrelated.applyRulesets": [
+      "sql"
+    ],
+    "findrelated.applyWorkspaceRulesets": [
+      "sql"
+    ]
+    // "editor.formatOnSave": true
+  }
+}

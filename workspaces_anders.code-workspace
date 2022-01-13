@@ -1,0 +1,38 @@
+{
+	"folders": [
+		{
+			// repo
+			"name": "Code Workspaces",
+			"path": "."
+		}
+	],
+	"settings": {
+		// terminal & conda env path
+		// "terminal.integrated.cwd": "C:\\Users\\anders.swanson\\Documents\\workspaces_anders",
+		// "python.pythonPath": "C:\\Users\\anders.swanson\\AppData\\Local\\Continuum\\miniconda3\\envs\\ret_aml83\\python.exe",
+		"python.pythonPath": "~/opt/anaconda3/bin/python",
+		//theme settings
+		"workbench.editor.highlightModifiedTabs": true,
+		"workbench.colorTheme": "Default High Contrast",
+		"workbench.editor.labelFormat": "medium",
+		"editor.rulers": [80],
+		// unit test & auto-format settings
+		"python.unitTest.autoTestDiscoverOnSaveEnabled": true,
+		"python.unitTest.pyTestEnabled": true,
+		"python.unitTest.unittestEnabled": false,
+		"python.unitTest.nosetestsEnabled": false,
+		"editor.formatOnType": true,
+		"editor.formatOnSave": true,
+		"editor.formatOnPaste": true,
+
+		// sql settings
+		"mssql.format.placeSelectStatementReferencesOnNewLine": true,
+		"mssql.format.placeCommasBeforeNextStatement": true,
+		"mssql.format.keywordCasing": "uppercase",
+		"mssql.format.datatypeCasing": "uppercase",
+		"mssql.format.alignColumnDefinitionsInColumns": true,
+        "mssql.copyIncludeHeaders": true,
+        // misc settings
+        "debug.internalConsoleOptions": "neverOpen",
+	}
+}
