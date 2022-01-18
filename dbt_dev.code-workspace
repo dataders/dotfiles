@@ -13,10 +13,6 @@
       "path": "../dbt-sqlserver"
     },
     {
-      "name": "dbt-synapse-serverless",
-      "path": "../dbt-synapse-serverless"
-    },
-    {
       "name": "dbt-synapse",
       "path": "../dbt-synapse"
     },
@@ -29,16 +25,8 @@
       "path": "../tsql-utils"
     },
     {
-      "name": "dbt-ml-preprocessing",
-      "path": "../dbt-ml-preprocessing"
-    },
-    {
       "name": "dbt-external-tables",
       "path": "../dbt-external-tables"
-    },
-    {
-      "name": "sqlfluff",
-      "path": "../sqlfluff"
     },
     {
       "name": "docs.getdbt.com",
@@ -53,11 +41,8 @@
       "path": "../dbt-msft-docs"
     },
     {
-      "name": "dbt",
-      "path": "../dbt"
-    },
-    {
-      "path": "../dbt-firebolt-old"
+      "name": "dbt-core",
+      "path": "../dbt-core"
     }
   ],
   "settings": {
