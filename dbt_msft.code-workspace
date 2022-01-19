@@ -54,27 +54,27 @@
     },
     "findrelated.workspaceRulesets": [
       {
-          "name": "sql",
-          "rules": [
-              {
-                  "pattern": "^(.*/)?models/(.*/)?(.+\\.sql)$",
-                  "locators": [
-                      "**/compiled/**/$3"
-                  ]
-              },
-              {
-                  "pattern": "^(.*/)?compiled/(.*/)?(.+\\.sql)$",
-                  "locators": [
-                      "**/run/**/$3"
-                  ]
-              },
-              {
-                  "pattern": "^(.*/)?run/(.*/)?(.+\\.sql)$",
-                  "locators": [
-                      "**/models/**/$3"
-                  ]
-              }
-          ]
+        "name": "sql",
+        "rules": [
+          {
+            "pattern": "^(.*/)?models/(.*/)?(.+\\.sql)$",
+            "locators": [
+              "**/compiled/**/$3"
+            ]
+          },
+          {
+            "pattern": "^(.*/)?compiled/(.*/)?(.+\\.sql)$",
+            "locators": [
+              "**/run/**/$3"
+            ]
+          },
+          {
+            "pattern": "^(.*/)?run/(.*/)?(.+\\.sql)$",
+            "locators": [
+              "**/models/**/$3"
+            ]
+          }
+        ]
       }
     ],
     //theme settings
@@ -82,11 +82,12 @@
     "workbench.editor.highlightModifiedTabs": true,
     "workbench.editor.labelFormat": "medium",
     "workbench.editor.revealIfOpen": true,
-    "editor.rulers": [80],
+    "editor.rulers": [
+      80
+    ],
     // misc settings
     "debug.internalConsoleOptions": "neverOpen",
-    "python.pythonPath": "/Users/anders.swanson/opt/anaconda3/envs/dbtdev/bin/python",
-    
+    "python.defaultInterpreterPath": "/Users/anders.swanson/opt/anaconda3/envs/dbtdev/bin/python",
     "sql.linter.executablePath": "/Users/anders.swanson/opt/anaconda3/envs/dbt/bin/sqlfluff",
     "python.formatting.provider": "black",
     "findrelated.applyRulesets": [
@@ -96,13 +97,12 @@
       "sql"
     ],
     // "editor.formatOnSave": true
-    
     "logViewer.watch": [
-        {
-            "title": "dbt log",
-            // "pattern": "/Users/anders.swanson/repos/**/logs/dbt.log"
-            "pattern": "/Users/anders.swanson/repos/jaffle_shop/logs/dbt.log"
-        }
+      {
+        "title": "dbt log",
+        // "pattern": "/Users/anders.swanson/repos/**/logs/dbt.log"
+        "pattern": "/Users/anders.swanson/repos/jaffle_shop/logs/dbt.log"
+      }
     ]
   },
   "extensions": {

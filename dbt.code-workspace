@@ -40,27 +40,27 @@
     },
     "findrelated.rulesets": [
       {
-          "name": "sql",
-          "rules": [
-              {
-                  "pattern": "^(.*/)?models/(.*/)?(.+\\.sql)$",
-                  "locators": [
-                      "**/compiled/**/$3"
-                  ]
-              },
-              {
-                  "pattern": "^(.*/)?compiled/(.*/)?(.+\\.sql)$",
-                  "locators": [
-                      "**/run/**/$3"
-                  ]
-              },
-              {
-                  "pattern": "^(.*/)?run/(.*/)?(.+\\.sql)$",
-                  "locators": [
-                      "**/models/**/$3"
-                  ]
-              }
-          ]
+        "name": "sql",
+        "rules": [
+          {
+            "pattern": "^(.*/)?models/(.*/)?(.+\\.sql)$",
+            "locators": [
+              "**/compiled/**/$3"
+            ]
+          },
+          {
+            "pattern": "^(.*/)?compiled/(.*/)?(.+\\.sql)$",
+            "locators": [
+              "**/run/**/$3"
+            ]
+          },
+          {
+            "pattern": "^(.*/)?run/(.*/)?(.+\\.sql)$",
+            "locators": [
+              "**/models/**/$3"
+            ]
+          }
+        ]
       }
     ],
     "findrelated.applyRulesets": [
@@ -69,11 +69,12 @@
     //theme settings
     "workbench.colorTheme": "Monokai Dimmed",
     "workbench.editor.highlightModifiedTabs": true,
-    "editor.rulers": [80],
-    "editor.renderWhitespace": "all", 
+    "editor.rulers": [
+      80
+    ],
+    "editor.renderWhitespace": "all",
     "workbench.editor.labelFormat": "medium",
     "workbench.editor.revealIfOpen": true,
-    
     // misc settings
     "debug.internalConsoleOptions": "neverOpen",
     "launch": {
@@ -89,7 +90,11 @@
           "cwd": "/Users/anders.swanson/repos/avaitsml_dbt",
           // "cwd": "../avaitsml_dbt",
           "console": "integratedTerminal",
-          "args": ["run", "--target", "sqlserver"]
+          "args": [
+            "run",
+            "--target",
+            "sqlserver"
+          ]
         }
       ]
     },
