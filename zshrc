@@ -14,7 +14,8 @@ export PATH="/Users/dataders/opt/anaconda3/bin:$PATH"  # commented out by conda 
 
 # Customize to your needs...
 
-# # >>> conda initialize >>>
+
+# >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/Users/dataders/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
@@ -27,7 +28,9 @@ else
     fi
 fi
 unset __conda_setup
-# # <<< conda initialize <<<
+# <<< conda initialize <<<
+
+
 
 
 # needed for spaceship theme
