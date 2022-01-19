@@ -38,18 +38,17 @@ zstyle ':prezto:load' pmodule \
   'spectrum' \
   'utility' \
   'completion' \
-  'fasd'  \
-  'osx'   \
+  'fasd' \
+  'osx' \
   'contrib-prompt' \
   'prompt' \
-  'conda-zsh-completion' \
   'ssh' \
   'python' \
   'syntax-highlighting' \
   'history-substring-search' \
-  'git'
-  # 'autosuggestions' \
-  
+  'git' \
+  'autosuggestions' \
+  'conda-zsh-completion'
 
 #
 # Autosuggestions
