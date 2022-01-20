@@ -10,8 +10,8 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-export PATH="/Users/dataders/miniforge3/bin:$PATH"  # commented out by conda initialize
-export PATH=/opt/homebrew/bin:$PATH
+# add homebrew and miniforge to path
+export PATH="/Users/dataders/miniforge3/bin:/opt/homebrew/bin:$PATH" 
 
 # Customize to your needs...
 
@@ -43,3 +43,6 @@ SPACESHIP_PROMPT_PREFIXES_SHOW="false"
 # autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 source ~/.dbt-completion.bash
+export LDFLAGS="-L/opt/homebrew/opt/freetds/lib -L/opt/homebrew/opt/openssl@3/lib"
+export CFLAGS="-I/opt/homebrew/opt/freetds/include"
+export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include"
