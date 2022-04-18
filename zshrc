@@ -43,6 +43,3 @@ SPACESHIP_PROMPT_PREFIXES_SHOW="false"
 # autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 source ~/.dbt-completion.bash
-export LDFLAGS="-L/opt/homebrew/opt/freetds/lib -L/opt/homebrew/opt/openssl@3/lib"
-export CFLAGS="-I/opt/homebrew/opt/freetds/include"
-export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include"
