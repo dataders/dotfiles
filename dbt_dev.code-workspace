@@ -43,6 +43,16 @@
     {
       "name": "dbt-core",
       "path": "../dbt-core"
+    },
+    {
+      "path": "../mz-playground"
+    },
+    {
+      "path": "."
+    },
+    {
+      "name": "dbt-singlestore",
+      "path": "../dbt-singlestore"
     }
   ],
   "settings": {
