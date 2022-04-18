@@ -5,6 +5,12 @@
 		},
 		{
 			"path": "../../../../opt/homebrew/etc"
+		},
+		{
+			"path": "../../../../opt/homebrew/Cellar"
+		},
+		{
+			"path": "../../Library/Logs/Homebrew"
 		}
 	],
 	"settings": {}
