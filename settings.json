@@ -1,0 +1,8 @@
+{
+    "workbench.colorTheme": "Monokai",
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "editor.renderWhitespace": "all",
+    "terminal.integrated.inheritEnv": false,
+    "window.zoomLevel": -1
+}
