@@ -4,5 +4,6 @@
     "git.confirmSync": false,
     "editor.renderWhitespace": "all",
     "terminal.integrated.inheritEnv": false,
-    "window.zoomLevel": -1
+    "window.zoomLevel": -1,
+    "git.defaultCloneDirectory": "/Users/dataders/repos" 
 }
