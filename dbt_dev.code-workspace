@@ -53,6 +53,22 @@
     {
       "name": "dbt-singlestore",
       "path": "../dbt-singlestore"
+    },
+    {
+      "name": "dbt-bigquery",
+      "path": "../dbt-bigquery"
+    },
+    {
+      "name": "dbt-glue",
+      "path": "../dbt-glue"
+    },
+    {
+      "name": "dbt-spark",
+      "path": "../dbt-spark"
+    },
+    {
+      "name": "dbt-mongodb",
+      "path": "../dbt-mongodb"
     }
   ],
   "settings": {
