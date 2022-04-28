@@ -69,11 +69,16 @@
     {
       "name": "dbt-mongodb",
       "path": "../dbt-mongodb"
+    },
+    {
+      "name": "dbt-presto",
+      "path": "../dbt-presto"
     }
   ],
   "settings": {
     "files.associations": {
       "*.sql": "jinja-sql",
+      "*.sqlfluff": "ini",
       "*.yml": "yaml",
       "**/target/**": ""
     },
