@@ -43,3 +43,7 @@ SPACESHIP_PROMPT_PREFIXES_SHOW="false"
 # autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 source ~/.dbt-completion.bash
+
+
+# zsh autocorrect disable specific commands
+alias gh='nocorrect gh'

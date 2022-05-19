@@ -73,6 +73,17 @@
     {
       "name": "dbt-presto",
       "path": "../dbt-presto"
+    },
+    {
+      "path": "../dbt-cloud"
+    },
+    {
+      "name": "dbt-mysql",
+      "path": "../dbt-mysql"
+    },
+    {
+      "name": "materialize",
+      "path": "../materialize"
     }
   ],
   "settings": {
