@@ -1,10 +1,20 @@
 {
-    "workbench.colorTheme": "Monokai",
+    "workbench.colorTheme": "Abyss",
     "git.autofetch": true,
     "git.confirmSync": false,
     "editor.renderWhitespace": "all",
     "terminal.integrated.inheritEnv": false,
     "git.defaultCloneDirectory": "/Users/dataders/repos",
     "editor.inlineSuggest.enabled": true,
-    "window.zoomLevel": 1
+    "githubPullRequests.fileListLayout": "tree",
+    "files.associations": {
+        "*.sql": "jinja-sql"
+    },
+    "github.copilot.enable": {
+        "*": true,
+        "yaml": false,
+        "plaintext": false,
+        "markdown": true
+    },
+    "window.zoomLevel": 2
 }
