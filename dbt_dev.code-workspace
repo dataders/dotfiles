@@ -53,10 +53,6 @@
       "path": "../dbt-bigquery"
     },
     {
-      "name": "dbt-glue",
-      "path": "../dbt-glue"
-    },
-    {
       "name": "dbt-spark",
       "path": "../dbt-spark"
     },
@@ -89,10 +85,6 @@
       "path": "../dbt-adapters"
     },
     {
-      "name": "dbt-iomete",
-      "path": "../dbt-iomete"
-    },
-    {
       "name": "materialize",
       "path": "../materialize"
     },
@@ -103,6 +95,10 @@
     {
       "name": "dotfiles",
       "path": "."
+    },
+    {
+      "name": "internal-analytics",
+      "path": "../internal-analytics"
     }
   ],
   "settings": {
@@ -118,7 +114,8 @@
       "**/.hg": true,
       "**/CVS": true,
       "**/.DS_Store": true,
-      "**/__pycache__": true
+      "**/__pycache__": true,
+      "**/.coverage.*": true
     },
     "findrelated.workspaceRulesets": [
       {
@@ -146,12 +143,12 @@
       }
     ],
     //theme settings
-    "workbench.colorTheme": "Visual Studio Dark",
+    "workbench.colorTheme": "Default Dark+",
     "workbench.editor.highlightModifiedTabs": true,
     "workbench.editor.labelFormat": "medium",
     "workbench.editor.revealIfOpen": true,
     "editor.rulers": [
-      80
+      99
     ],
     // misc settings
     "debug.internalConsoleOptions": "neverOpen",
@@ -164,6 +161,9 @@
     ],
     "findrelated.applyWorkspaceRulesets": [
       "sql"
+    ],
+    "githubPullRequests.ignoredPullRequestBranches": [
+      "current"
     ]
     // "editor.formatOnSave": true
   },

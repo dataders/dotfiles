@@ -11,6 +11,10 @@
 		},
 		{
 			"path": "../../Library/Logs/Homebrew"
+		},
+		{
+			"name": "dataders",
+			"path": "../dataders"
 		}
 	],
 	"settings": {}

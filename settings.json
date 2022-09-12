@@ -1,12 +1,12 @@
 {
-    "workbench.colorTheme": "Abyss",
+    "workbench.colorTheme": "Visual Studio Dark",
     "git.autofetch": true,
     "git.confirmSync": false,
     "editor.renderWhitespace": "all",
     "terminal.integrated.inheritEnv": false,
     "git.defaultCloneDirectory": "/Users/dataders/repos",
     "editor.inlineSuggest.enabled": true,
-    "githubPullRequests.fileListLayout": "tree",
+    "githubPullRequests.fileListLayout": "flat",
     "files.associations": {
         "*.sql": "jinja-sql"
     },
@@ -16,5 +16,11 @@
         "plaintext": false,
         "markdown": true
     },
-    "window.zoomLevel": 2
+    "editor.renderLineHighlight": "none",
+    "editor.accessibilitySupport": "off",
+    "githubPullRequests.pullBranch": "never",
+    "sql.linter.executablePath": "/usr/local/bin/sqlfluff",
+    "sql.linter.run": "onType",
+    "redhat.telemetry.enabled": true,
+    "window.zoomLevel": 1
 }
