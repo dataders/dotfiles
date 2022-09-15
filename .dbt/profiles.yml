@@ -1,0 +1,29 @@
+config:
+  partial_parse: true
+variables:
+  snow-dev: &snow-dev
+      type: snowflake
+      account: '{{ env_var("DBT_SNOW_DEV_ACCOUNT") }}'
+      warehouse: '{{ env_var("DBT_SNOW_DEV_WH") }}' # transforming
+      database: '{{ env_var("DBT_SNOW_DEV_DB") }}' # jaffle_shop
+      schema: '{{ env_var("DBT_SNOW_SCH") }}' # ajs
+      user: '{{ env_var("DBT_SNOW_USER") }}' # ANDERS.SWANSON
+      role: transformer
+      authenticator: externalbrowser
+      threads: 10
+
+  snow-prd: &snow-prd
+      type: snowflake
+      account: '{{ env_var("DBT_SNOW_PRD_ACCOUNT") }}'
+      warehouse: '{{ env_var("DBT_SNOW_PRD_WH") }}' # transforming
+      database: '{{ env_var("DBT_SNOW_PRD_DB") }}' # jaffle_shop
+      schema: '{{ env_var("DBT_SNOW_SCH") }}' # ajs
+      user: '{{ env_var("DBT_SNOW_USER") }}' # ANDERS.SWANSON
+      role: transformer
+      authenticator: externalbrowser
+      threads: 10
+python_wrench:
+  target: dev
+  outputs:
+    dev: *snow-dev
+    prd: *snow-prd
