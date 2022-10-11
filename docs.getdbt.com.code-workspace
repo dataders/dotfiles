@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "../docs.getdbt.com"
+		},
+		{
+			"path": "../www.getdbt.com"
+		}
+	],
+	"settings": {
+		"githubPullRequests.ignoredPullRequestBranches": [
+			"current"
+		]
+	}
+}
