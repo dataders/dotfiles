@@ -1,5 +1,7 @@
 {
-    "workbench.colorTheme": "Visual Studio Dark",
+    "workbench.colorTheme": "Solarized Light",
+    "workbench.editor.wrapTabs": true,
+    // "workbench.editor.tabSizing": "shrink",
     "git.autofetch": true,
     "git.confirmSync": false,
     "editor.renderWhitespace": "all",
@@ -22,5 +24,20 @@
     "sql.linter.executablePath": "/usr/local/bin/sqlfluff",
     "sql.linter.run": "onType",
     "redhat.telemetry.enabled": true,
-    "window.zoomLevel": 1
+    "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?-",
+    "rainbow_csv.enable_separator_autodetection": false,
+    "[markdown]": {
+        "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+    },
+    "markdownlint.config": {
+        "default": true,
+        "MD013": false,
+        "MD033": false,
+        "MD046": { "style": "fenced" },
+        "MD007": { "indent": 4 },
+    },
+    "window.zoomLevel": 2,
+    "window.autoDetectColorScheme": true,
+    "workbench.preferredLightColorTheme": "Solarized Light",
+    "workbench.preferredDarkColorTheme": "Solarized Dark"
 }
