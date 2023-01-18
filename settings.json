@@ -36,8 +36,11 @@
         "MD046": { "style": "fenced" },
         "MD007": { "indent": 4 },
     },
-    "window.zoomLevel": 2,
     "window.autoDetectColorScheme": true,
     "workbench.preferredLightColorTheme": "Solarized Light",
-    "workbench.preferredDarkColorTheme": "Solarized Dark"
+    "workbench.preferredDarkColorTheme": "Solarized Dark",
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "files.autoSave": "afterDelay"
 }

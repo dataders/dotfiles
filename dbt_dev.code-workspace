@@ -143,7 +143,7 @@
       }
     ],
     //theme settings
-    "workbench.colorTheme": "Default Light+",
+    "workbench.colorTheme": "Solarized Dark",
     "workbench.editor.highlightModifiedTabs": true,
     "workbench.editor.labelFormat": "medium",
     "workbench.editor.revealIfOpen": true,
@@ -163,7 +163,8 @@
       "sql"
     ],
     "githubPullRequests.ignoredPullRequestBranches": [
-      "current"
+      "current",
+      "main"
     ]
     // "editor.formatOnSave": true
   },
