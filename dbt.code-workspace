@@ -1,20 +1,20 @@
 {
   "folders": [
 	{
-		"name": "profiles dir",
-		"path": "../../.dbt"
-	},
-	{
-		"name": "jaffle_shop",
-		"path": "../jaffle_shop"
-	},
-	{
 		"name": "latency_sandbox",
 		"path": "../latency_sandbox"
 	},
 	{
 		"name": "internal-analytics",
 		"path": "../internal-analytics"
+	},
+  {
+		"name": "profiles dir",
+		"path": "../../.dbt"
+	},
+	{
+		"name": "jaffle_shop",
+		"path": "../jaffle_shop"
 	}
 ],
   "settings": {

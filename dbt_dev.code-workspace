@@ -143,7 +143,7 @@
       }
     ],
     //theme settings
-    "workbench.colorTheme": "Solarized Dark",
+    "workbench.colorTheme": "Solarized Light",
     "workbench.editor.highlightModifiedTabs": true,
     "workbench.editor.labelFormat": "medium",
     "workbench.editor.revealIfOpen": true,
