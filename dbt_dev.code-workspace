@@ -65,10 +65,6 @@
       "path": "../dbt-presto"
     },
     {
-      "name": "dbt-cloud",
-      "path": "../dbt-cloud"
-    },
-    {
       "name": "dbt-mysql",
       "path": "../dbt-mysql"
     },
