@@ -43,6 +43,5 @@
         "editor.formatOnType": true
     },
     "files.autoSave": "afterDelay",
-    "window.zoomLevel": 2,
     "githubPullRequests.createOnPublishBranch": "never"
 }
