@@ -1,53 +1,57 @@
 {
-    "workbench.colorTheme": "Material Theme Lighter High Contrast",
-    "workbench.iconTheme": "eq-material-theme-icons-light",
-    "workbench.preferredHighContrastLightColorTheme": "Material Theme Lighter High Contrast",
-    "workbench.preferredLightColorTheme": "Material Theme Lighter High Contrast",
-    "workbench.preferredDarkColorTheme": "Solarized Dark",
-    "workbench.productIconTheme": "material-product-icons",
-    "workbench.editor.wrapTabs": true,
-    // "workbench.editor.tabSizing": "shrink",
-    "git.autofetch": true,
-    "git.confirmSync": false,
-    "editor.renderWhitespace": "all",
-    "terminal.integrated.inheritEnv": false,
-    "git.defaultCloneDirectory": "/Users/dataders/repos",
-    "editor.inlineSuggest.enabled": true,
-    "githubPullRequests.fileListLayout": "flat",
-    "files.associations": {
-        "*.sql": "jinja-sql"
-    },
-    "github.copilot.enable": {
-        "*": true,
-        "yaml": false,
-        "plaintext": false,
-        "markdown": true
-    },
-    "editor.renderLineHighlight": "none",
-    "editor.accessibilitySupport": "off",
-    "githubPullRequests.pullBranch": "never",
-    "sql.linter.executablePath": "/usr/local/bin/sqlfluff",
-    "sql.linter.run": "onType",
-    "redhat.telemetry.enabled": true,
-    "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?-",
-    "rainbow_csv.enable_separator_autodetection": false,
     "[markdown]": {
         "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
-    },
-    "markdownlint.config": {
-        "default": true,
-        "MD013": false,
-        "MD033": false,
-        "MD046": { "style": "fenced" },
-        "MD007": { "indent": 4 },
     },
     "[python]": {
         "editor.formatOnType": true
     },
-    "files.autoSave": "afterDelay",
-    "githubPullRequests.createOnPublishBranch": "never",
-    "git.openRepositoryInParentFolders": "never",
+    "editor.accessibilitySupport": "off",
+    "editor.inlineSuggest.enabled": true,
+    "editor.renderLineHighlight": "none",
+    "editor.renderWhitespace": "all",
+    "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?-",
     "explorer.confirmDelete": false,
+    "files.associations": {
+        "*.sql": "jinja-sql"
+    },
+    "files.autoSave": "afterDelay",
+    // "workbench.editor.tabSizing": "shrink",
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "git.defaultCloneDirectory": "/Users/dataders/repos",
+    "git.openRepositoryInParentFolders": "never",
+    "github.copilot.enable": {
+        "*": true,
+        "markdown": true,
+        "plaintext": false,
+        "yaml": false
+    },
+    "githubPullRequests.createOnPublishBranch": "never",
+    "githubPullRequests.fileListLayout": "flat",
+    "githubPullRequests.pullBranch": "never",
+    "markdownlint.config": {
+        "MD007": {
+            "indent": 4
+        },
+        "MD013": false,
+        "MD033": false,
+        "MD046": {
+            "style": "fenced"
+        },
+        "default": true
+    },
+    "rainbow_csv.enable_separator_autodetection": false,
+    "redhat.telemetry.enabled": true,
+    "sql.linter.executablePath": "/usr/local/bin/sqlfluff",
+    "sql.linter.run": "onType",
+    "terminal.integrated.inheritEnv": false,
     "window.autoDetectColorScheme": true,
     "window.zoomLevel": 2,
+    "workbench.colorTheme": "Material Theme Lighter High Contrast",
+    "workbench.editor.wrapTabs": true,
+    "workbench.iconTheme": "eq-material-theme-icons-light",
+    "workbench.preferredDarkColorTheme": "Solarized Dark",
+    "workbench.preferredHighContrastLightColorTheme": "Material Theme Lighter High Contrast",
+    "workbench.preferredLightColorTheme": "Material Theme Lighter High Contrast",
+    "workbench.productIconTheme": "material-product-icons"
 }
