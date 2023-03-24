@@ -1,21 +1,25 @@
 {
   "folders": [
 	{
-		"name": "latency_sandbox",
-		"path": "../latency_sandbox"
+		"name": "dbt-galaxy-covid-demo",
+		"path": "../dbt-galaxy-covid-demo"
 	},
-	{
-		"name": "internal-analytics",
-		"path": "../internal-analytics"
-	},
+	// {
+	// 	"name": "latency_sandbox",
+	// 	"path": "../latency_sandbox"
+	// },
+	// {
+	// 	"name": "internal-analytics",
+	// 	"path": "../internal-analytics"
+	// },
+	// {
+	// 	"name": "jaffle_shop",
+	// 	"path": "../jaffle_shop"
+	// },
   {
 		"name": "profiles dir",
 		"path": "../../.dbt"
 	},
-	{
-		"name": "jaffle_shop",
-		"path": "../jaffle_shop"
-	}
 ],
   "settings": {
     "files.associations": {
@@ -75,9 +79,6 @@
     "python.defaultInterpreterPath": "/Users/dataders/opt/anaconda3/envs/dbt/bin/python",
     "sql.linter.executablePath": "/Users/anders.swanson/opt/anaconda3/envs/dbt/bin/sqlfluff",
     "python.formatting.provider": "black",
-    "findrelated.applyRulesets": [
-      "sql"
-    ],
     "githubPullRequests.ignoredPullRequestBranches": [
       "current",
       "main"
