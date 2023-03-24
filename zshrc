@@ -48,3 +48,4 @@ source ~/.dbt-completion.bash
 # zsh autocorrect disable specific commands
 alias gh='nocorrect gh'
 alias pip='noglob pip' # no searching w/ pip install
+alias source='noglob source'
