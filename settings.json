@@ -1,5 +1,10 @@
 {
-    "workbench.colorTheme": "Solarized Light",
+    "workbench.colorTheme": "Material Theme Lighter High Contrast",
+    "workbench.iconTheme": "eq-material-theme-icons-light",
+    "workbench.preferredHighContrastLightColorTheme": "Material Theme Lighter High Contrast",
+    "workbench.preferredLightColorTheme": "Material Theme Lighter High Contrast",
+    "workbench.preferredDarkColorTheme": "Solarized Dark",
+    "workbench.productIconTheme": "material-product-icons",
     "workbench.editor.wrapTabs": true,
     // "workbench.editor.tabSizing": "shrink",
     "git.autofetch": true,
@@ -36,12 +41,13 @@
         "MD046": { "style": "fenced" },
         "MD007": { "indent": 4 },
     },
-    "window.autoDetectColorScheme": true,
-    "workbench.preferredLightColorTheme": "Solarized Light",
-    "workbench.preferredDarkColorTheme": "Solarized Dark",
     "[python]": {
         "editor.formatOnType": true
     },
     "files.autoSave": "afterDelay",
-    "githubPullRequests.createOnPublishBranch": "never"
+    "githubPullRequests.createOnPublishBranch": "never",
+    "git.openRepositoryInParentFolders": "never",
+    "explorer.confirmDelete": false,
+    "window.autoDetectColorScheme": true,
+    "window.zoomLevel": 2,
 }
