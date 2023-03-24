@@ -1,15 +1,19 @@
 {
-	"folders": [
-		{
-			"path": "../docs.getdbt.com"
-		},
-		{
-			"path": "../www.getdbt.com"
-		}
-	],
-	"settings": {
-		"githubPullRequests.ignoredPullRequestBranches": [
-			"current"
-		]
-	}
+    "folders": [
+        {
+            "path": "../docs.getdbt.com"
+        },
+        {
+            "path": "../www.getdbt.com"
+        },
+        {
+            "name": "dbt-trino",
+            "path": "../dbt-trino"
+        }
+    ],
+    "settings": {
+        "githubPullRequests.ignoredPullRequestBranches": [
+            "current"
+        ]
+    }
 }
