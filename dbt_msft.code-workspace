@@ -5,6 +5,10 @@
       "path": "../jaffle_shop"
     },
     {
+      "name": "dbt-tsql",
+      "path": "../dbt-tsql"
+    },
+    {
       "name": "dbt-sqlserver",
       "path": "../dbt-sqlserver"
     },
@@ -13,28 +17,19 @@
       "path": "../dbt-synapse"
     },
     {
-      "name": "tsql-utils",
-      "path": "../tsql-utils"
-    },
-    {
-      "name": "docs.getdbt.com",
-      "path": "../docs.getdbt.com"
-    },
-    {
-      "name": "dbt-msft-docs",
-      "path": "../dbt-msft-docs"
-    },
-    {
-      "name": "dbt",
-      "path": "../dbt"
-    },
-    {
       "name": "profiles dir",
       "path": "../../.dbt"
     },
     {
-      "name": "AIM",
-      "path": "../AIM"
+      "name": "tsql-utils",
+      "path": "../tsql-utils"
+    },
+    {
+      "name": "dbt-core",
+      "path": "../dbt-core"
+    },
+    {
+      "path": "."
     }
   ],
   "settings": {
