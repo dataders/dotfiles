@@ -46,12 +46,12 @@
     "sql.linter.run": "onType",
     "terminal.integrated.inheritEnv": false,
     "window.autoDetectColorScheme": true,
-    "window.zoomLevel": 2,
     "workbench.colorTheme": "Material Theme Lighter High Contrast",
     "workbench.editor.wrapTabs": true,
     "workbench.iconTheme": "eq-material-theme-icons-light",
     "workbench.preferredDarkColorTheme": "Solarized Dark",
     "workbench.preferredHighContrastLightColorTheme": "Material Theme Lighter High Contrast",
     "workbench.preferredLightColorTheme": "Material Theme Lighter High Contrast",
-    "workbench.productIconTheme": "material-product-icons"
+    "workbench.productIconTheme": "material-product-icons",
+    "window.zoomLevel": 2
 }

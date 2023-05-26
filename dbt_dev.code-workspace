@@ -9,44 +9,8 @@
       "path": "../jaffle_shop"
     },
     {
-      "name": "dbt-firebolt",
-      "path": "../dbt-firebolt"
-    },
-    {
-      "name": "dbt-sqlserver",
-      "path": "../dbt-sqlserver"
-    },
-    {
-      "name": "dbt-synapse",
-      "path": "../dbt-synapse"
-    },
-    {
-      "name": "tsql-utils",
-      "path": "../tsql-utils"
-    },
-    {
-      "name": "dbt-external-tables",
-      "path": "../dbt-external-tables"
-    },
-    {
-      "name": "docs.getdbt.com",
-      "path": "../docs.getdbt.com"
-    },
-    {
-      "name": "dbt-adapter-tests",
-      "path": "../dbt-adapter-tests"
-    },
-    {
-      "name": "dbt-msft-docs",
-      "path": "../dbt-msft-docs"
-    },
-    {
       "name": "dbt-core",
       "path": "../dbt-core"
-    },
-    {
-      "name": "dbt-singlestore",
-      "path": "../dbt-singlestore"
     },
     {
       "name": "dbt-bigquery",
@@ -57,18 +21,6 @@
       "path": "../dbt-spark"
     },
     {
-      "name": "dbt-mongodb",
-      "path": "../dbt-mongodb"
-    },
-    {
-      "name": "dbt-presto",
-      "path": "../dbt-presto"
-    },
-    {
-      "name": "dbt-mysql",
-      "path": "../dbt-mysql"
-    },
-    {
       "name": "dbt-utils",
       "path": "../dbt-utils"
     },
@@ -77,24 +29,12 @@
       "path": "../dbt-snowflake"
     },
     {
-      "name": "dbt-adapters",
-      "path": "../dbt-adapters"
-    },
-    {
-      "name": "materialize",
-      "path": "../materialize"
-    },
-    {
-      "name": "mz-playground",
-      "path": "../mz-playground"
-    },
-    {
       "name": "dotfiles",
       "path": "."
     },
     {
-      "name": "internal-analytics",
-      "path": "../internal-analytics"
+      "name": "dbt-redshift",
+      "path": "../dbt-redshift"
     }
   ],
   "settings": {
@@ -139,7 +79,7 @@
       }
     ],
     //theme settings
-    "workbench.colorTheme": "Solarized Light",
+    "workbench.colorTheme": "Material Theme Lighter High Contrast",
     "workbench.editor.highlightModifiedTabs": true,
     "workbench.editor.labelFormat": "medium",
     "workbench.editor.revealIfOpen": true,

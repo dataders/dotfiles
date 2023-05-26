@@ -27,9 +27,6 @@
     {
       "name": "dbt-core",
       "path": "../dbt-core"
-    },
-    {
-      "path": "."
     }
   ],
   "settings": {
