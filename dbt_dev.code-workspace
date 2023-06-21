@@ -29,10 +29,6 @@
       "path": "../dbt-snowflake"
     },
     {
-      "name": "dotfiles",
-      "path": "."
-    },
-    {
       "name": "dbt-redshift",
       "path": "../dbt-redshift"
     }
