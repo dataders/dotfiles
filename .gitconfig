@@ -5,3 +5,5 @@
 	email = anders.swanson@dbtlabs.com
 [core]
 	editor = "code-insiders --wait"
+[pull]
+	rebase = false
