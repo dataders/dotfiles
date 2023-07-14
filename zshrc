@@ -31,7 +31,10 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-
+# use HTTPS for codespaces
+if [ -z "$CODESPACES" ]; then
+  git config --global url."git@github.com".insteadOf "https://github.com"
+fi
 
 
 # needed for spaceship theme
@@ -49,3 +52,6 @@ source ~/.dbt-completion.bash
 alias gh='nocorrect gh'
 alias pip='noglob pip' # no searching w/ pip install
 alias source='noglob source'
+
+set AWS_PROFILE=SandboxPower
+set AWS_DEFAULT_PROFILE=SandboxPower

@@ -1,5 +1,4 @@
-[url "git@github.com:dbt-labs"]
-	insteadOf = https://github.com/dbt-labs
+
 [user]
 	name = Anders Swanson
 	email = anders.swanson@dbtlabs.com
