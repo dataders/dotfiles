@@ -31,6 +31,25 @@
     {
       "name": "dbt-redshift",
       "path": "../dbt-redshift"
+    },
+    {
+      "name": "dbt-external-tables",
+      "path": "../dbt-external-tables"
+    },
+    {
+      "name": "dbt-databricks",
+      "path": "../dbt-databricks"
+    },
+    {
+      "name": "dbt-singlestore",
+      "path": "../dbt-singlestore"
+    },
+    {
+      "path": "../materialize/misc/dbt-materialize"
+    },
+    {
+      "name": "dbt-fabric",
+      "path": "../dbt-fabric"
     }
   ],
   "settings": {
@@ -87,7 +106,6 @@
     "circleci-vscode.apiToken": "18108c35edf186a15a4c073095bc710ddbe92a38",
     "python.defaultInterpreterPath": "/Users/dataders/opt/anaconda3/envs/dbtdev/bin/python",
     "sql.linter.executablePath": "/Users/anders.swanson/opt/anaconda3/envs/dbt/bin/sqlfluff",
-    "python.formatting.provider": "black",
     "findrelated.applyRulesets": [
       "sql"
     ],
@@ -97,7 +115,13 @@
     "githubPullRequests.ignoredPullRequestBranches": [
       "current",
       "main"
-    ]
+    ],
+    "search.exclude": {
+      "**/.tox": true
+    },
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.black-formatter"
+    }
     // "editor.formatOnSave": true
   },
   "extensions": {
