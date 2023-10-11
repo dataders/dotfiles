@@ -4,5 +4,11 @@
 	email = anders.swanson@dbtlabs.com
 [core]
 	editor = "code-insiders --wait"
+	symlink = true
+	symlinks = true
 [pull]
 	rebase = false
+[init]
+	defaultBranch = main
+[push]
+	autoSetupRemote = true
