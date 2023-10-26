@@ -2,6 +2,12 @@
 
 here's where I store most of my config files, symlinked to their homes
 
+reminder for myself how symlnk works to save me a google
+
+```zsh
+ln -s /Users/dataders/repos/dotfiles/{FILE} /Users/dataders/{FILE}
+```
+
 ## Configurations
 
 ### Prezto
