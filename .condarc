@@ -1,3 +1,5 @@
 channels:
   - defaults
 changeps1: false
+# see https://github.com/microsoft/vscode-python/issues/22233
+auto_activate_base: false
