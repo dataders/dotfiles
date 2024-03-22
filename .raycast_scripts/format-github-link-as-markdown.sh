@@ -3,7 +3,7 @@
 # Required parameters:
 # @raycast.schemaVersion 1
 # @raycast.title Format GitHub Link as Markdown
-# @raycast.mode compact
+# @raycast.mode silent
 
 # Optional parameters:
 # @raycast.icon 🤖
@@ -24,4 +24,4 @@ url_without_base=${url#https://github.com/dbt-labs/}
 repo_name=${url_without_base%%/*}
 
 echo "[$repo_name#$pr_number]($url)" | pbcopy
-echo Copied "[$repo_name#$pr_number]($url)"
+# echo Copied "[$repo_name#$pr_number]($url)"
