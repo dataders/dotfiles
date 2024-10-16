@@ -11,7 +11,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # add homebrew and miniforge to path
-export PATH="/Users/dataders/miniforge3/bin:/opt/homebrew/bin:$PATH" 
+export PATH="/opt/homebrew/bin:/Users/dataders/miniforge3/bin:$PATH" 
 
 # Customize to your needs...
 
@@ -58,3 +58,5 @@ set AWS_DEFAULT_PROFILE=SandboxPower
 
 # dbt Cloud CLI
 export DBT_CLOUD_API_KEY="325ae470b24598d5329106b4ae3a9fbc1799ef5c"
+
+eval "$(direnv hook zsh)"
