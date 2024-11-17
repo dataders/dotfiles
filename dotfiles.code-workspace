@@ -4,17 +4,11 @@
 			"path": "."
 		},
 		{
-			"path": "../../../../opt/homebrew/etc"
-		},
-		{
-			"path": "../../../../opt/homebrew/Cellar"
-		},
-		{
-			"path": "../../Library/Logs/Homebrew"
-		},
-		{
 			"name": "dataders",
 			"path": "../dataders"
+		},
+		{
+			"path": "../.."
 		}
 	],
 	"settings": {}

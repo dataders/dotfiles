@@ -1,48 +1,16 @@
 {
   "folders": [
     {
-      "name": "profiles dir",
-      "path": "../../.dbt"
-    },
-    {
-      "name": "jaffle_shop",
-      "path": "../jaffle_shop"
+      "name": "dbt-mantle",
+      "path": "../dbt-mantle"
     },
     {
       "name": "dbt-snowflake",
       "path": "../dbt-snowflake"
     },
     {
-      "name": "dbt-core",
-      "path": "../dbt-core"
-    },
-    {
-      "name": "dbt-bigquery",
-      "path": "../dbt-bigquery"
-    },
-    {
-      "name": "dbt-spark",
-      "path": "../dbt-spark"
-    },
-    {
-      "name": "dbt-utils",
-      "path": "../dbt-utils"
-    },
-    {
-      "name": "dbt-redshift",
-      "path": "../dbt-redshift"
-    },
-    {
-      "name": "dbt-databricks",
-      "path": "../dbt-databricks"
-    },
-    {
-      "name": "dbt-fabric",
-      "path": "../dbt-fabric"
-    },
-    {
-      "name": "dbt-synapse",
-      "path": "../dbt-synapse"
+      "name": "dbt-external-tables",
+      "path": "../dbt-external-tables"
     },
     {
       "name": "dbt-common",
@@ -53,8 +21,15 @@
       "path": "../dbt-adapters"
     },
     {
-      "name": "dbt-postgres",
-      "path": "../dbt-postgres"
+      "name": "profiles dir",
+      "path": "../../.dbt"
+    },
+    {
+      "name": "sandbox_external_tables",
+      "path": "../sandbox_external_tables"
+    },
+    {
+      "path": "../jaffle_shop"
     }
   ],
   "settings": {
@@ -149,7 +124,8 @@
       "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/1.6/dependencies-1.6.json": [
           "dependencies.yml"
       ]
-  }
+  },
+  "snowflake.autocompleteObjectDetails.enabled": false
     // "editor.formatOnSave": true
   },
   "extensions": {

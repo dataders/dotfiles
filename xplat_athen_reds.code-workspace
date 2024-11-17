@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "../sa-standard-shared-demo"
+		},
+		{
+			"name": "sa_demo_mesh_sales_v2",
+			"path": "../sa_demo_mesh_sales_v2"
+		}
+	],
+	"settings": {}
+}
