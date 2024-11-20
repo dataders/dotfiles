@@ -1,13 +1,15 @@
 {
 	"folders": [
 		{
+			"name": "dotfiles",
 			"path": "."
 		},
 		{
-			"name": "dataders",
-			"path": "../dataders"
+			"name": "dbt-completion.bash",
+			"path": "../dbt-completion.bash"
 		},
 		{
+			"name": "dataders",
 			"path": "../.."
 		}
 	],
