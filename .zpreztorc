@@ -47,8 +47,7 @@ zstyle ':prezto:load' pmodule \
   'syntax-highlighting' \
   'history-substring-search' \
   'git' \
-  'autosuggestions' \
-  'conda-zsh-completion'
+  'autosuggestions'
 
 #
 # Autosuggestions
