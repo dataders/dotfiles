@@ -13,9 +13,12 @@ for item in $current_dir/.* $current_dir/*.conf $current_dir/*.ini; do
     # Get the base name of the item
     base_item=$(basename "$item")
 
-    # Check if the item starts with a `.` or ends with `.conf` or `.ini`
-    if [[ $base_item == .* || $base_item == *.conf || $base_item == *.ini ]]; then
-        # Create the symlink in the home directory, overwriting any existing file or symlink
+    # Check if the item is one of the specific files to go to homebrew
+    if [[ $base_item == "odbcinst.ini" || $base_item == "odbc.ini" || $base_item == "freetds.conf" ]]; then
+        ln -sf "$item" "/opt/homebrew/etc/$base_item"
+        echo "symlinked $base_item to /opt/homebrew/etc/"
+    # Otherwise check if it starts with . or ends with .conf/.ini for home directory
+    elif [[ $base_item == .* || $base_item == *.conf || $base_item == *.ini ]]; then
         ln -sf "$item" "$HOME/$base_item"
         echo "symlinked $base_item to home directory"
     fi

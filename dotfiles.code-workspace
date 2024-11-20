@@ -5,6 +5,10 @@
 			"path": "."
 		},
 		{
+			"name": "dotfiles_env",
+			"path": "../dotfiles_env"
+		},
+		{
 			"name": "dbt-completion.bash",
 			"path": "../dbt-completion.bash"
 		},
