@@ -53,6 +53,8 @@ alias gh='nocorrect gh'
 alias pip='noglob pip' # no searching w/ pip install
 alias source='noglob source'
 
+alias fsd=/Users/dataders/Developer/fs/target/debug/fs
+
 set AWS_PROFILE=SandboxPower
 set AWS_DEFAULT_PROFILE=SandboxPower
 
