@@ -5,7 +5,12 @@ here's where I store most of my config files, symlinked to their homes
 reminder for myself how symlnk works to save me a google
 
 ```zsh
-ln -s /Users/dataders/repos/dotfiles/{FILE} /Users/dataders/{FILE}
+ln -s /Users/dataders/Developer/dotfiles/{FILE} /Users/dataders/{FILE}
+```
+
+for symlinking from private repo to public dotfiles if info is sensitive
+```zsh
+ln -s /Users/dataders/Developer/dotfiles_env/{FILE} /Users/dataders/Developer/dotfiles/{FILE}
 ```
 
 ## Installation
