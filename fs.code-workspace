@@ -1,0 +1,34 @@
+{
+	"folders": [
+		{
+			"path": "../fs"
+		}
+	],
+	"settings": {
+		"rust-analyzer.cargo.extraEnv": {
+			"RUST_MIN_STACK": "8388608"
+		},
+		"rust-analyzer.showUnlinkedFileNotification": false,
+		"rust-analyzer.runnables.extraEnv": {
+			"RUST_MIN_STACK": "8388608",
+			"RUST_BACKTRACE": "0"
+		},
+		"sqltools.connections": [
+			{
+				"connectionMethod": "Hostname and Token",
+				"catalog": "hive_metastore",
+				"previewLimit": 50,
+				"driver": "Databricks",
+				"name": "dbrx",
+				"host": "dbc-4a77cdc0-e046.cloud.databricks.com",
+				"path": "/sql/1.0/warehouses/6b95a8598ae2a5be"
+			}
+		],
+		"files.associations": {
+    // "**/<dbt-project-dir>/**/*.yaml": "jinja-yaml",
+    // "**/<dbt-project-dir>/**/*.yml": "jinja-yaml",
+    "**/*.sql": "jinja-sql",
+    // "**/<dbt-project-dir>/**/docs/**/*.md": "jinja-md"
+},
+	}
+}
