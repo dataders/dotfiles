@@ -3,9 +3,10 @@
 	name = Anders Swanson
 	email = anders.swanson@dbtlabs.com
 [core]
-	editor = "code-insiders --wait"
+	editor = "cursor --wait"
 	symlink = true
 	symlinks = true
+	pager = cat
 [pull]
 	rebase = false
 [init]
