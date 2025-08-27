@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+			"path": "../dbt_ad_reporting"
+		},
+		{
+			"path": "../dbt_linkedin"
+		},
+		{
+			"name": "dbt_linkedin_source",
+			"path": "../dbt_linkedin_source"
+		},
+		{
+			"name": "dbt_reddit_ads",
+			"path": "../dbt_reddit_ads"
+		},
+		{
+			"name": "dbt_reddit_ads_source",
+			"path": "../dbt_reddit_ads_source"
+		},
+		{
+			"name": "dbt_fivetran_utils",
+			"path": "../dbt_fivetran_utils"
+		}
+	],
+	"settings": {}
+}

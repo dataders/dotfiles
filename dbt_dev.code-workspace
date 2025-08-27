@@ -17,6 +17,10 @@
       "path": "../dbt-core"
     },
     {
+      "name": "dbt-adapters",
+      "path": "../dbt-adapters"
+    },
+    {
       "name": "dbt-bigquery",
       "path": "../dbt-bigquery"
     },
@@ -47,10 +51,6 @@
     {
       "name": "dbt-common",
       "path": "../dbt-common"
-    },
-    {
-      "name": "dbt-adapters",
-      "path": "../dbt-adapters"
     },
     {
       "name": "dbt-postgres",

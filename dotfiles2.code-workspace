@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../dotfiles_env"
+		},
+		{
+			"path": "../../.local/bin"
+		},
+		{
+			"path": "../../Library/Application Support/Cursor/User/globalStorage/dbtlabs.dbt/bin"
+		},
+		{
+			"path": "../../Library/Application Support/Code - Insiders/User/globalStorage/dbtlabs.dbt/bin"
+		}
+	],
+	"settings": {}
+}
