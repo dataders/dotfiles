@@ -76,3 +76,9 @@ export PATH="/Users/dataders/.codeium/windsurf/bin:$PATH"
 export WASMTIME_HOME="$HOME/.wasmtime"
 
 export PATH="$WASMTIME_HOME/bin:$PATH"
+
+# dbt aliases
+alias dbtf=/Users/dataders/.local/bin/dbt
+alias dbt-core=/Users/dataders/Developer/jaffle-sandbox/.venv/bin/dbt
+alias dbtd=/Users/dataders/Developer/fs/target/debug/dbt
+alias dbtr=/Users/dataders/Developer/fs/target/release/dbt
