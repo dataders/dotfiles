@@ -2,6 +2,7 @@
 [user]
 	name = Anders Swanson
 	email = anders.swanson@dbtlabs.com
+	signingkey = /Users/dataders/.ssh/id_ed25519.pub
 [core]
 	editor = "cursor --wait"
 	symlink = true
@@ -15,3 +16,10 @@
 	autoSetupRemote = true
 [http]
 	postBuffer = 524288000
+[gpg]
+	format = ssh
+[diff]
+    algorithm = histogram
+[rerere]
+    enabled = true
+    autoUpdate = true
