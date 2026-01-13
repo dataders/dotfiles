@@ -82,3 +82,6 @@ alias dbtf=/Users/dataders/.local/bin/dbt
 alias dbt-core=/Users/dataders/Developer/jaffle-sandbox/.venv/bin/dbt
 alias dbtd=/Users/dataders/Developer/fs/target/debug/dbt
 alias dbtr=/Users/dataders/Developer/fs/target/release/dbt
+
+set AWS_PROFILE=SandboxPower
+set AWS_DEFAULT_PROFILE=SandboxPower
