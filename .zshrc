@@ -58,7 +58,7 @@ alias fsd=/Users/dataders/Developer/fs/target/debug/fs
 set AWS_PROFILE=SandboxPower
 set AWS_DEFAULT_PROFILE=SandboxPower
 
-# dbt Cloud CLI
-export DBT_CLOUD_API_KEY="325ae470b24598d5329106b4ae3a9fbc1799ef5c"
-
 eval "$(direnv hook zsh)"
+
+# Source secrets from dotfiles_env (not committed to public dotfiles repo)
+[[ -f ~/Developer/dotfiles_env/secrets.zsh ]] && source ~/Developer/dotfiles_env/secrets.zsh
