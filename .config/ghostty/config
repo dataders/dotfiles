@@ -1,0 +1,4 @@
+# Ghostty configuration
+# https://ghostty.org/docs/config
+
+desktop-notifications = true

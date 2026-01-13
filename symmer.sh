@@ -5,8 +5,8 @@ current_dir=$(pwd)
 
 # Loop through all files and directories in the current directory that start with a `.`
 for item in $current_dir/.* $current_dir/*.conf $current_dir/*.ini; do
-    # Skip the current directory (.) and parent directory (..)
-    if [[ $item == "$current_dir/." || $item == "$current_dir/.." ]]; then
+    # Skip the current directory (.), parent directory (..), .config and .claude (handled separately in links.sh)
+    if [[ $item == "$current_dir/." || $item == "$current_dir/.." || $item == "$current_dir/.config" || $item == "$current_dir/.claude" ]]; then
         continue
     fi
 
