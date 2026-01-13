@@ -10,9 +10,6 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# add homebrew and miniforge to path
-export PATH="/opt/homebrew/bin:/Users/dataders/miniforge3/bin:$PATH" 
-
 # Customize to your needs...
 
 
@@ -62,3 +59,20 @@ eval "$(direnv hook zsh)"
 
 # Source secrets from dotfiles_env (not committed to public dotfiles repo)
 [[ -f ~/Developer/dotfiles_env/secrets.zsh ]] && source ~/Developer/dotfiles_env/secrets.zsh
+
+# Added by dbt installer
+export PATH="$PATH:/Users/dataders/.local/bin"
+
+export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
+export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include"
+
+
+# add homebrew and miniforge to path
+export PATH="/opt/homebrew/bin:$PATH" 
+
+# Added by Windsurf
+export PATH="/Users/dataders/.codeium/windsurf/bin:$PATH"
+
+export WASMTIME_HOME="$HOME/.wasmtime"
+
+export PATH="$WASMTIME_HOME/bin:$PATH"
