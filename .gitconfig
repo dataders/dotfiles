@@ -8,6 +8,7 @@
 	symlink = true
 	symlinks = true
 	pager = cat
+	excludesfile = /Users/dataders/.gitignore_global
 [pull]
 	rebase = false
 [init]
