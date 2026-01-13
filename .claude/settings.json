@@ -1,0 +1,44 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node --version)",
+      "Bash(npm --version)",
+      "Bash(npm create:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(npx tailwindcss:*)",
+      "Bash(./node_modules/.bin/tailwindcss:*)",
+      "Bash(npm run build:*)"
+    ],
+    "defaultMode": "plan"
+  },
+  "alwaysThinkingEnabled": true,
+  "autoUpdatesChannel": "stable",
+  "minimumVersion": "2.1.6",
+  "feedbackSurveyState": {
+    "lastShownTime": 1754079946735
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '\\u001b]9;Claude Code: task complete\\u001b\\\\'"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "permission_prompt|elicitation_dialog|idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '\\u001b]9;Claude Code: needs your input\\u001b\\\\'"
+          }
+        ]
+      }
+    ]
+  }
+}
