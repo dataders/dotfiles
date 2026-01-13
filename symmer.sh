@@ -19,6 +19,8 @@ for item in $current_dir/.* $current_dir/*.conf $current_dir/*.ini; do
         echo "symlinked $base_item to /opt/homebrew/etc/"
     # Otherwise check if it starts with . or ends with .conf/.ini for home directory
     elif [[ $base_item == .* || $base_item == *.conf || $base_item == *.ini ]]; then
+        # Remove existing symlink first to avoid creating circular symlinks
+        [[ -L "$HOME/$base_item" ]] && rm "$HOME/$base_item"
         ln -sf "$item" "$HOME/$base_item"
         echo "symlinked $base_item to home directory"
     fi
