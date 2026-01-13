@@ -15,9 +15,6 @@
   "alwaysThinkingEnabled": true,
   "autoUpdatesChannel": "stable",
   "minimumVersion": "2.1.6",
-  "feedbackSurveyState": {
-    "lastShownTime": 1754079946735
-  },
   "hooks": {
     "Stop": [
       {
