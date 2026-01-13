@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../dbt-duckdb"
+		},
+		{
+			"path": "../dbt-adapters"
+		},
+		{
+			"path": "../jaffle_shop_duckdb"
+		}
+	],
+	"settings": {}
+}
