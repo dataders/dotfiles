@@ -28,6 +28,27 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# ─────────────────────────────────────────────────────────────────────────────
+# PATH Configuration (order matters: first entry = highest priority)
+# ─────────────────────────────────────────────────────────────────────────────
+path_additions=(
+    "/opt/homebrew/bin"                          # Homebrew
+    "/opt/homebrew/opt/openjdk@17/bin"           # OpenJDK 17
+    "$HOME/.wasmtime/bin"                        # Wasmtime
+    "$HOME/.codeium/windsurf/bin"                # Windsurf
+    "$HOME/.local/bin"                           # dbt Cloud CLI, local scripts
+)
+
+# Prepend each path if it exists and isn't already in PATH
+for p in "${path_additions[@]}"; do
+    [[ -d "$p" && ":$PATH:" != *":$p:"* ]] && PATH="$p:$PATH"
+done
+export PATH
+
+# Related exports
+export WASMTIME_HOME="$HOME/.wasmtime"
+export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include"
+
 # # use HTTPS for codespaces
 # if [ -z "$CODESPACES" ]; then
 #   git config --global url."git@github.com".insteadOf "https://github.com"
@@ -59,23 +80,6 @@ eval "$(direnv hook zsh)"
 
 # Source secrets from dotfiles_env (not committed to public dotfiles repo)
 [[ -f ~/Developer/dotfiles_env/secrets.zsh ]] && source ~/Developer/dotfiles_env/secrets.zsh
-
-# Added by dbt installer
-export PATH="$PATH:/Users/dataders/.local/bin"
-
-export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
-export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include"
-
-
-# add homebrew and miniforge to path
-export PATH="/opt/homebrew/bin:$PATH" 
-
-# Added by Windsurf
-export PATH="/Users/dataders/.codeium/windsurf/bin:$PATH"
-
-export WASMTIME_HOME="$HOME/.wasmtime"
-
-export PATH="$WASMTIME_HOME/bin:$PATH"
 
 # dbt aliases
 alias dbtf=/Users/dataders/.local/bin/dbt
