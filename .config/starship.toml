@@ -1,0 +1,67 @@
+# Starship prompt configuration
+# https://starship.rs/config/
+
+# General settings
+add_newline = false
+command_timeout = 1000
+
+# Prompt format (left side)
+format = """
+$directory\
+$git_branch\
+$git_status\
+$python\
+$conda\
+$aws\
+$cmd_duration\
+$line_break\
+$character"""
+
+# Right-side prompt (shows time)
+right_format = """$time"""
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+vimcmd_symbol = "[❮](bold green)"
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+style = "bold cyan"
+
+[git_branch]
+format = "[$symbol$branch]($style) "
+symbol = " "
+style = "bold purple"
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )'
+style = "bold red"
+
+[python]
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+symbol = " "
+style = "bold yellow"
+
+[conda]
+format = "[$symbol$environment]($style) "
+symbol = " "
+style = "bold green"
+ignore_base = true
+
+[aws]
+format = '[$symbol($profile )(\($region\) )]($style)'
+symbol = " "
+style = "bold orange"
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "bold yellow"
+
+[time]
+disabled = false
+format = '[$time]($style)'
+time_format = "%H:%M"
+style = "dimmed white"

@@ -2,3 +2,26 @@
 # https://ghostty.org/docs/config
 
 desktop-notifications = true
+
+# Theme (auto light/dark switching)
+theme = light:Catppuccin Latte,dark:Catppuccin Mocha
+
+# Font (requires: brew install --cask font-jetbrains-mono-nerd-font)
+font-family = JetBrainsMono Nerd Font
+font-size = 14
+
+# Shell integration (Ghostty's killer feature)
+shell-integration = zsh
+shell-integration-features = cursor,sudo,title
+
+# Window
+window-padding-x = 8
+window-padding-y = 8
+window-decoration = true
+
+# Clipboard
+clipboard-read = allow
+clipboard-write = allow
+
+# Performance
+vsync = true
