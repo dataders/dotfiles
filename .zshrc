@@ -55,11 +55,7 @@ export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include"
 # fi
 
 
-# needed for spaceship theme
-PYENV_VIRTUALENV_DISABLE_PROMPT=1
-SPACESHIP_PROMPT_ADD_NEWLINE="false"
-SPACESHIP_TIME_SHOW="true"
-SPACESHIP_PROMPT_PREFIXES_SHOW="false"
+# Prompt handled by Starship (initialized at end of file)
 
 # autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
@@ -73,9 +69,6 @@ alias source='noglob source'
 
 alias fsd=/Users/dataders/Developer/fs/target/debug/fs
 
-set AWS_PROFILE=SandboxPower
-set AWS_DEFAULT_PROFILE=SandboxPower
-
 eval "$(direnv hook zsh)"
 
 # Source secrets from dotfiles_env (not committed to public dotfiles repo)
@@ -87,5 +80,24 @@ alias dbt-core=/Users/dataders/Developer/jaffle-sandbox/.venv/bin/dbt
 alias dbtd=/Users/dataders/Developer/fs/target/debug/dbt
 alias dbtr=/Users/dataders/Developer/fs/target/release/dbt
 
-set AWS_PROFILE=SandboxPower
-set AWS_DEFAULT_PROFILE=SandboxPower
+export AWS_PROFILE=SandboxPower
+export AWS_DEFAULT_PROFILE=SandboxPower
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Modern CLI Tools
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Starship prompt
+eval "$(starship init zsh)"
+
+# Zoxide (smarter cd - use 'z' to jump to directories)
+eval "$(zoxide init zsh)"
+
+# fzf (fuzzy finder: Ctrl+R for history, Ctrl+T for files)
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Modern tool aliases
+alias cat='bat --paging=never'
+alias ls='eza --icons --group-directories-first'
+alias ll='eza -la --icons --group-directories-first --git'
+alias tree='eza --tree --icons'
