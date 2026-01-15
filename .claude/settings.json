@@ -12,16 +12,17 @@
     ],
     "defaultMode": "plan"
   },
-  "alwaysThinkingEnabled": true,
-  "autoUpdatesChannel": "stable",
-  "minimumVersion": "2.1.6",
   "hooks": {
     "Stop": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "printf '\\u001b]9;Claude Code: task complete\\u001b\\\\'"
+            "command": "printf '\\033]777;notify;HOOK TEST;This is from the Stop hook!\\007'"
+          },
+          {
+            "type": "prompt",
+            "prompt": "Evaluate if Claude should stop: $ARGUMENTS. Check if all tasks are complete."
           }
         ]
       }
@@ -32,10 +33,16 @@
         "hooks": [
           {
             "type": "command",
-            "command": "printf '\\u001b]9;Claude Code: needs your input\\u001b\\\\'"
+            "command": "printf '\\033]777;notify;Claude Code;Needs your input\\007'"
           }
         ]
       }
     ]
+  },
+  "alwaysThinkingEnabled": true,
+  "autoUpdatesChannel": "stable",
+  "minimumVersion": "2.1.6",
+  "enabledPlugins": {
+    "superpowers@superpowers-marketplace": true
   }
 }
