@@ -1,0 +1,713 @@
+{
+  "numStartups": 65,
+  "installMethod": "native",
+  "autoUpdates": false,
+  "hasSeenTasksHint": true,
+  "customApiKeyResponses": {
+    "approved": [
+      "WbPNLIMrhsw-zI3GrgAA"
+    ],
+    "rejected": []
+  },
+  "tipsHistory": {
+    "new-user-warmup": 1,
+    "ide-hotkey": 29,
+    "terminal-setup": 63,
+    "shift-enter": 31,
+    "memory-command": 53,
+    "theme-command": 48,
+    "prompt-queue": 20,
+    "enter-to-steer-in-relatime": 49,
+    "todo-list": 51,
+    "# for memory": 32,
+    "install-github-app": 56,
+    "permissions": 56,
+    "status-line": 65,
+    "drag-and-drop-images": 58,
+    "paste-images-mac": 58,
+    "double-esc": 28,
+    "continue": 58,
+    "custom-commands": 65,
+    "shift-tab": 58,
+    "custom-agents": 50,
+    "image-paste": 47,
+    "plan-mode-for-complex-tasks": 35,
+    "shift-enter-setup": 35,
+    "stickers-command": 56,
+    "double-esc-code-restore": 56,
+    "tab-toggle-thinking": 35,
+    "ultrathink-keyword": 56,
+    "default-permission-mode-config": 40,
+    "rename-conversation": 56,
+    "frontend-design-plugin": 43,
+    "install-slack-app": 56,
+    "desktop-app": 58,
+    "web-app": 58,
+    "mobile-app": 58,
+    "git-worktrees": 63
+  },
+  "promptQueueUseCount": 11,
+  "showExpandedTodos": true,
+  "cachedStatsigGates": {
+    "tengu_disable_bypass_permissions_mode": false,
+    "tengu_use_file_checkpoints": true,
+    "tengu_tool_pear": false,
+    "tengu_web_tasks": true,
+    "tengu_log_1p_events": true,
+    "tengu_sumi": false,
+    "code_slack_app_install_banner": false,
+    "tengu_react_vulnerability_warning": false,
+    "tengu_thinkback": false,
+    "tengu_clawd_openfire": false,
+    "tengu_ant_attribution_header_new": true,
+    "tengu_prompt_suggestion": true,
+    "tengu_year_end_2025_campaign_promo": false,
+    "tengu_streaming_tool_execution2": false,
+    "tengu_vscode_review_upsell": false
+  },
+  "cachedDynamicConfigs": {
+    "tengu_1p_event_batch_config": {
+      "scheduledDelayMillis": 5000,
+      "maxExportBatchSize": 200,
+      "maxQueueSize": 8192
+    },
+    "tengu-top-of-feed-tip": {
+      "tip": "",
+      "color": ""
+    }
+  },
+  "cachedGrowthBookFeatures": {
+    "strawberry_granite_flag": "N/A",
+    "persimmon_marble_flag": "N/A",
+    "tengu_pid_based_version_locking": true,
+    "tengu_mcp_tool_search": true,
+    "tengu_disable_bypass_permissions_mode": false,
+    "tengu_tool_pear": false,
+    "tengu_thinkback": false,
+    "tengu_sumi": true,
+    "tengu_c4w_usage_limit_notifications_enabled": true,
+    "tengu_react_vulnerability_warning": false,
+    "tengu_ant_attribution_header_new": true,
+    "tengu_tool_search_unsupported_models": null,
+    "tengu_accept_with_feedback": true,
+    "tengu_1p_event_batch_config": {
+      "scheduledDelayMillis": 5000,
+      "maxExportBatchSize": 200,
+      "maxQueueSize": 8192
+    },
+    "tengu_event_sampling_config": {},
+    "tengu-top-of-feed-tip": {
+      "tip": "",
+      "color": ""
+    },
+    "tengu_permission_explainer": false,
+    "tengu_scratch": false,
+    "tengu_log_segment_events": false,
+    "tengu_log_datadog_events": true,
+    "tengu_post_compact_survey": false,
+    "tengu_prompt_suggestion": true,
+    "tengu_streaming_tool_execution2": false
+  },
+  "userID": "72f6b1344a9c8b163d6ff3914c814f6bbe36f338c749c97a258e30bb9683551d",
+  "firstStartTime": "2025-07-24T19:15:44.662Z",
+  "projects": {
+    "/Users/dataders": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 4,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "symmer.sh",
+        "keymap.c",
+        "config.h",
+        "README.md",
+        "links.sh"
+      ],
+      "exampleFilesGeneratedAt": 1768331763249,
+      "lastTotalWebSearchRequests": 0,
+      "hasCompletedProjectOnboarding": true,
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "lastCost": 0.07198325,
+      "lastAPIDuration": 42861,
+      "lastAPIDurationWithoutRetries": 42859,
+      "lastToolDuration": 0,
+      "lastDuration": 722734,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 540,
+      "lastTotalOutputTokens": 880,
+      "lastTotalCacheCreationInputTokens": 1161,
+      "lastTotalCacheReadInputTokens": 87910,
+      "lastModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 502,
+          "outputTokens": 96,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.000982
+        },
+        "claude-opus-4-5-20251101": {
+          "inputTokens": 38,
+          "outputTokens": 784,
+          "cacheReadInputTokens": 87910,
+          "cacheCreationInputTokens": 1161,
+          "webSearchRequests": 0,
+          "costUSD": 0.07100125
+        }
+      },
+      "lastSessionId": "03554d40-bc52-445e-9d61-84dff0d17d03"
+    },
+    "/Users/dataders/Developer/scratch": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 3,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "my_model.sql",
+        "repro.sql",
+        "a.sql",
+        "downstream_model.sql",
+        "test_with_where.sql"
+      ],
+      "exampleFilesGeneratedAt": 1767984516349,
+      "lastTotalWebSearchRequests": 0,
+      "hasCompletedProjectOnboarding": true,
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "lastCost": 2.2425445999999996,
+      "lastAPIDuration": 333468,
+      "lastAPIDurationWithoutRetries": 333443,
+      "lastToolDuration": 31860,
+      "lastDuration": 30651138,
+      "lastLinesAdded": 288,
+      "lastLinesRemoved": 80,
+      "lastTotalInputTokens": 73622,
+      "lastTotalOutputTokens": 16595,
+      "lastTotalCacheCreationInputTokens": 196016,
+      "lastTotalCacheReadInputTokens": 2020050,
+      "lastModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 68937,
+          "outputTokens": 1319,
+          "cacheReadInputTokens": 29606,
+          "cacheCreationInputTokens": 92319,
+          "webSearchRequests": 0,
+          "costUSD": 0.19389135000000002
+        },
+        "claude-opus-4-5-20251101": {
+          "inputTokens": 4685,
+          "outputTokens": 15276,
+          "cacheReadInputTokens": 1990444,
+          "cacheCreationInputTokens": 103697,
+          "webSearchRequests": 0,
+          "costUSD": 2.0486532499999996
+        }
+      },
+      "lastSessionId": "b7c55959-541d-4cc7-9717-9d3b7124b541"
+    },
+    "/Users/dataders/Developer/fusion-diaries": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "hasTrustDialogHooksAccepted": false,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "CLAUDE.md",
+        "version-tracker.md",
+        "2025-08-19-fusion-diaries.md",
+        "workflow-todos-2025-08-19.md",
+        "Todos.md"
+      ],
+      "exampleFilesGeneratedAt": 1757071586718,
+      "hasCompletedProjectOnboarding": true,
+      "lastTotalWebSearchRequests": 0,
+      "lastCost": 1.63963695,
+      "lastAPIDuration": 501755,
+      "lastToolDuration": 11357,
+      "lastDuration": 56399204,
+      "lastLinesAdded": 166,
+      "lastLinesRemoved": 53,
+      "lastTotalInputTokens": 93296,
+      "lastTotalOutputTokens": 19227,
+      "lastTotalCacheCreationInputTokens": 182177,
+      "lastTotalCacheReadInputTokens": 2003192,
+      "lastSessionId": "04c51710-d372-4341-b614-3fbd718c7d51"
+    },
+    "/Users/dataders/Developer/lean-to_shed_planning": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "hasCompletedProjectOnboarding": true,
+      "lastTotalWebSearchRequests": 0,
+      "exampleFiles": [
+        "materials-list.md",
+        "installation-steps.md",
+        "comprehensive-plan.md",
+        "CLAUDE.md",
+        "workflow-todos.md"
+      ],
+      "exampleFilesGeneratedAt": 1756651156276,
+      "lastCost": 0.6395172499999999,
+      "lastAPIDuration": 239288,
+      "lastToolDuration": 228,
+      "lastDuration": 186741731,
+      "lastLinesAdded": 105,
+      "lastLinesRemoved": 1,
+      "lastTotalInputTokens": 3737,
+      "lastTotalOutputTokens": 10972,
+      "lastTotalCacheCreationInputTokens": 46817,
+      "lastTotalCacheReadInputTokens": 993505,
+      "lastSessionId": "22897f7a-1e33-4c70-87f9-36efab061592"
+    },
+    "/Users/dataders/Developer/internal-analytics": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 2,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "customer_revenue_script.sql",
+        "ubp_analytics.sql",
+        "event_eventbus__metadata_api_requests.sql",
+        "cold_storage_manual_testing.sql",
+        "snapshots-fix-accounts.sql"
+      ],
+      "exampleFilesGeneratedAt": 1768337847047,
+      "hasCompletedProjectOnboarding": true,
+      "lastTotalWebSearchRequests": 0,
+      "lastCost": 6.723380799999999,
+      "lastAPIDuration": 834851,
+      "lastToolDuration": 125574,
+      "lastDuration": 6485376,
+      "lastLinesAdded": 139,
+      "lastLinesRemoved": 165,
+      "lastTotalInputTokens": 44864,
+      "lastTotalOutputTokens": 51042,
+      "lastTotalCacheCreationInputTokens": 222648,
+      "lastTotalCacheReadInputTokens": 9327372,
+      "lastSessionId": "40161f03-0242-4747-bb9c-33f9d823e375",
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "lastAPIDurationWithoutRetries": 834810,
+      "lastModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 42087,
+          "outputTokens": 8292,
+          "cacheReadInputTokens": 123018,
+          "cacheCreationInputTokens": 89766,
+          "webSearchRequests": 0,
+          "costUSD": 0.20805629999999992
+        },
+        "claude-opus-4-5-20251101": {
+          "inputTokens": 2777,
+          "outputTokens": 42750,
+          "cacheReadInputTokens": 9204354,
+          "cacheCreationInputTokens": 132882,
+          "webSearchRequests": 0,
+          "costUSD": 6.5153245
+        }
+      }
+    },
+    "/Users/dataders/Developer/field-engineering-fusion-upgrade-repo": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "order_items.yml",
+        "customers.yml",
+        "orders.yml",
+        "order_events_microbatch.sql",
+        "stg_legacy_order_summary.sql"
+      ],
+      "exampleFilesGeneratedAt": 1758037692247,
+      "hasCompletedProjectOnboarding": true,
+      "lastCost": 0.7095105000000002,
+      "lastAPIDuration": 205878,
+      "lastToolDuration": 27790,
+      "lastDuration": 1172113,
+      "lastLinesAdded": 56,
+      "lastLinesRemoved": 56,
+      "lastTotalInputTokens": 9900,
+      "lastTotalOutputTokens": 7916,
+      "lastTotalCacheCreationInputTokens": 57378,
+      "lastTotalCacheReadInputTokens": 1244640,
+      "lastTotalWebSearchRequests": 0,
+      "lastSessionId": "510c549b-d6ac-490c-ad2d-242ed692fc34"
+    },
+    "/Users/dataders/Developer/dbt-adapters": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "setup.py",
+        "dbt/adapters/snowflake/impl.py",
+        "dbt/adapters/base/impl.py",
+        "dbt/adapters/bigquery/connections.py",
+        "dbt/adapters/redshift/connections.py"
+      ],
+      "exampleFilesGeneratedAt": 1764708153740,
+      "lastTotalWebSearchRequests": 0
+    },
+    "/Users/dataders/Developer/this_to_that_catalog_edition": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 1,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "I don't have any files to analyze from the input provided. Both the \"Files modified by user:\" and \"Files modified by other users:\" sections are empty.",
+        "",
+        "Please provide a list of files with their modification counts in a format like:",
+        "",
+        "```",
+        "Files modified by user:",
+        "filename1.py (15)",
+        "filename2.js (12)",
+        "",
+        "Files modified by other users:",
+        "filename3.py (20)",
+        "filename4.js (18)",
+        "```",
+        "",
+        "Once you provide the actual file data, I'll return exactly five diverse, core logic filenames."
+      ],
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "exampleFilesGeneratedAt": 1765654174310
+    },
+    "/Users/dataders/Developer/fs": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "snowflake.rs",
+        "lsp.ts",
+        "package.json",
+        "CHANGELOG.md",
+        "dbt-adapter.rs"
+      ],
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "exampleFilesGeneratedAt": 1768341503736,
+      "hasCompletedProjectOnboarding": true,
+      "lastCost": 0.6323423000000001,
+      "lastAPIDuration": 142882,
+      "lastAPIDurationWithoutRetries": 142846,
+      "lastToolDuration": 5734,
+      "lastDuration": 2006346,
+      "lastLinesAdded": 43,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 29720,
+      "lastTotalOutputTokens": 6141,
+      "lastTotalCacheCreationInputTokens": 49004,
+      "lastTotalCacheReadInputTokens": 478751,
+      "lastTotalWebSearchRequests": 0,
+      "lastModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 28776,
+          "outputTokens": 829,
+          "cacheReadInputTokens": 13598,
+          "cacheCreationInputTokens": 15662,
+          "webSearchRequests": 0,
+          "costUSD": 0.053858300000000005
+        },
+        "claude-opus-4-5-20251101": {
+          "inputTokens": 944,
+          "outputTokens": 5312,
+          "cacheReadInputTokens": 465153,
+          "cacheCreationInputTokens": 33342,
+          "webSearchRequests": 0,
+          "costUSD": 0.578484
+        }
+      },
+      "lastSessionId": "78befc1e-1604-48aa-b19f-c0c48504d772"
+    },
+    "/Users/dataders/Developer/dbt-autofix": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "refactor.py",
+        "main.py",
+        "retrieve_schemas.py",
+        "test_refactor.py",
+        "dbt_schema_yml.py"
+      ],
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "exampleFilesGeneratedAt": 1768356837532,
+      "lastCost": 7.8826928,
+      "lastAPIDuration": 880308,
+      "lastAPIDurationWithoutRetries": 878286,
+      "lastToolDuration": 285674,
+      "lastDuration": 2605458,
+      "lastLinesAdded": 897,
+      "lastLinesRemoved": 12,
+      "lastTotalInputTokens": 107193,
+      "lastTotalOutputTokens": 50871,
+      "lastTotalCacheCreationInputTokens": 546370,
+      "lastTotalCacheReadInputTokens": 9494947,
+      "lastTotalWebSearchRequests": 0,
+      "lastModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 95103,
+          "outputTokens": 15078,
+          "cacheReadInputTokens": 1009953,
+          "cacheCreationInputTokens": 200276,
+          "webSearchRequests": 0,
+          "costUSD": 0.5218333
+        },
+        "claude-opus-4-5-20251101": {
+          "inputTokens": 12090,
+          "outputTokens": 35793,
+          "cacheReadInputTokens": 8484994,
+          "cacheCreationInputTokens": 346094,
+          "webSearchRequests": 0,
+          "costUSD": 7.360859499999999
+        }
+      },
+      "lastSessionId": "25a3e734-0093-4217-a487-cc411e171bed"
+    },
+    "/Users/dataders/Developer/dotfiles": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "exampleFiles": [
+        "symmer.sh",
+        "links.sh",
+        "keymap.c",
+        "config.h",
+        "README.md"
+      ],
+      "exampleFilesGeneratedAt": 1768496396021,
+      "lastCost": 3.0470059499999995,
+      "lastAPIDuration": 599795,
+      "lastAPIDurationWithoutRetries": 598445,
+      "lastToolDuration": 699210,
+      "lastDuration": 36150488,
+      "lastLinesAdded": 325,
+      "lastLinesRemoved": 19,
+      "lastTotalInputTokens": 266894,
+      "lastTotalOutputTokens": 36765,
+      "lastTotalCacheCreationInputTokens": 331315,
+      "lastTotalCacheReadInputTokens": 1851946,
+      "lastTotalWebSearchRequests": 4,
+      "lastModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 251868,
+          "outputTokens": 15346,
+          "cacheReadInputTokens": 606897,
+          "cacheCreationInputTokens": 137226,
+          "webSearchRequests": 0,
+          "costUSD": 0.5608201999999999
+        },
+        "claude-opus-4-5-20251101": {
+          "inputTokens": 15026,
+          "outputTokens": 21419,
+          "cacheReadInputTokens": 1245049,
+          "cacheCreationInputTokens": 194089,
+          "webSearchRequests": 4,
+          "costUSD": 2.48618575
+        }
+      },
+      "lastSessionId": "bc1a0feb-76fc-4011-8f1f-b7637c5e56ff"
+    }
+  },
+  "isQualifiedForDataSharing": false,
+  "appleTerminalSetupInProgress": false,
+  "appleTerminalBackupPath": "/Users/dataders/Library/Preferences/com.apple.Terminal.plist.bak",
+  "optionAsMetaKeyInstalled": true,
+  "hasCompletedOnboarding": true,
+  "lastOnboardingVersion": "1.0.59",
+  "recommendedSubscription": "",
+  "changelogLastFetched": 1768327349383,
+  "lastReleaseNotesSeen": "2.1.6",
+  "subscriptionNoticeCount": 0,
+  "hasAvailableSubscription": false,
+  "hasIdeOnboardingBeenShown": {
+    "cursor": true
+  },
+  "s1mAccessCache": {
+    "d4c466ee-07db-416b-a698-d7019ea698a5": {
+      "hasAccess": false,
+      "timestamp": 1756315545283
+    },
+    "7a0a09b9-bb71-404e-a498-68d2fafa80f8": {
+      "hasAccess": false,
+      "hasAccessNotAsDefault": true,
+      "timestamp": 1768597941206
+    }
+  },
+  "hasOpusPlanDefault": false,
+  "s1mNonSubscriberAccessCache": {
+    "d4c466ee-07db-416b-a698-d7019ea698a5": {
+      "hasAccess": true,
+      "timestamp": 1767820374827
+    }
+  },
+  "hasAcknowledgedCostThreshold": true,
+  "sonnet45MigrationComplete": true,
+  "opus45MigrationComplete": true,
+  "githubRepoPaths": {
+    "dataders/dotfiles": [
+      "/Users/dataders/Developer/dotfiles",
+      "/Users/dataders",
+      "/Users/dataders/Developer/hudson"
+    ],
+    "dbt-labs/internal-analytics": [
+      "/Users/dataders/Developer/internal-analytics"
+    ],
+    "dbt-labs/dbt-adapters": [
+      "/Users/dataders/Developer/dbt-adapters/dbt-snowflake",
+      "/Users/dataders/Developer/dbt-adapters"
+    ],
+    "dataders/this_to_that_catalog_edition": [
+      "/Users/dataders/Developer/this_to_that_catalog_edition"
+    ],
+    "sdf-labs/scratch": [
+      "/Users/dataders/Developer/scratch",
+      "/Users/dataders/Developer/scratch/repros"
+    ],
+    "dbt-labs/fs": [
+      "/Users/dataders/Developer/fs"
+    ],
+    "dbt-labs/dbt-autofix": [
+      "/Users/dataders/Developer/dbt-autofix"
+    ]
+  },
+  "hasShownOpus45Notice": {
+    "d4c466ee-07db-416b-a698-d7019ea698a5": true,
+    "7a0a09b9-bb71-404e-a498-68d2fafa80f8": true
+  },
+  "autoUpdatesProtectedForNative": true,
+  "officialMarketplaceAutoInstallAttempted": true,
+  "officialMarketplaceAutoInstalled": true,
+  "lastPlanModeUse": 1768416819237,
+  "thinkingMigrationComplete": true,
+  "oauthAccount": {
+    "accountUuid": "53f2df10-da5d-489b-a167-7e3aad0fc19e",
+    "emailAddress": "anders.swanson@dbtlabs.com",
+    "organizationUuid": "7a0a09b9-bb71-404e-a498-68d2fafa80f8",
+    "hasExtraUsageEnabled": false,
+    "displayName": "dataders",
+    "organizationRole": "user",
+    "workspaceRole": null,
+    "organizationName": "dbt Labs"
+  },
+  "claudeCodeFirstTokenDate": "2025-07-24T19:16:16.546313Z",
+  "anonymousId": "claudecode.v1.adc1a964-75bb-441a-9f27-056fad21677d",
+  "hasShownS1MWelcomeV2": {
+    "7a0a09b9-bb71-404e-a498-68d2fafa80f8": true
+  },
+  "skillUsage": {
+    "github-issue-repro-bootstrapper": {
+      "usageCount": 3,
+      "lastUsedAt": 1768502245784
+    }
+  },
+  "mcpServers": {
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp",
+      "headers": {
+        "Authorization": "Bearer $GITHUB_PAT_MCP"
+      }
+    }
+  }
+}
