@@ -16,7 +16,9 @@
       "Bash(starship:*)",
       "Bash(zoxide:*)",
       "Bash(bat:*)",
-      "Bash(eza:*)"
+      "Bash(eza:*)",
+      "Bash(git -C ~/Developer/dotfiles status --short)",
+      "Bash(git -C ~/Developer/dotfiles add .dbt/mcp.yml .dbt/mcp.lock)"
     ]
   }
 }

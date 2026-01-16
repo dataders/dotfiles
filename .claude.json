@@ -1,5 +1,5 @@
 {
-  "numStartups": 65,
+  "numStartups": 66,
   "installMethod": "native",
   "autoUpdates": false,
   "hasSeenTasksHint": true,
@@ -20,7 +20,7 @@
     "enter-to-steer-in-relatime": 49,
     "todo-list": 51,
     "# for memory": 32,
-    "install-github-app": 56,
+    "install-github-app": 66,
     "permissions": 56,
     "status-line": 65,
     "drag-and-drop-images": 58,
@@ -29,7 +29,7 @@
     "continue": 58,
     "custom-commands": 65,
     "shift-tab": 58,
-    "custom-agents": 50,
+    "custom-agents": 65,
     "image-paste": 47,
     "plan-mode-for-complex-tasks": 35,
     "shift-enter-setup": 35,
@@ -40,7 +40,7 @@
     "default-permission-mode-config": 40,
     "rename-conversation": 56,
     "frontend-design-plugin": 43,
-    "install-slack-app": 56,
+    "install-slack-app": 66,
     "desktop-app": 58,
     "web-app": 58,
     "mobile-app": 58,
@@ -576,37 +576,37 @@
         "README.md"
       ],
       "exampleFilesGeneratedAt": 1768496396021,
-      "lastCost": 3.0470059499999995,
-      "lastAPIDuration": 599795,
-      "lastAPIDurationWithoutRetries": 598445,
-      "lastToolDuration": 699210,
-      "lastDuration": 36150488,
-      "lastLinesAdded": 325,
-      "lastLinesRemoved": 19,
-      "lastTotalInputTokens": 266894,
-      "lastTotalOutputTokens": 36765,
-      "lastTotalCacheCreationInputTokens": 331315,
-      "lastTotalCacheReadInputTokens": 1851946,
-      "lastTotalWebSearchRequests": 4,
+      "lastCost": 0.6092053,
+      "lastAPIDuration": 115145,
+      "lastAPIDurationWithoutRetries": 113835,
+      "lastToolDuration": 468,
+      "lastDuration": 798722,
+      "lastLinesAdded": 75,
+      "lastLinesRemoved": 39,
+      "lastTotalInputTokens": 38941,
+      "lastTotalOutputTokens": 4153,
+      "lastTotalCacheCreationInputTokens": 66982,
+      "lastTotalCacheReadInputTokens": 434862,
+      "lastTotalWebSearchRequests": 0,
       "lastModelUsage": {
         "claude-haiku-4-5-20251001": {
-          "inputTokens": 251868,
-          "outputTokens": 15346,
-          "cacheReadInputTokens": 606897,
-          "cacheCreationInputTokens": 137226,
+          "inputTokens": 38536,
+          "outputTokens": 493,
+          "cacheReadInputTokens": 13598,
+          "cacheCreationInputTokens": 31190,
           "webSearchRequests": 0,
-          "costUSD": 0.5608201999999999
+          "costUSD": 0.08134830000000001
         },
         "claude-opus-4-5-20251101": {
-          "inputTokens": 15026,
-          "outputTokens": 21419,
-          "cacheReadInputTokens": 1245049,
-          "cacheCreationInputTokens": 194089,
-          "webSearchRequests": 4,
-          "costUSD": 2.48618575
+          "inputTokens": 405,
+          "outputTokens": 3660,
+          "cacheReadInputTokens": 421264,
+          "cacheCreationInputTokens": 35792,
+          "webSearchRequests": 0,
+          "costUSD": 0.527857
         }
       },
-      "lastSessionId": "bc1a0feb-76fc-4011-8f1f-b7637c5e56ff"
+      "lastSessionId": "527efbda-eff0-4d1e-b85a-deadafe20a54"
     }
   },
   "isQualifiedForDataSharing": false,
@@ -631,7 +631,7 @@
     "7a0a09b9-bb71-404e-a498-68d2fafa80f8": {
       "hasAccess": false,
       "hasAccessNotAsDefault": true,
-      "timestamp": 1768597941206
+      "timestamp": 1768602115038
     }
   },
   "hasOpusPlanDefault": false,
@@ -706,7 +706,15 @@
       "type": "http",
       "url": "https://api.githubcopilot.com/mcp",
       "headers": {
-        "Authorization": "Bearer $GITHUB_PAT_MCP"
+        "Authorization": "Bearer ${GITHUB_PAT_MCP}"
+      }
+    },
+    "dbt": {
+      "command": "dbt-mcp",
+      "env": {
+        "DBT_HOST": "https://vu491.us1.dbt.com/",
+        "DBT_PROJECT_DIR": "/Users/dataders/Developer/internal-analytics",
+        "DBT_PATH": "/Users/dataders/.local/bin/dbt"
       }
     }
   }
