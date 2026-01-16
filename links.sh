@@ -7,3 +7,4 @@ ln -sf "$(pwd)/.config/ghostty/config" ~/.config/ghostty/config
 ln -sf "$(pwd)/.config/starship.toml" ~/.config/starship.toml
 ln -sf "$(pwd)/.claude/settings.json" ~/.claude/settings.json
 ln -sf "$(pwd)/.claude/CLAUDE.md" ~/.claude/CLAUDE.md
+ln -sf "$(pwd)/.claude.json" ~/.claude.json
