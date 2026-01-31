@@ -712,8 +712,6 @@
     "dbt": {
       "command": "dbt-mcp",
       "env": {
-        "DBT_HOST": "https://vu491.us1.dbt.com/",
-        "DBT_PROJECT_DIR": "/Users/dataders/Developer/internal-analytics",
         "DBT_PATH": "/Users/dataders/.local/bin/dbt"
       }
     }
