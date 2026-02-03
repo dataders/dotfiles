@@ -59,30 +59,21 @@
       "Bash(npm run build:*)",
       "WebFetch(domain:github.com)",
       "WebSearch",
-      "Bash(dbt test:*)", 
-      "Bash(dbt run:*)",
-      "Bash(dbt seed:*)",
-      "Bash(dbt build:*)",
-      "Bash(dbt list:*)",
-      "Bash(dbt debug:*)"
+      "Bash(dbt:*)",
+      "Bash(dbtf:*)",
+      "Bash(dbtd:*)",
+      "Bash(dbtr:*)",
+      "Bash(dbt-core:*)",
+      "Bash(/Users/dataders/Developer/fs/target/release/dbt:*)",
+      "Bash(_DBT_*=* dbt:*)",
+      "Bash(_DBT_*=* dbtf:*)",
+      "Bash(_DBT_*=* dbtd:*)",
+      "Bash(_DBT_*=* dbtr:*)",
+      "Bash(_DBT_*=* /Users/dataders/Developer/fs/target/release/dbt:*)"
     ],
     "defaultMode": "plan"
   },
   "hooks": {
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "printf '\\033]777;notify;HOOK TEST;This is from the Stop hook!\\007'"
-          },
-          {
-            "type": "prompt",
-            "prompt": "Evaluate if Claude should stop: $ARGUMENTS. Check if all tasks are complete."
-          }
-        ]
-      }
-    ],
     "Notification": [
       {
         "matcher": "permission_prompt|elicitation_dialog|idle_prompt",
@@ -95,10 +86,17 @@
       }
     ]
   },
+  "enabledPlugins": {
+    "superpowers@superpowers-marketplace": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "dbt-lsp@dbt-marketplace": true
+  },
   "alwaysThinkingEnabled": true,
   "autoUpdatesChannel": "stable",
-  "minimumVersion": "2.1.6",
-  "enabledPlugins": {
-    "superpowers@superpowers-marketplace": true
+  "minimumVersion": "2.1.7",
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh",
+    "padding": 0
   }
 }
