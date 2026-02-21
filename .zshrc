@@ -79,6 +79,7 @@ alias dbtf=/Users/dataders/.local/bin/dbt
 alias dbt-core=/Users/dataders/Developer/jaffle-sandbox/.venv/bin/dbt
 alias dbtd=/Users/dataders/Developer/fs/target/debug/dbt
 alias dbtr=/Users/dataders/Developer/fs/target/release/dbt
+alias dbtc=compute-dbt
 
 export AWS_PROFILE=SandboxPower
 export AWS_DEFAULT_PROFILE=SandboxPower
@@ -101,3 +102,5 @@ alias cat='bat --paging=never'
 alias ls='eza --icons --group-directories-first'
 alias ll='eza -la --icons --group-directories-first --git'
 alias tree='eza --tree --icons'
+# Added by dbt installer
+export PATH="$PATH:/Users/dataders/.local/bin"
