@@ -11,3 +11,5 @@ ln -sf "$(pwd)/.claude/statusline.sh" ~/.claude/statusline.sh
 ln -sf "$(pwd)/.claude/CLAUDE.md" ~/.claude/CLAUDE.md
 ln -sf "$(pwd)/.claude.json" ~/.claude.json
 ln -sf "$(pwd)/.tmux.conf" ~/.tmux.conf
+mkdir -p ~/.codex
+ln -sf "$(pwd)/.codex/config.toml" ~/.codex/config.toml
