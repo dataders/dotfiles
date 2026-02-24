@@ -1,0 +1,12 @@
+model = "gpt-5.3-codex"
+model_reasoning_effort = "high"
+
+[mcp_servers.notion]
+url = "https://mcp.notion.com/mcp"
+
+[mcp_servers.github]
+url = "https://api.githubcopilot.com/mcp/"
+bearer_token_env_var = "GITHUB_PAT_MCP"
+
+[projects."/Users/dataders/Developer/internal-analytics"]
+trust_level = "trusted"
