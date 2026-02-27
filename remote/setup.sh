@@ -78,7 +78,13 @@ else
 fi
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 9. Set default shell to zsh
+# 9. Install Ghostty terminfo (so TERM=xterm-ghostty works over SSH)
+# ─────────────────────────────────────────────────────────────────────────────
+echo "--- Installing Ghostty terminfo..."
+infocmp -x xterm-ghostty 2>/dev/null | ssh "$HOST" 'tic -x - 2>/dev/null' || echo "Skipping (xterm-ghostty terminfo not found locally)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 10. Set default shell to zsh
 # ─────────────────────────────────────────────────────────────────────────────
 echo "--- Setting default shell to zsh..."
 ssh "$HOST" 'if [[ "$(getent passwd $(whoami) | cut -d: -f7)" != *zsh ]]; then sudo chsh -s $(which zsh) $(whoami); fi'
