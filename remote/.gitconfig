@@ -1,0 +1,16 @@
+[user]
+	name = Anders Swanson
+	email = anders.swanson@dbtlabs.com
+[core]
+	pager = bat --paging=always
+[pull]
+	rebase = false
+[init]
+	defaultBranch = main
+[push]
+	autoSetupRemote = true
+[diff]
+	algorithm = histogram
+[rerere]
+	enabled = true
+	autoUpdate = true
