@@ -78,13 +78,34 @@ else
 fi
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 9. Install Ghostty terminfo (so TERM=xterm-ghostty works over SSH)
+# 9. Copy Claude Code settings (from dotfiles/.claude/)
+# ─────────────────────────────────────────────────────────────────────────────
+CLAUDE_DIR="${DOTFILES_DIR}/.claude"
+if [[ -d "$CLAUDE_DIR" ]]; then
+    echo "--- Copying Claude Code settings..."
+    ssh "$HOST" 'mkdir -p ~/.claude'
+    for f in settings.json settings.local.json CLAUDE.md statusline.sh; do
+        [[ -f "${CLAUDE_DIR}/$f" ]] && scp "${CLAUDE_DIR}/$f" "${HOST}:~/.claude/$f"
+    done
+    ssh "$HOST" 'chmod +x ~/.claude/statusline.sh 2>/dev/null; true'
+else
+    echo "--- Skipping Claude Code settings (${CLAUDE_DIR} not found)"
+fi
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 10. Set up npm for user-local global installs (no sudo needed)
+# ─────────────────────────────────────────────────────────────────────────────
+echo "--- Configuring npm prefix..."
+ssh "$HOST" 'npm config get prefix | grep -q npm-global || npm config set prefix ~/.npm-global'
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 11. Install Ghostty terminfo (so TERM=xterm-ghostty works over SSH)
 # ─────────────────────────────────────────────────────────────────────────────
 echo "--- Installing Ghostty terminfo..."
 infocmp -x xterm-ghostty 2>/dev/null | ssh "$HOST" 'tic -x - 2>/dev/null' || echo "Skipping (xterm-ghostty terminfo not found locally)"
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 10. Set default shell to zsh
+# 12. Set default shell to zsh
 # ─────────────────────────────────────────────────────────────────────────────
 echo "--- Setting default shell to zsh..."
 ssh "$HOST" 'if [[ "$(getent passwd $(whoami) | cut -d: -f7)" != *zsh ]]; then sudo chsh -s $(which zsh) $(whoami); fi'
