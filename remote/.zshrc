@@ -32,5 +32,10 @@ eval "$(starship init zsh)"
 # Zoxide (smarter cd)
 eval "$(zoxide init zsh)"
 
-# fzf
-source <(fzf --zsh) 2>/dev/null
+# fzf (--zsh requires 0.48+; fall back to key-bindings/completion scripts)
+if fzf --zsh &>/dev/null; then
+  source <(fzf --zsh)
+elif [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
+  source /usr/share/doc/fzf/examples/key-bindings.zsh
+  [[ -f /usr/share/doc/fzf/examples/completion.zsh ]] && source /usr/share/doc/fzf/examples/completion.zsh
+fi
