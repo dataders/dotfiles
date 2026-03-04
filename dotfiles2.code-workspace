@@ -10,6 +10,15 @@
 			"path": "../../.local/bin"
 		},
 		{
+			"path": "../ghostty-shaders"
+		},
+		{
+			"path": "../../.claude/plans"
+		},
+		{
+			"path": "../../.codex"
+		},
+		{
 			"path": "../.."
 		}
 	],
