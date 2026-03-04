@@ -4,7 +4,11 @@
 desktop-notifications = true
 
 # Theme (auto light/dark switching)
-theme = light:Catppuccin Latte,dark:Catppuccin Mocha
+theme = light:GitHub Light Default,dark:GitHub Dark Default
+
+# custom-shader = /Users/dataders/Developer/ghostty-shaders/retro-terminal.glsl
+# custom-shader = /Users/dataders/Developer/ghostty-shaders/bloom.glsl
+# custom-shader-animation = always
 
 # Font (requires: brew install --cask font-jetbrains-mono-nerd-font)
 font-family = JetBrainsMono Nerd Font
@@ -24,4 +28,7 @@ clipboard-read = allow
 clipboard-write = allow
 
 # Performance
-vsync = true
+# vsync = true
+
+
+
