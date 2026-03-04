@@ -104,3 +104,6 @@ alias ll='eza -la --icons --group-directories-first --git'
 alias tree='eza --tree --icons'
 # Added by dbt installer
 export PATH="$PATH:/Users/dataders/.local/bin"
+
+# Cortex CLI completion (disable via /settings in cortex)
+[[ -s ~/.zsh/completions/cortex.zsh ]] && source ~/.zsh/completions/cortex.zsh
