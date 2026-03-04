@@ -18,7 +18,18 @@
       "Bash(bat:*)",
       "Bash(eza:*)",
       "Bash(git -C ~/Developer/dotfiles status --short)",
-      "Bash(git -C ~/Developer/dotfiles add .dbt/mcp.yml .dbt/mcp.lock)"
+      "Bash(git -C ~/Developer/dotfiles add .dbt/mcp.yml .dbt/mcp.lock)",
+      "Bash(tmux:*)",
+      "Bash(echo:*)",
+      "Bash(chmod:*)",
+      "Bash(git -C ~/Developer/dotfiles status)",
+      "Bash(git -C ~/Developer/dotfiles diff)",
+      "Bash(/usr/bin/diff:*)",
+      "Bash(git:*)",
+      "Bash(launchctl getenv:*)",
+      "Bash(zsh:*)",
+      "Bash(grep:*)",
+      "Bash(bash:*)"
     ]
   }
 }
