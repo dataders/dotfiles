@@ -23,5 +23,5 @@
 ## Preferences
 - Keep changes minimal and focused
 - Prefer editing existing files over creating new ones
-- Use uv environments for Python projects
+- Use conda environments for Python projects
 - Use direnv for project-specific environment variables
