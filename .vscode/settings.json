@@ -1,0 +1,98 @@
+{
+    "[dockercompose]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.autoIndent": "advanced",
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "[github-actions-workflow]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+        "diffEditor.ignoreTrimWhitespace": true
+    },
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "claudeCode.preferredLocation": "panel",
+    "cursor.composer.shouldChimeAfterChatFinishes": true,
+    "dbt.beta.useQueryCache": true,
+    "dbt.dbtPath": "/Users/dataders/.local/bin/dbt",
+    "dbt.environmentVariables": {
+        "DBT_LSP_LAZY_COMPILATION_ENABLED": "1"
+    },
+    "dbt.flag.defer": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "diffEditor.renderSideBySide": false,
+    "diffEditor.useInlineViewWhenSpaceIsLimited": false,
+    "editor.accessibilitySupport": "off",
+    "editor.inlineSuggest.enabled": true,
+    "editor.largeFileOptimizations": false,
+    "editor.renderLineHighlight": "none",
+    "editor.renderWhitespace": "all",
+    "editor.rulers": [80],
+    "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?-",
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "files.associations": {
+        "*.sql": "jinja-sql"
+    },
+    "files.autoSave": "afterDelay",
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "git.defaultCloneDirectory": "/Users/dataders/Developer",
+    "git.openRepositoryInParentFolders": "never",
+    "github.copilot.enable": {
+        "*": true,
+        "markdown": true,
+        "plaintext": false,
+        "yaml": false
+    },
+    "githubPullRequests.createOnPublishBranch": "never",
+    "githubPullRequests.fileListLayout": "flat",
+    "githubPullRequests.pullBranch": "never",
+    "gitlens.gitCommands.skipConfirmations": [
+        "fetch:command",
+        "switch:command",
+        "stash-push:command"
+    ],
+    "gitlens.views.commitDetails.files.layout": "tree",
+    "jupyter.askForKernelRestart": false,
+    "markdownlint.config": {
+        "MD007": {
+            "indent": 4
+        },
+        "MD013": false,
+        "MD033": false,
+        "MD046": {
+            "style": "fenced"
+        },
+        "default": true
+    },
+    "notebook.formatOnSave.enabled": true,
+    "notebook.lineNumbers": "on",
+    "rainbow_csv.enable_separator_autodetection": false,
+    "redhat.telemetry.enabled": false,
+    "scm.providerCountBadge": "auto",
+    "scm.repositories.sortOrder": "name",
+    "snowflake.connectionsConfigFile": "/Users/dataders/.snowflake/connections.toml",
+    "snowflake.enableNativeAppPanel": true,
+    "terminal.integrated.inheritEnv": false,
+    "window.autoDetectColorScheme": true,
+    "window.zoomLevel": 2,
+    "workbench.colorTheme": "Material Theme Lighter High Contrast",
+    "workbench.editorAssociations": {
+        "*.parquet": "parquet-visualizer.parquetVisualizer"
+    },
+    "workbench.editor.wrapTabs": true,
+    "workbench.iconTheme": "eq-material-theme-icons-light",
+    "workbench.preferredDarkColorTheme": "Solarized Dark",
+    "workbench.preferredHighContrastLightColorTheme": "Material Theme Lighter High Contrast",
+    "workbench.preferredLightColorTheme": "Material Theme Lighter High Contrast",
+    "workbench.productIconTheme": "material-product-icons",
+    "yaml.format.enable": false
+}
