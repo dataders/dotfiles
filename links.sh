@@ -1,4 +1,6 @@
-ln -s './settings.json' '/Users/dataders/Library/Application Support/Code - Insiders/User/settings.json'
+ln -sf "$(pwd)/.vscode/settings.json" "/Users/dataders/Library/Application Support/Code - Insiders/User/settings.json"
+ln -sf "$(pwd)/.vscode/settings.json" "/Users/dataders/Library/Application Support/Code/User/settings.json"
+ln -sf "$(pwd)/.vscode/settings.json" "/Users/dataders/Library/Application Support/Cursor/User/settings.json"
 # ln -s './mongod.conf'  '/opt/homebrew/etc/mongod.conf'
 
 # Individual config files (can't symlink entire directories like .config or .claude)
