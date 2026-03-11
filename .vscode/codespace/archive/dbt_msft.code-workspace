@@ -1,0 +1,66 @@
+{
+  "folders": [
+    {
+      "name": "jaffle_shop",
+      "path": "../jaffle_shop"
+    },
+    {
+      "name": "dbt-tsql",
+      "path": "../dbt-tsql"
+    },
+    {
+      "name": "dbt-sqlserver",
+      "path": "../dbt-sqlserver"
+    },
+    {
+      "name": "dbt-synapse",
+      "path": "../dbt-synapse"
+    },
+    {
+      "name": "profiles dir",
+      "path": "../../.dbt"
+    },
+    {
+      "name": "tsql-utils",
+      "path": "../tsql-utils"
+    },
+    {
+      "name": "dbt-core",
+      "path": "../dbt-core"
+    }
+  ],
+  "settings": {
+    "files.associations": {
+      "*.dbtspec": "yaml"
+    },
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/__pycache__": true
+    },
+    "findrelated.workspaceRulesets": [
+      {
+        "name": "sql",
+        "rules": [
+          {
+            "pattern": "^(.*/)?models/(.*/)?(.+\\.sql)$",
+            "locators": ["**/compiled/**/$3"]
+          },
+          {
+            "pattern": "^(.*/)?compiled/(.*/)?(.+\\.sql)$",
+            "locators": ["**/run/**/$3"]
+          },
+          {
+            "pattern": "^(.*/)?run/(.*/)?(.+\\.sql)$",
+            "locators": ["**/models/**/$3"]
+          }
+        ]
+      }
+    ],
+    "findrelated.applyRulesets": ["sql"],
+    "findrelated.applyWorkspaceRulesets": ["sql"]
+  }
+}

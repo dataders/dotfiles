@@ -1,0 +1,90 @@
+{
+  "folders": [
+    {
+      "name": "dbt-mantle",
+      "path": "../dbt-mantle"
+    },
+    {
+      "name": "dbt-snowflake",
+      "path": "../dbt-snowflake"
+    },
+    {
+      "name": "dbt-external-tables",
+      "path": "../dbt-external-tables"
+    },
+    {
+      "name": "dbt-common",
+      "path": "../dbt-common"
+    },
+    {
+      "name": "dbt-adapters",
+      "path": "../dbt-adapters"
+    },
+    {
+      "name": "profiles dir",
+      "path": "../../.dbt"
+    },
+    {
+      "name": "sandbox_external_tables",
+      "path": "../sandbox_external_tables"
+    },
+    {
+      "path": "../jaffle_shop"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/__pycache__": true,
+      "**/.coverage.*": true
+    },
+    "findrelated.workspaceRulesets": [
+      {
+        "name": "sql",
+        "rules": [
+          {
+            "pattern": "^(.*/)?models/(.*/)?(.+\\.sql)$",
+            "locators": ["**/compiled/**/$3"]
+          },
+          {
+            "pattern": "^(.*/)?compiled/(.*/)?(.+\\.sql)$",
+            "locators": ["**/run/**/$3"]
+          },
+          {
+            "pattern": "^(.*/)?run/(.*/)?(.+\\.sql)$",
+            "locators": ["**/models/**/$3"]
+          }
+        ]
+      }
+    ],
+    "findrelated.applyRulesets": ["sql"],
+    "findrelated.applyWorkspaceRulesets": ["sql"],
+    "githubPullRequests.ignoredPullRequestBranches": ["current", "main"],
+    "search.exclude": {
+      "**/.tox": true
+    },
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "yaml.schemas": {
+      "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/1.6/dbt_yml_files-1.6.json": [
+        "/**/*.yml",
+        "!profiles.yml",
+        "!dbt_project.yml",
+        "!packages.yml",
+        "!selectors.yml",
+        "!profile_template.yml",
+        "!dependencies.yml"
+      ],
+      "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/1.6/dbt_project-1.6.json": ["dbt_project.yml"],
+      "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/1.6/selectors-1.6.json": ["selectors.yml"],
+      "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/1.6/packages-1.6.json": ["packages.yml"],
+      "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/1.6/dependencies-1.6.json": ["dependencies.yml"]
+    },
+    "snowflake.autocompleteObjectDetails.enabled": false
+  }
+}
