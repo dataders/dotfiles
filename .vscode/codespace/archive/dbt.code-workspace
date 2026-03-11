@@ -1,0 +1,44 @@
+{
+  "folders": [
+    {
+      "name": "dbt-galaxy-covid-demo",
+      "path": "../dbt-galaxy-covid-demo"
+    },
+    {
+      "name": "profiles dir",
+      "path": "../../.dbt"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/__pycache__": true,
+      "**/.coverage.*": true
+    },
+    "findrelated.workspaceRulesets": [
+      {
+        "name": "sql",
+        "rules": [
+          {
+            "pattern": "^(.*/)?models/(.*/)?(.+\\.sql)$",
+            "locators": ["**/compiled/**/$3"]
+          },
+          {
+            "pattern": "^(.*/)?compiled/(.*/)?(.+\\.sql)$",
+            "locators": ["**/run/**/$3"]
+          },
+          {
+            "pattern": "^(.*/)?run/(.*/)?(.+\\.sql)$",
+            "locators": ["**/models/**/$3"]
+          }
+        ]
+      }
+    ],
+    "findrelated.applyRulesets": ["sql"],
+    "githubPullRequests.ignoredPullRequestBranches": ["current", "main"]
+  }
+}
