@@ -1,26 +1,23 @@
 {
 	"folders": [
 		{
-			"path": "."
-		},
-		{
-			"path": "../dotfiles_env"
-		},
-		{
-			"path": "../../.local/bin"
-		},
-		{
-			"path": "../ghostty-shaders"
-		},
-		{
-			"path": "../../.claude/plans"
-		},
-		{
-			"path": "../../.codex"
-		},
-		{
 			"path": "../.."
-		}
+		},
+		{
+			"path": "/Users/dataders/Developer/dotfiles"
+		},
+		{
+			"path": "/Users/dataders/Developer/dotfiles_env"
+		},
+		{
+			"path": "/Users/dataders/Developer/ghostty-shaders"
+		},
+		{
+			"path": "/Users/dataders/.claude/plans"
+		},
+		{
+			"path": "/Users/dataders/.codex"
+		},
 	],
 	"settings": {}
 }
