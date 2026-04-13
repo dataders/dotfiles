@@ -1,0 +1,20 @@
+# Local Cargo profile optimizations
+# Applied globally across all projects on this machine.
+# Based on https://github.com/dbt-labs/fs/pull/... (serramatutu/dev approach)
+
+# Faster dev/test builds:
+#   - O3 for all dependencies (cold build is slow, warm incremental is fast)
+#   - Minimal debug info (backtraces work; can't step into dep code)
+#   - More codegen units + incremental for the local crate itself
+[profile.dev]
+debug = "line-tables-only"
+incremental = true
+codegen-units = 16
+opt-level = 1
+
+[profile.dev.package."*"]
+debug = false
+opt-level = 3
+
+[profile.test]
+inherits = "dev"

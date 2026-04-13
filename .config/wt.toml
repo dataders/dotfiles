@@ -1,0 +1,7 @@
+# Worktrunk config for fs repo
+# Docs: https://github.com/max-sixty/worktrunk
+
+# Copy target/ (via reflink on APFS) when creating new worktrees
+# This gives new worktrees a warm build cache without duplicating disk space
+[post-start]
+copy = "wt step copy-ignored"
