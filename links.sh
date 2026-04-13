@@ -8,6 +8,8 @@ mkdir -p ~/.config/ghostty
 ln -sf "$(pwd)/.config/ghostty/config" ~/.config/ghostty/config
 ln -sf "$(pwd)/.config/starship.toml" ~/.config/starship.toml
 ln -sf "$(pwd)/.config/wt.toml" ~/.config/wt.toml
+mkdir -p ~/.claude/hooks
+ln -sf "$(pwd)/.claude/hooks/enforce-uv.sh" ~/.claude/hooks/enforce-uv.sh
 ln -sf "$(pwd)/.claude/settings.json" ~/.claude/settings.json
 ln -sf "$(pwd)/.claude/settings.local.json" ~/.claude/settings.local.json
 ln -sf "$(pwd)/.claude/statusline.sh" ~/.claude/statusline.sh
