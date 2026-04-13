@@ -21,7 +21,6 @@
     "claudeCode.preferredLocation": "panel",
     "cursor.composer.shouldChimeAfterChatFinishes": true,
     "dbt.beta.useQueryCache": true,
-    "dbt.dbtPath": "/Users/dataders/.local/bin/dbt",
     "dbt.environmentVariables": {
         "DBT_LSP_LAZY_COMPILATION_ENABLED": "1"
     },
@@ -94,5 +93,13 @@
     "workbench.preferredHighContrastLightColorTheme": "Material Theme Lighter High Contrast",
     "workbench.preferredLightColorTheme": "Material Theme Lighter High Contrast",
     "workbench.productIconTheme": "material-product-icons",
-    "yaml.format.enable": false
+    "yaml.format.enable": false,
+    "files.autoSaveWhenNoErrors": true,
+    "rust-analyzer.inlayHints.closingBraceHints.enable": false,
+    "rust-analyzer.inlayHints.chainingHints.enable": false,
+    "rust-analyzer.inlayHints.genericParameterHints.const.enable": false,
+    "rust-analyzer.inlayHints.parameterHints.enable": false,
+    "rust-analyzer.inlayHints.typeHints.enable": false,
+    "dbt.dbtPath": "/Users/dataders/.local/bin/dbt",
+    "editor.minimap.enabled": true
 }
