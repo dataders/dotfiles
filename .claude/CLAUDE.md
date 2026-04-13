@@ -7,6 +7,13 @@
 - Package manager: Homebrew
 - Python: conda/miniforge3
 
+## Python Package Management
+Bare `pip`, `pip3`, and `python3` invocations are blocked by a PreToolUse hook. Always use:
+- `uv run python3 -c "..."` — inline Python
+- `uv run python3 script.py` — run a script
+- `uv add <package>` — add a dependency to a project
+- `uvx <tool>` — run a one-off tool (e.g. `uvx ruff check`)
+
 ## Dotfiles Structure
 - **Public configs**: `~/Developer/dotfiles` (git-tracked, GitHub)
 - **Private/secrets**: `~/Developer/dotfiles_env` (local only, not pushed)
@@ -26,4 +33,3 @@
 - Prefer editing existing files over creating new ones
 - Use conda environments for Python projects
 - Use direnv for project-specific environment variables
-- **Never use `pip` or `pip3` to install Python packages** — always use `uv` or `uvx run` instead
