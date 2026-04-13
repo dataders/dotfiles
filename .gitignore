@@ -1,2 +1,6 @@
 .DS_Store
 ./zshenv
+.claude/settings.local.json
+logs/
+.dbt/license.1
+.ssh/known_hosts.old
