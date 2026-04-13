@@ -6,6 +6,9 @@
 #   - O3 for all dependencies (cold build is slow, warm incremental is fast)
 #   - Minimal debug info (backtraces work; can't step into dep code)
 #   - More codegen units + incremental for the local crate itself
+[env]
+RUST_MIN_STACK = "16777216"
+
 [profile.dev]
 debug = "line-tables-only"
 incremental = true
