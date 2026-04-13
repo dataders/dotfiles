@@ -21,6 +21,13 @@
 	format = ssh
 [diff]
     algorithm = histogram
+	renameLimit = 3000
 [rerere]
     enabled = true
     autoUpdate = true
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
