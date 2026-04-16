@@ -20,7 +20,6 @@
     },
     "claudeCode.preferredLocation": "panel",
     "cursor.composer.shouldChimeAfterChatFinishes": true,
-    "dbt.beta.useQueryCache": true,
     "dbt.environmentVariables": {
         "DBT_LSP_LAZY_COMPILATION_ENABLED": "1"
     },
@@ -100,6 +99,7 @@
     "rust-analyzer.inlayHints.genericParameterHints.const.enable": false,
     "rust-analyzer.inlayHints.parameterHints.enable": false,
     "rust-analyzer.inlayHints.typeHints.enable": false,
+    "editor.minimap.enabled": true,
     "dbt.dbtPath": "/Users/dataders/.local/bin/dbt",
-    "editor.minimap.enabled": true
+    "dbt.lineage.defaultDepth": 2
 }

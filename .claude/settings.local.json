@@ -29,7 +29,9 @@
       "Bash(launchctl getenv:*)",
       "Bash(zsh:*)",
       "Bash(grep:*)",
-      "Bash(bash:*)"
+      "Bash(bash:*)",
+      "Read(//Users/dataders/Library/Application Support/Cursor/User/**)",
+      "Read(//Users/dataders/Library/Application Support/Code - Insiders/User/**)"
     ]
   }
 }
