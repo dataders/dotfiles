@@ -97,11 +97,32 @@ eval "$(zoxide init zsh)"
 # fzf (fuzzy finder: Ctrl+R for history, Ctrl+T for files)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# forgit (fzf-powered git commands - see docs/forgit.md)
+source /opt/homebrew/opt/forgit/share/forgit/forgit.plugin.zsh
+
 # Modern tool aliases
 alias cat='bat --paging=never'
 alias ls='eza --icons --group-directories-first'
 alias ll='eza -la --icons --group-directories-first --git'
 alias tree='eza --tree --icons'
+
+# Pipe --help through bat with syntax highlighting
+alias -g -- '--help=--help | bat -plhelp'
+
+# Colored manpages via bat
+export MANPAGER="sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat -plman -ppager'"
+
+# Auto-snapshot Brewfile after mutating brew operations
+brew() {
+    command brew "$@"
+    local ret=$?
+    case "$1" in
+        install|uninstall|remove|rm|upgrade|tap|untap)
+            command brew bundle dump --file=~/Developer/dotfiles/Brewfile --force
+            ;;
+    esac
+    return $ret
+}
 # Added by dbt installer
 export PATH="$PATH:/Users/dataders/.local/bin"
 

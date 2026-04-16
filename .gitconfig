@@ -10,7 +10,7 @@
 	pager = delta
 	excludesfile = /Users/dataders/.gitignore_global
 [pull]
-	rebase = false
+	ff = only
 [init]
 	defaultBranch = main
 [push]
