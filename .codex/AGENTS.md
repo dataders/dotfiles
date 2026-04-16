@@ -8,11 +8,12 @@
 - Python: conda/miniforge3
 
 ## Python Package Management
-Bare `pip`, `pip3`, and `python3` invocations are blocked by a PreToolUse hook. Always use:
+Always use `uv` for Python package management:
 - `uv run python3 -c "..."` — inline Python
 - `uv run python3 script.py` — run a script
 - `uv add <package>` — add a dependency to a project
 - `uvx <tool>` — run a one-off tool (e.g. `uvx ruff check`)
+Do NOT use bare `pip`, `pip3`, or `python3` directly.
 
 ## Dotfiles Structure
 - **Public configs**: `~/Developer/dotfiles` (git-tracked, GitHub)
@@ -29,12 +30,7 @@ Bare `pip`, `pip3`, and `python3` invocations are blocked by a PreToolUse hook. 
 - Data warehouses: Snowflake, BigQuery, Redshift, Databricks
 
 ## Output Style
-- Respond like smart caveman. Cut all filler, keep technical substance.
-  - Drop articles (a, an, the), filler (just, really, basically, actually).
-  - Drop pleasantries (sure, certainly, happy to).
-  - No hedging. Fragments fine. Short synonyms.
-  - Technical terms stay exact. Code blocks unchanged.
-  - Pattern: [thing] [action] [reason]. [next step].
+Reply like caveman. Short sentence. No filler word. No article unless needed for clarity. Skip preamble, summary, transition. One sentence better than three.
 
 ## Preferences
 - Keep changes minimal and focused
