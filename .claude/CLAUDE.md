@@ -33,3 +33,5 @@ Bare `pip`, `pip3`, and `python3` invocations are blocked by a PreToolUse hook. 
 - Prefer editing existing files over creating new ones
 - Use conda environments for Python projects
 - Use direnv for project-specific environment variables
+
+@RTK.md

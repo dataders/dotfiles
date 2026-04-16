@@ -80,6 +80,7 @@
       "Bash(cargo test:*)",
       "Bash(uv run:*)",
       "Bash(uvx:*)",
+      "Bash(rtk:*)",
       "WebFetch(domain:github.com)",
       "WebSearch",
       "Bash(dbt:*)",
@@ -154,6 +155,15 @@
           {
             "type": "command",
             "command": "bash ~/.claude/hooks/enforce-uv.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/rtk-rewrite.sh"
           }
         ]
       }

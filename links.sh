@@ -10,6 +10,8 @@ ln -sf "$(pwd)/.config/starship.toml" ~/.config/starship.toml
 ln -sf "$(pwd)/.config/wt.toml" ~/.config/wt.toml
 mkdir -p ~/.claude/hooks
 ln -sf "$(pwd)/.claude/hooks/enforce-uv.sh" ~/.claude/hooks/enforce-uv.sh
+ln -sf "$(pwd)/.claude/hooks/rtk-rewrite.sh" ~/.claude/hooks/rtk-rewrite.sh
+ln -sf "$(pwd)/.claude/RTK.md" ~/.claude/RTK.md
 ln -sf "$(pwd)/.claude/settings.json" ~/.claude/settings.json
 ln -sf "$(pwd)/.claude/settings.local.json" ~/.claude/settings.local.json
 ln -sf "$(pwd)/.claude/statusline.sh" ~/.claude/statusline.sh
@@ -21,6 +23,7 @@ ln -sf "$(pwd)/.cargo/config.toml" ~/.cargo/config.toml
 
 mkdir -p ~/.codex
 ln -sf "$(pwd)/.codex/config.toml" ~/.codex/config.toml
+ln -sf "$(pwd)/.codex/RTK.md" ~/.codex/RTK.md
 mkdir -p ~/credentials
 ln -sf ~/Developer/dotfiles_env/credentials/fusion.env.json ~/credentials/fusion.env.json
 
