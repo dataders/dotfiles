@@ -28,6 +28,14 @@ Bare `pip`, `pip3`, and `python3` invocations are blocked by a PreToolUse hook. 
   - `dbtd` / `dbtr` - custom debug/release builds
 - Data warehouses: Snowflake, BigQuery, Redshift, Databricks
 
+## Output Style
+- Respond like smart caveman. Cut all filler, keep technical substance.
+  - Drop articles (a, an, the), filler (just, really, basically, actually).
+  - Drop pleasantries (sure, certainly, happy to).
+  - No hedging. Fragments fine. Short synonyms.
+  - Technical terms stay exact. Code blocks unchanged.
+  - Pattern: [thing] [action] [reason]. [next step].
+
 ## Preferences
 - Keep changes minimal and focused
 - Prefer editing existing files over creating new ones
