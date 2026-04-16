@@ -23,6 +23,7 @@ ln -sf "$(pwd)/.cargo/config.toml" ~/.cargo/config.toml
 
 mkdir -p ~/.codex
 ln -sf "$(pwd)/.codex/config.toml" ~/.codex/config.toml
+ln -sf "$(pwd)/.codex/AGENTS.md" ~/.codex/AGENTS.md
 ln -sf "$(pwd)/.codex/RTK.md" ~/.codex/RTK.md
 mkdir -p ~/credentials
 ln -sf ~/Developer/dotfiles_env/credentials/fusion.env.json ~/credentials/fusion.env.json
@@ -34,3 +35,9 @@ ln -sf ~/Developer/dotfiles_env/.dbt/dbt_cloud.yml ~/.dbt/dbt_cloud.yml
 ln -sf ~/Developer/dotfiles_env/.dbt/mcp.yml ~/.dbt/mcp.yml
 ln -sf ~/Developer/dotfiles_env/.dbt/keyfile.json ~/.dbt/keyfile.json
 ln -sf ~/Developer/dotfiles_env/.dbt/.user.yml ~/.dbt/.user.yml
+
+# Per-repo workspace themes (source of truth: dotfiles/workspaces/)
+for repo in fs internal-analytics jaffle-sandbox; do
+    mkdir -p ~/Developer/$repo/.vscode
+    ln -sf "$(pwd)/workspaces/$repo/settings.json" ~/Developer/$repo/.vscode/settings.json
+done
