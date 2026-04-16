@@ -20,6 +20,7 @@
     },
     "claudeCode.preferredLocation": "panel",
     "cursor.composer.shouldChimeAfterChatFinishes": true,
+    "dbt.beta.useQueryCache": true,
     "dbt.environmentVariables": {
         "DBT_LSP_LAZY_COMPILATION_ENABLED": "1"
     },
