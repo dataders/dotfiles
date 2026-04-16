@@ -1,5 +1,5 @@
 {
-  "numStartups": 431,
+  "numStartups": 433,
   "installMethod": "native",
   "autoUpdates": false,
   "hasSeenTasksHint": true,
@@ -9,11 +9,11 @@
     "ide-hotkey": 29,
     "terminal-setup": 430,
     "shift-enter": 31,
-    "memory-command": 417,
-    "theme-command": 412,
+    "memory-command": 432,
+    "theme-command": 432,
     "prompt-queue": 20,
-    "enter-to-steer-in-relatime": 413,
-    "todo-list": 413,
+    "enter-to-steer-in-relatime": 433,
+    "todo-list": 433,
     "# for memory": 32,
     "install-github-app": 431,
     "permissions": 426,
@@ -41,13 +41,13 @@
     "mobile-app": 426,
     "git-worktrees": 429,
     "agent-flag": 426,
-    "ide-upsell-external-terminal": 427,
+    "ide-upsell-external-terminal": 431,
     "feedback-command": 422,
     "color-when-multi-clauding": 429,
     "opusplan-mode-reminder": 325,
     "desktop-shortcut": 430
   },
-  "promptQueueUseCount": 17603,
+  "promptQueueUseCount": 17604,
   "btwUseCount": 3,
   "cachedStatsigGates": {
     "tengu_disable_bypass_permissions_mode": false,
@@ -1636,62 +1636,62 @@
         "vertica-profile.md"
       ],
       "exampleFilesGeneratedAt": 1771950103079,
-      "lastCost": 5.466776750000002,
-      "lastAPIDuration": 770220,
-      "lastAPIDurationWithoutRetries": 768875,
-      "lastToolDuration": 88708,
-      "lastDuration": 40737478,
-      "lastLinesAdded": 427,
-      "lastLinesRemoved": 253,
-      "lastTotalInputTokens": 291639,
-      "lastTotalOutputTokens": 33630,
-      "lastTotalCacheCreationInputTokens": 171485,
-      "lastTotalCacheReadInputTokens": 4460005,
+      "lastCost": 0.80207975,
+      "lastAPIDuration": 111507,
+      "lastAPIDurationWithoutRetries": 111313,
+      "lastToolDuration": 8798,
+      "lastDuration": 977162,
+      "lastLinesAdded": 111,
+      "lastLinesRemoved": 8,
+      "lastTotalInputTokens": 731,
+      "lastTotalOutputTokens": 5138,
+      "lastTotalCacheCreationInputTokens": 61879,
+      "lastTotalCacheReadInputTokens": 572766,
       "lastTotalWebSearchRequests": 0,
       "lastModelUsage": {
         "claude-haiku-4-5-20251001": {
-          "inputTokens": 26338,
-          "outputTokens": 1430,
+          "inputTokens": 708,
+          "outputTokens": 16,
           "cacheReadInputTokens": 0,
           "cacheCreationInputTokens": 0,
           "webSearchRequests": 0,
-          "costUSD": 0.033488
+          "costUSD": 0.000788
         },
-        "claude-opus-4-6": {
-          "inputTokens": 265301,
-          "outputTokens": 32200,
-          "cacheReadInputTokens": 4460005,
-          "cacheCreationInputTokens": 171485,
+        "claude-opus-4-6[1m]": {
+          "inputTokens": 23,
+          "outputTokens": 5122,
+          "cacheReadInputTokens": 572766,
+          "cacheCreationInputTokens": 61879,
           "webSearchRequests": 0,
-          "costUSD": 5.433288750000001
+          "costUSD": 0.8012917500000001
         }
       },
-      "lastSessionId": "4c2ea9b7-16bf-478a-bf28-7d17d6d27a14",
+      "lastSessionId": "4974332b-1c3d-4527-8a75-32b34cbcf5d2",
       "lastSessionMetrics": {
-        "frame_duration_ms_count": 7652,
-        "frame_duration_ms_min": 0.09358400013297796,
-        "frame_duration_ms_max": 589.1586670000106,
-        "frame_duration_ms_avg": 2.0837725091487695,
-        "frame_duration_ms_p50": 0.8397089999925811,
-        "frame_duration_ms_p95": 6.213543650007321,
-        "frame_duration_ms_p99": 25.91716749996214,
-        "hook_duration_ms_count": 26,
+        "frame_duration_ms_count": 4880,
+        "frame_duration_ms_min": 0.04550000000745058,
+        "frame_duration_ms_max": 17.410458000027575,
+        "frame_duration_ms_avg": 0.675747148565225,
+        "frame_duration_ms_p50": 0.601354500016896,
+        "frame_duration_ms_p95": 1.334471299976576,
+        "frame_duration_ms_p99": 3.0786833899840658,
+        "hook_duration_ms_count": 11,
         "hook_duration_ms_min": 0,
-        "hook_duration_ms_max": 624,
-        "hook_duration_ms_avg": 34.61538461538461,
-        "hook_duration_ms_p50": 0,
-        "hook_duration_ms_p95": 139.5,
-        "hook_duration_ms_p99": 503.75,
-        "pre_tool_hook_duration_ms_count": 36,
-        "pre_tool_hook_duration_ms_min": 1,
-        "pre_tool_hook_duration_ms_max": 6,
-        "pre_tool_hook_duration_ms_avg": 2.0833333333333335,
-        "pre_tool_hook_duration_ms_p50": 2,
-        "pre_tool_hook_duration_ms_p95": 4.25,
-        "pre_tool_hook_duration_ms_p99": 5.649999999999999
+        "hook_duration_ms_max": 104,
+        "hook_duration_ms_avg": 42,
+        "hook_duration_ms_p50": 50,
+        "hook_duration_ms_p95": 104,
+        "hook_duration_ms_p99": 104,
+        "pre_tool_hook_duration_ms_count": 22,
+        "pre_tool_hook_duration_ms_min": 0,
+        "pre_tool_hook_duration_ms_max": 77,
+        "pre_tool_hook_duration_ms_avg": 12.045454545454545,
+        "pre_tool_hook_duration_ms_p50": 0,
+        "pre_tool_hook_duration_ms_p95": 66.85,
+        "pre_tool_hook_duration_ms_p99": 74.89999999999999
       },
-      "lastFpsAverage": 1.92,
-      "lastFpsLow1Pct": 44.49
+      "lastFpsAverage": 5,
+      "lastFpsLow1Pct": 323.4
     },
     "/Users/dataders/Developer/stocks": {
       "allowedTools": [],
@@ -2189,7 +2189,7 @@
   "autoUpdatesProtectedForNative": true,
   "officialMarketplaceAutoInstallAttempted": true,
   "officialMarketplaceAutoInstalled": true,
-  "lastPlanModeUse": 1776200691436,
+  "lastPlanModeUse": 1776350951790,
   "thinkingMigrationComplete": true,
   "claudeCodeFirstTokenDate": "2025-07-24T19:16:16.546313Z",
   "anonymousId": "claudecode.v1.adc1a964-75bb-441a-9f27-056fad21677d",
@@ -2344,6 +2344,10 @@
     "repro-ship": {
       "usageCount": 2,
       "lastUsedAt": 1776183218512
+    },
+    "update-config": {
+      "usageCount": 1,
+      "lastUsedAt": 1776350017356
     }
   },
   "mcpServers": {
@@ -2482,7 +2486,7 @@
   "effortCalloutV2Dismissed": true,
   "metricsStatusCache": {
     "enabled": true,
-    "timestamp": 1776262304033
+    "timestamp": 1776348753495
   },
   "claudeAiMcpEverConnected": [
     "claude.ai Slack",
@@ -2509,7 +2513,7 @@
         "amount_minor_units": null,
         "currency": null
       },
-      "timestamp": 1776346053476
+      "timestamp": 1776350413670
     }
   },
   "migrationVersion": 11,
