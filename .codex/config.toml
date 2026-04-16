@@ -5,11 +5,37 @@ model_reasoning_effort = "high"
 url = "https://mcp.notion.com/mcp"
 
 [mcp_servers.github]
-url = "https://api.githubcopilot.com/mcp/"
-bearer_token_env_var = "GITHUB_PAT_MCP"
+url = "https://dbt.runlayer.com/api/v1/proxy/7e8a07e2-98ed-4c76-8edb-d8a68b55bccc/mcp"
+
+[mcp_servers.github.tools.sub_issue_write]
+approval_mode = "approve"
+
+[mcp_servers.github.tools.issue_write]
+approval_mode = "approve"
+
+[mcp_servers.github.tools.add_issue_comment]
+approval_mode = "approve"
+
+[mcp_servers.slack]
+url = "https://dbt.runlayer.com/api/v1/proxy/dcf3b868-a852-4758-97aa-024fb941a173/mcp"
+
+[mcp_servers.dbt]
+url = "https://dbt.runlayer.com/api/v1/proxy/404ba041-4eb4-4e29-a474-ae38e7899ac9/mcp"
+
+[mcp_servers.grep]
+url = "https://dbt.runlayer.com/api/v1/proxy/2af56970-3fbd-4f0b-9cd7-562e921c2c99/mcp"
+
+[mcp_servers.salesforce]
+url = "https://dbt.runlayer.com/api/v1/proxy/70b141cc-940c-4190-8da5-f9cd50d34923/mcp"
+
+[mcp_servers.runlayer-docs]
+url = "https://dbt.runlayer.com/api/v1/proxy/68a80158-1c82-4a97-b1aa-509703ad4b94/mcp"
 
 [projects."/Users/dataders/Developer/internal-analytics"]
 trust_level = "trusted"
 
 [projects."/Users/dataders/Developer/fs"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/scratch"]
 trust_level = "trusted"
