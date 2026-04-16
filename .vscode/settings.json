@@ -83,15 +83,14 @@
     "terminal.integrated.inheritEnv": false,
     "window.autoDetectColorScheme": true,
     "window.zoomLevel": 2,
-    "workbench.colorTheme": "Material Theme Lighter High Contrast",
+    "workbench.colorTheme": "Rosé Pine Dawn",
     "workbench.editorAssociations": {
         "*.parquet": "parquet-visualizer.parquetVisualizer"
     },
     "workbench.editor.wrapTabs": true,
     "workbench.iconTheme": "eq-material-theme-icons-light",
-    "workbench.preferredDarkColorTheme": "Solarized Dark",
-    "workbench.preferredHighContrastLightColorTheme": "Material Theme Lighter High Contrast",
-    "workbench.preferredLightColorTheme": "Material Theme Lighter High Contrast",
+    "workbench.preferredDarkColorTheme": "Rosé Pine Moon",
+    "workbench.preferredLightColorTheme": "Rosé Pine Dawn",
     "workbench.productIconTheme": "material-product-icons",
     "yaml.format.enable": false,
     "files.autoSaveWhenNoErrors": true,

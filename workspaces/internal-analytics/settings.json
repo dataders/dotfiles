@@ -1,0 +1,5 @@
+{
+    "window.autoDetectColorScheme": true,
+    "workbench.preferredLightColorTheme": "Catppuccin Latte",
+    "workbench.preferredDarkColorTheme": "Catppuccin Mocha"
+}
