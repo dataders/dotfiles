@@ -1,0 +1,218 @@
+# Shared Codex exec policy.
+#
+# Keep this file small and durable:
+# - allow stable tool prefixes you trust across projects
+# - forbid obviously dangerous prefixes
+# - leave one-off long shell scripts to interactive approval
+
+prefix_rule(
+    pattern = ["sudo"],
+    decision = "forbidden",
+    justification = "Do not escalate through sudo from Codex.",
+)
+
+prefix_rule(
+    pattern = ["doas"],
+    decision = "forbidden",
+    justification = "Do not escalate through doas from Codex.",
+)
+
+prefix_rule(
+    pattern = ["rm", "-rf"],
+    decision = "forbidden",
+    justification = "Destructive recursive deletes must be approved explicitly.",
+)
+
+prefix_rule(
+    pattern = ["rm", "-fr"],
+    decision = "forbidden",
+    justification = "Destructive recursive deletes must be approved explicitly.",
+)
+
+prefix_rule(
+    pattern = ["git", "reset", "--hard"],
+    decision = "forbidden",
+    justification = "Avoid destructive git resets from auto-approved rules.",
+)
+
+prefix_rule(
+    pattern = ["git", "push", "--force"],
+    decision = "forbidden",
+    justification = "Do not auto-approve force pushes.",
+)
+
+prefix_rule(
+    pattern = ["git", "push", "--force-with-lease"],
+    decision = "forbidden",
+    justification = "Do not auto-approve force pushes.",
+)
+
+prefix_rule(
+    pattern = ["git", "push", "-f"],
+    decision = "forbidden",
+    justification = "Do not auto-approve force pushes.",
+)
+
+prefix_rule(
+    pattern = [["pip", "pip3"]],
+    decision = "forbidden",
+    justification = "Use `uv` instead of bare pip.",
+)
+
+prefix_rule(
+    pattern = ["open"],
+    decision = "allow",
+    justification = "Opening URLs and local files is routine.",
+    match = [
+        "open https://github.com/openai/codex",
+    ],
+)
+
+prefix_rule(
+    pattern = [["uv", "uvx"]],
+    decision = "allow",
+    justification = "Preferred Python tooling in this environment.",
+    match = [
+        "uv run python -m compileall .",
+        "uvx ruff check",
+    ],
+)
+
+prefix_rule(
+    pattern = [
+        [
+            "dbt",
+            "dbtf",
+            "dbtd",
+            "dbtr",
+            "dbt-core",
+            "/Users/dataders/.local/bin/dbt",
+            "/Users/dataders/Developer/fs/target/release/dbt",
+        ],
+    ],
+    decision = "allow",
+    justification = "Primary trusted dbt tooling for this machine.",
+    match = [
+        "dbt debug",
+        "dbtf --version",
+        "/Users/dataders/.local/bin/dbt build",
+    ],
+)
+
+prefix_rule(
+    pattern = [
+        "git",
+        [
+            "status",
+            "log",
+            "diff",
+            "show",
+            "describe",
+            "tag",
+            "blame",
+            "branch",
+            "checkout",
+            "switch",
+            "fetch",
+            "pull",
+            "add",
+            "commit",
+            "stash",
+            "merge",
+            "rebase",
+            "remote",
+            "rev-parse",
+            "ls-files",
+            "ls-tree",
+            "ls-remote",
+            "worktree",
+        ],
+    ],
+    decision = "allow",
+    justification = "Routine git workflow commands are trusted.",
+    match = [
+        "git status",
+        "git add README.md",
+        "git commit --no-verify",
+        "git fetch origin",
+    ],
+    not_match = [
+        "git push origin",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "push", "origin"],
+    decision = "allow",
+    justification = "Allow normal pushes to origin without force.",
+    match = [
+        "git push origin current-branch",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "push", "-u", "origin"],
+    decision = "allow",
+    justification = "Allow first push when setting upstream on origin.",
+    match = [
+        "git push -u origin current-branch",
+    ],
+)
+
+prefix_rule(
+    pattern = ["gh", "api"],
+    decision = "allow",
+    justification = "Routine GitHub API inspection is trusted.",
+    match = [
+        "gh api repos/openai/codex",
+    ],
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", ["view", "list", "diff", "checks", "status"]],
+    decision = "allow",
+    justification = "Routine GitHub PR inspection is trusted.",
+    match = [
+        "gh pr view 123",
+        "gh pr checks 123",
+    ],
+)
+
+prefix_rule(
+    pattern = ["gh", "issue", ["view", "list"]],
+    decision = "allow",
+    justification = "Routine GitHub issue inspection is trusted.",
+    match = [
+        "gh issue list",
+    ],
+)
+
+prefix_rule(
+    pattern = ["gh", "repo", ["view", "list"]],
+    decision = "allow",
+    justification = "Routine GitHub repo inspection is trusted.",
+    match = [
+        "gh repo view openai/codex",
+    ],
+)
+prefix_rule(pattern=["/bin/zsh", "-lc", "ps -ax -o pid=,ppid=,command= | rg \"cargo xtask test --llm --no-external-deps -p (dbt-schemas ducklake|dbt-adapter duckdb_v2_ducklake)|cargo-nextest nextest run --package=dbt-schemas|bucketed-token-cache-hook\""], decision="allow")
+prefix_rule(pattern=["open", "https://dataders.github.io/fusion_issue_analysis/"], decision="allow")
+prefix_rule(pattern=["git", "fetch", "origin"], decision="allow")
+prefix_rule(
+    pattern = ["rtk"],
+    decision = "allow",
+    justification = "Allow trusted RTK-prefixed commands across tools.",
+    match = [
+        "rtk git status",
+        "rtk cargo xtask test",
+        "rtk npm run build",
+    ],
+)
+prefix_rule(pattern=["gh", "api"], decision="allow")
+prefix_rule(pattern=["rtk", "git", "rebase"], decision="allow")
+prefix_rule(pattern=["wt", "switch"], decision="allow")
+prefix_rule(pattern=["rtk", "git", "ls-files"], decision="allow")
+prefix_rule(pattern=["rtk", "git", "diff"], decision="allow")
+prefix_rule(pattern=["git", "commit"], decision="allow")
+prefix_rule(pattern=["rtk", "git", "log"], decision="allow")
+prefix_rule(pattern=["git", "push"], decision="allow")

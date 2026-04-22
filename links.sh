@@ -25,6 +25,21 @@ mkdir -p ~/.codex
 ln -sf "$(pwd)/.codex/config.toml" ~/.codex/config.toml
 ln -sf "$(pwd)/.codex/AGENTS.md" ~/.codex/AGENTS.md
 ln -sf "$(pwd)/.codex/RTK.md" ~/.codex/RTK.md
+mkdir -p ~/.codex/rules
+ln -sf "$(pwd)/.codex/rules/default.rules" ~/.codex/rules/default.rules
+
+mkdir -p ~/.codex/skills
+mkdir -p ~/.claude/skills
+shared_skills_root="$(pwd)/.ai/skills"
+
+if [ -d "$shared_skills_root" ]; then
+    for skill_dir in "$shared_skills_root"/*; do
+        [ -d "$skill_dir" ] || continue
+        skill_name="$(basename "$skill_dir")"
+        ln -sfn "$skill_dir" ~/.codex/skills/"$skill_name"
+        ln -sfn "$skill_dir" ~/.claude/skills/"$skill_name"
+    done
+fi
 mkdir -p ~/credentials
 ln -sf ~/Developer/dotfiles_env/credentials/fusion.env.json ~/credentials/fusion.env.json
 
