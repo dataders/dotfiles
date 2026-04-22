@@ -71,8 +71,11 @@ prefix_rule(
 prefix_rule(
     pattern = [["uv", "uvx"]],
     decision = "allow",
-    justification = "Preferred Python tooling in this environment.",
+    justification = "Preferred Python tooling in this environment, including uv run.",
     match = [
+        "uv run python3 -m http.server",
+        "uv add ruff",
+        "uv sync",
         "uv run python -m compileall .",
         "uvx ruff check",
     ],
@@ -125,6 +128,10 @@ prefix_rule(
             "ls-files",
             "ls-tree",
             "ls-remote",
+            "cat-file",
+            "restore",
+            "revert",
+            "cherry-pick",
             "worktree",
         ],
     ],
@@ -142,20 +149,17 @@ prefix_rule(
 )
 
 prefix_rule(
-    pattern = ["git", "push", "origin"],
+    pattern = ["git", "push"],
     decision = "allow",
-    justification = "Allow normal pushes to origin without force.",
+    justification = "Allow normal pushes without force.",
     match = [
         "git push origin current-branch",
-    ],
-)
-
-prefix_rule(
-    pattern = ["git", "push", "-u", "origin"],
-    decision = "allow",
-    justification = "Allow first push when setting upstream on origin.",
-    match = [
         "git push -u origin current-branch",
+    ],
+    not_match = [
+        "git push --delete",
+        "git push --mirror",
+        "git push --all",
     ],
 )
 
@@ -179,25 +183,98 @@ prefix_rule(
 )
 
 prefix_rule(
-    pattern = ["gh", "issue", ["view", "list"]],
+    pattern = ["gh", ["issue", "repo"], ["view", "list"]],
     decision = "allow",
-    justification = "Routine GitHub issue inspection is trusted.",
+    justification = "Routine GitHub inspection is trusted.",
     match = [
         "gh issue list",
+        "gh repo view openai/codex",
     ],
 )
 
 prefix_rule(
-    pattern = ["gh", "repo", ["view", "list"]],
+    pattern = ["gh", "run", ["list", "view", "watch"]],
     decision = "allow",
-    justification = "Routine GitHub repo inspection is trusted.",
+    justification = "Routine GitHub Actions inspection is trusted.",
     match = [
-        "gh repo view openai/codex",
+        "gh run list",
+        "gh run view 123 --log",
+        "gh run watch 123",
     ],
 )
-prefix_rule(pattern=["/bin/zsh", "-lc", "ps -ax -o pid=,ppid=,command= | rg \"cargo xtask test --llm --no-external-deps -p (dbt-schemas ducklake|dbt-adapter duckdb_v2_ducklake)|cargo-nextest nextest run --package=dbt-schemas|bucketed-token-cache-hook\""], decision="allow")
-prefix_rule(pattern=["open", "https://dataders.github.io/fusion_issue_analysis/"], decision="allow")
-prefix_rule(pattern=["git", "fetch", "origin"], decision="allow")
+
+prefix_rule(
+    pattern = ["gh", "workflow", "run"],
+    decision = "allow",
+    justification = "Triggering trusted GitHub workflows is routine.",
+    match = [
+        "gh workflow run ci.yml",
+    ],
+)
+
+prefix_rule(
+    pattern = ["gh", "auth", "status"],
+    decision = "allow",
+    justification = "Checking GitHub CLI auth state is trusted.",
+    match = [
+        "gh auth status",
+    ],
+)
+
+prefix_rule(
+    pattern = ["launchctl", "getenv"],
+    decision = "allow",
+    justification = "Reading a launchd environment variable is trusted.",
+    match = [
+        "launchctl getenv PATH",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "config", "--get"],
+    decision = "allow",
+    justification = "Reading a git config value is trusted.",
+    match = [
+        "git config --get user.name",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "config", "--global", "--get"],
+    decision = "allow",
+    justification = "Reading a global git config value is trusted.",
+    match = [
+        "git config --global --get user.email",
+    ],
+)
+
+prefix_rule(
+    pattern = ["node", "--version"],
+    decision = "allow",
+    justification = "Checking Node.js version is trusted.",
+    match = [
+        "node --version",
+    ],
+)
+
+prefix_rule(
+    pattern = ["npm", "--version"],
+    decision = "allow",
+    justification = "Checking npm version is trusted.",
+    match = [
+        "npm --version",
+    ],
+)
+
+prefix_rule(
+    pattern = ["readlink"],
+    decision = "allow",
+    justification = "Resolving symlink targets is trusted.",
+    match = [
+        "readlink ~/.codex/config.toml",
+    ],
+)
+
 prefix_rule(
     pattern = ["rtk"],
     decision = "allow",
@@ -208,19 +285,42 @@ prefix_rule(
         "rtk npm run build",
     ],
 )
-prefix_rule(pattern=["gh", "api"], decision="allow")
-prefix_rule(pattern=["rtk", "git", "rebase"], decision="allow")
-prefix_rule(pattern=["wt", "switch"], decision="allow")
-prefix_rule(pattern=["rtk", "git", "ls-files"], decision="allow")
-prefix_rule(pattern=["rtk", "git", "diff"], decision="allow")
-prefix_rule(pattern=["git", "commit"], decision="allow")
-prefix_rule(pattern=["rtk", "git", "log"], decision="allow")
-prefix_rule(pattern=["git", "push"], decision="allow")
-prefix_rule(pattern=["rtk", "git", "stash", "pop"], decision="allow")
-prefix_rule(pattern=["rtk", "cargo", "xtask", "check-llm"], decision="allow")
-prefix_rule(pattern=["cargo", "xtask"], decision="allow")
-prefix_rule(pattern=["rtk", "git", "update-index", "--assume-unchanged", "Cargo.toml"], decision="allow")
-prefix_rule(pattern=["git", "add"], decision="allow")
-prefix_rule(pattern=["rtk", "git", "merge-base", "HEAD", "origin/mp/catalog_relation_v2"], decision="allow")
-prefix_rule(pattern=["sh", "links.sh"], decision="allow")
-prefix_rule(pattern=["gh", "pr"], decision="allow")
+
+prefix_rule(
+    pattern = ["wt", ["list", "switch", "merge"]],
+    decision = "allow",
+    justification = "Routine Worktrunk operations are trusted.",
+    match = [
+        "wt list",
+        "wt switch feature-branch",
+        "wt merge main",
+    ],
+)
+
+prefix_rule(
+    pattern = ["cargo", "xtask"],
+    decision = "allow",
+    justification = "Trusted project automation entrypoint.",
+    match = [
+        "cargo xtask check",
+        "cargo xtask test",
+    ],
+)
+
+prefix_rule(
+    pattern = ["sh", "links.sh"],
+    decision = "allow",
+    justification = "Refreshing local dotfile symlinks is routine here.",
+    match = [
+        "sh links.sh",
+    ],
+)
+
+prefix_rule(
+    pattern = ["sort", "-u"],
+    decision = "allow",
+    justification = "Simple text deduplication is trusted.",
+    match = [
+        "sort -u file.txt",
+    ],
+)

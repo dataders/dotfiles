@@ -1,5 +1,15 @@
 model = "gpt-5.4"
 model_reasoning_effort = "xhigh"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+writable_roots = ["/Users/dataders/.cache"]
+network_access = true
+
+[shell_environment_policy]
+inherit = "core"
+set = { UV_CACHE_DIR = "/tmp/uv-cache" }
 
 [features]
 memories = true
@@ -78,3 +88,4 @@ trust_level = "trusted"
 
 [projects."/Users/dataders/Developer/dotfiles"]
 trust_level = "trusted"
+
