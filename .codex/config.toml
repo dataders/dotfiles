@@ -1,6 +1,7 @@
 model = "gpt-5.4"
 model_reasoning_effort = "xhigh"
 approval_policy = "on-request"
+approvals_reviewer = "guardian_subagent"
 sandbox_mode = "workspace-write"
 
 [sandbox_workspace_write]
@@ -12,6 +13,7 @@ inherit = "core"
 set = { UV_CACHE_DIR = "/tmp/uv-cache" }
 
 [features]
+guardian_approval = true
 memories = true
 
 [mcp_servers.notion]
