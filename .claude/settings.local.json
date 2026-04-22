@@ -1,6 +1,7 @@
 {
   "permissions": {
     "allow": [
+      "Bash(rtk:*)",
       "Bash(readlink:*)",
       "Bash(git -C /Users/dataders/Developer/dotfiles log --oneline -10)",
       "Bash(git -C /Users/dataders/Developer/dotfiles config:*)",

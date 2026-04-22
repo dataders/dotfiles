@@ -128,3 +128,5 @@ export PATH="$PATH:/Users/dataders/.local/bin"
 
 # Cortex CLI completion (disable via /settings in cortex)
 [[ -s ~/.zsh/completions/cortex.zsh ]] && source ~/.zsh/completions/cortex.zsh
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
