@@ -1,5 +1,5 @@
 model = "gpt-5.4"
-model_reasoning_effort = "high"
+model_reasoning_effort = "xhigh"
 
 [mcp_servers.notion]
 url = "https://mcp.notion.com/mcp"
@@ -14,6 +14,33 @@ approval_mode = "approve"
 approval_mode = "approve"
 
 [mcp_servers.github.tools.add_issue_comment]
+approval_mode = "approve"
+
+[mcp_servers.github.tools.add_comment_to_pending_review]
+approval_mode = "approve"
+
+[mcp_servers.github.tools.pull_request_review_write]
+approval_mode = "approve"
+
+[mcp_servers.github.tools.add_reply_to_pull_request_comment]
+approval_mode = "approve"
+
+[mcp_servers.github.tools.fork_repository]
+approval_mode = "approve"
+
+[mcp_servers.github.tools.create_branch]
+approval_mode = "approve"
+
+[mcp_servers.github.tools.create_or_update_file]
+approval_mode = "approve"
+
+[mcp_servers.github.tools.create_pull_request]
+approval_mode = "approve"
+
+[mcp_servers.github.tools.update_pull_request_branch]
+approval_mode = "approve"
+
+[mcp_servers.github.tools.update_pull_request]
 approval_mode = "approve"
 
 [mcp_servers.slack]
@@ -38,4 +65,13 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/Users/dataders/Developer/scratch"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/docs.getdbt.com"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/fusion_issue_analysis"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/dotfiles"]
 trust_level = "trusted"
