@@ -54,6 +54,24 @@ prefix_rule(
 )
 
 prefix_rule(
+    pattern = ["git", "push", "--delete"],
+    decision = "forbidden",
+    justification = "Do not auto-approve branch deletion pushes.",
+)
+
+prefix_rule(
+    pattern = ["git", "push", "--mirror"],
+    decision = "forbidden",
+    justification = "Do not auto-approve mirror pushes.",
+)
+
+prefix_rule(
+    pattern = ["git", "push", "--all"],
+    decision = "forbidden",
+    justification = "Do not auto-approve bulk push operations.",
+)
+
+prefix_rule(
     pattern = [["pip", "pip3"]],
     decision = "forbidden",
     justification = "Use `uv` instead of bare pip.",
@@ -155,11 +173,6 @@ prefix_rule(
     match = [
         "git push origin current-branch",
         "git push -u origin current-branch",
-    ],
-    not_match = [
-        "git push --delete",
-        "git push --mirror",
-        "git push --all",
     ],
 )
 
@@ -324,3 +337,9 @@ prefix_rule(
         "sort -u file.txt",
     ],
 )
+prefix_rule(pattern=["uv", "run", "python3", "-m", "unittest"], decision="allow")
+prefix_rule(pattern=["uv", "run", "prefab", "export"], decision="allow")
+prefix_rule(pattern=["uv", "run", "python3", "-m", "http.server", "8081"], decision="allow")
+prefix_rule(pattern=["open", "http://127.0.0.1:8081/"], decision="allow")
+prefix_rule(pattern=["open", "http://127.0.0.1:8081/prefab/app_windows_2000.html"], decision="allow")
+prefix_rule(pattern=["git", "worktree", "remove", "/Users/dataders/Developer/fs.zachruben-model-docs-panel"], decision="allow")
