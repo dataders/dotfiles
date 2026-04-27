@@ -56,6 +56,16 @@ export WASMTIME_HOME="$HOME/.wasmtime"
 export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include"
 
 #
+# Agents
+#
+
+_ssh_auth_sock="${XDG_CACHE_HOME:-$HOME/.cache}/prezto/ssh-agent.sock"
+if [[ ! -S "$SSH_AUTH_SOCK" && -S "$_ssh_auth_sock" ]]; then
+  export SSH_AUTH_SOCK="$_ssh_auth_sock"
+fi
+unset _ssh_auth_sock
+
+#
 # Less
 #
 
