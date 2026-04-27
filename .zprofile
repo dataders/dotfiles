@@ -43,9 +43,17 @@ typeset -gU cdpath fpath mailpath path
 
 # Set the list of directories that Zsh searches for programs.
 path=(
+  $HOME/.local/bin
+  $HOME/.codeium/windsurf/bin
+  $HOME/.wasmtime/bin
+  /opt/homebrew/opt/openjdk@17/bin
+  /opt/homebrew/{bin,sbin}
   $path
   /usr/local/{bin,sbin}
 )
+
+export WASMTIME_HOME="$HOME/.wasmtime"
+export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include"
 
 #
 # Less

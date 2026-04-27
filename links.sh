@@ -8,6 +8,14 @@ mkdir -p ~/.config/ghostty
 ln -sf "$(pwd)/.config/ghostty/config" ~/.config/ghostty/config
 ln -sf "$(pwd)/.config/starship.toml" ~/.config/starship.toml
 ln -sf "$(pwd)/.config/wt.toml" ~/.config/wt.toml
+mkdir -p ~/.config/git
+ln -sf "$(pwd)/.config/git/ignore" ~/.config/git/ignore
+mkdir -p ~/.config/karabiner
+ln -sf "$(pwd)/karabiner/karabiner.json" ~/.config/karabiner/karabiner.json
+mkdir -p ~/.config/marimo
+ln -sf "$(pwd)/.config/marimo/marimo.toml" ~/.config/marimo/marimo.toml
+mkdir -p ~/.config/zed
+ln -sf "$(pwd)/.config/zed/settings.json" ~/.config/zed/settings.json
 mkdir -p ~/.claude/hooks
 ln -sf "$(pwd)/.claude/hooks/enforce-uv.sh" ~/.claude/hooks/enforce-uv.sh
 ln -sf "$(pwd)/.claude/hooks/rtk-rewrite.sh" ~/.claude/hooks/rtk-rewrite.sh
@@ -17,6 +25,7 @@ ln -sf "$(pwd)/.claude/settings.local.json" ~/.claude/settings.local.json
 ln -sf "$(pwd)/.claude/statusline.sh" ~/.claude/statusline.sh
 ln -sf "$(pwd)/.claude/CLAUDE.md" ~/.claude/CLAUDE.md
 ln -sf "$(pwd)/.claude.json" ~/.claude.json
+ln -sf "$(pwd)/odbc.ini" ~/.odbc.ini
 ln -sf "$(pwd)/.tmux.conf" ~/.tmux.conf
 mkdir -p ~/.cargo
 ln -sf "$(pwd)/.cargo/config.toml" ~/.cargo/config.toml
