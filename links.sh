@@ -10,6 +10,8 @@ ln -sf "$(pwd)/.config/starship.toml" ~/.config/starship.toml
 ln -sf "$(pwd)/.config/wt.toml" ~/.config/wt.toml
 mkdir -p ~/.config/git
 ln -sf "$(pwd)/.config/git/ignore" ~/.config/git/ignore
+mkdir -p ~/.config/gh
+ln -sf "$(pwd)/.config/gh/hosts.yml" ~/.config/gh/hosts.yml
 mkdir -p ~/.config/karabiner
 ln -sf "$(pwd)/karabiner/karabiner.json" ~/.config/karabiner/karabiner.json
 mkdir -p ~/.config/marimo
@@ -25,7 +27,12 @@ ln -sf "$(pwd)/.claude/settings.local.json" ~/.claude/settings.local.json
 ln -sf "$(pwd)/.claude/statusline.sh" ~/.claude/statusline.sh
 ln -sf "$(pwd)/.claude/CLAUDE.md" ~/.claude/CLAUDE.md
 ln -sf "$(pwd)/.claude.json" ~/.claude.json
+mkdir -p ~/.aws
+ln -sf "$(pwd)/.aws/config" ~/.aws/config
+ln -sf "$(pwd)/.databrickscfg" ~/.databrickscfg
 ln -sf "$(pwd)/odbc.ini" ~/.odbc.ini
+mkdir -p ~/.snowflake
+ln -sf "$(pwd)/.snowflake/connections.toml" ~/.snowflake/connections.toml
 ln -sf "$(pwd)/.tmux.conf" ~/.tmux.conf
 mkdir -p ~/.cargo
 ln -sf "$(pwd)/.cargo/config.toml" ~/.cargo/config.toml
