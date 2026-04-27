@@ -19,6 +19,8 @@
 	postBuffer = 524288000
 [gpg]
 	format = ssh
+[gpg "ssh"]
+	allowedSignersFile = /Users/dataders/.ssh/allowed_signers
 [diff]
     algorithm = histogram
 	renameLimit = 3000
