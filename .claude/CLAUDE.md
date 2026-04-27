@@ -5,7 +5,7 @@
 - Shell: zsh with Starship prompt + Prezto
 - Terminal: Ghostty
 - Package manager: Homebrew
-- Python: conda/miniforge3
+- Python: uv-managed virtual environments; conda/miniforge not used
 
 ## Python Package Management
 Bare `pip`, `pip3`, and `python3` invocations are blocked by a PreToolUse hook. Always use:
@@ -39,7 +39,7 @@ Bare `pip`, `pip3`, and `python3` invocations are blocked by a PreToolUse hook. 
 ## Preferences
 - Keep changes minimal and focused
 - Prefer editing existing files over creating new ones
-- Use conda environments for Python projects
+- Do not use conda or miniforge; use `uv` and project virtual environments
 - Use direnv for project-specific environment variables
 
 @RTK.md
