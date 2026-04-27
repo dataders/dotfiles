@@ -20,6 +20,8 @@ ln -sf "$(pwd)/.claude.json" ~/.claude.json
 ln -sf "$(pwd)/.tmux.conf" ~/.tmux.conf
 mkdir -p ~/.cargo
 ln -sf "$(pwd)/.cargo/config.toml" ~/.cargo/config.toml
+mkdir -p ~/.rustup
+ln -sf "$(pwd)/.rustup/settings.toml" ~/.rustup/settings.toml
 
 mkdir -p ~/.codex
 ln -sf "$(pwd)/.codex/config.toml" ~/.codex/config.toml
