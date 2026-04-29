@@ -6,51 +6,6 @@ macOS dotfiles for dbt/Fusion work, modern terminal UX, editor settings, agent
 config, and warehouse tooling. Public config lives here; private config stays in
 `~/Developer/dotfiles_env`; `links.sh` wires both back into home paths.
 
-## Managed Tools
-
-| Tool | Config source | Home target | How configured |
-| --- | --- | --- | --- |
-| zsh/Prezto | `.zshrc`, `.zprofile`, `.zpreztorc`, `.zlogin`, `.zlogout`, `.zshenv` | `~/.*` | Prezto modules in `.zpreztorc`; login shell PATH/env in `.zprofile`; interactive tools in `.zshrc` |
-| Homebrew | `Brewfile` | Homebrew bundle state | `brew()` wrapper snapshots mutating operations back to `Brewfile` |
-| Ghostty | `.config/ghostty/config` | `~/.config/ghostty/config` | JetBrains Mono Nerd Font, light/dark GitHub themes, zsh shell integration |
-| Starship | `.config/starship.toml` | `~/.config/starship.toml` | Prompt format, git status, Python, AWS, command duration, time |
-| Git | `.gitconfig`, `.gitignore_global`, `.config/git/ignore` | `~/.gitconfig`, `~/.gitignore_global`, `~/.config/git/ignore` | `delta` pager, SSH signing, `rerere`, histogram diff, GitHub credential helper |
-| Git hooks | `.githooks/pre-commit` | repo-local `core.hooksPath` | Blocks likely-sensitive paths and TruffleHog findings in staged diff |
-| GitHub CLI | `.config/gh/hosts.yml` | `~/.config/gh/hosts.yml` | Auth host config, symlinked through `links.sh` |
-| Codex | `.codex/config.toml`, `.codex/AGENTS.md`, `.codex/RTK.md`, `.codex/rules/default.rules` | `~/.codex/...` | Model, sandbox, MCP servers, plugins, rules, trusted projects |
-| Claude | `.claude/CLAUDE.md`, `.claude/settings*.json`, `.claude/hooks/*.sh`, `.claude/RTK.md` | `~/.claude/...` | Shared instructions, hooks, permissions, RTK guidance |
-| Shared AI skills | `.ai/skills/*` | `~/.codex/skills/*`, `~/.claude/skills/*` | `links.sh` replaces old skill dirs and symlinks each skill into both agents |
-| dbt | `~/Developer/dotfiles_env/.dbt/*` | `~/.dbt/*` | Private profiles, Cloud config, MCP config, keyfile, user state |
-| dbt CLIs | `.zshrc` aliases | shell aliases | `dbtf`, `dbt-core`, `dbtd`, `dbtr`, `dbtc` route to Cloud/core/debug/release helpers |
-| Database drivers | `odbcinst.ini`, `odbc.ini`, `freetds.conf` | `/opt/homebrew/etc/...` and `~/.odbc.ini` | ODBC, FreeTDS, and user DSN config |
-| Snowflake/AWS/Databricks | symlinks into `dotfiles_env` or repo placeholders | `~/.snowflake`, `~/.aws`, `~/.databrickscfg` | Sensitive connection config stays private |
-| VS Code/Cursor | `.vscode/settings.json`, `workspaces/*/settings.json` | Code, Insiders, Cursor user settings; repo `.vscode` dirs | Shared editor settings and per-repo themes |
-| Zed | `.config/zed/settings.json` | `~/.config/zed/settings.json` | Zed user settings |
-| Worktrunk | `.config/wt.toml` | `~/.config/wt.toml` | Copies ignored cache after new worktree start; shell init from `.zshrc` |
-| Rust/Cargo | `.cargo/config.toml`, `.rustup/settings.toml` | `~/.cargo/config.toml`, `~/.rustup/settings.toml` | Cargo config and rustup toolchain settings |
-| SSH signing | `.ssh/allowed_signers`, `.ssh/config` | `~/.ssh/...` | Git SSH signing verification uses allowed signers file |
-| tmux | `.tmux.conf` | `~/.tmux.conf` | Mouse, easier splits, 1-based panes, reload binding |
-| Karabiner | `karabiner/karabiner.json` | `~/.config/karabiner/karabiner.json` | Keyboard rules |
-| Marimo | `.config/marimo/marimo.toml` | `~/.config/marimo/marimo.toml` | Marimo config |
-| Raycast scripts | `.raycast_scripts/*` | repo-managed scripts | Small local automation scripts |
-
-## LLM Agent
-
-Codex and Claude config are repo-backed, then symlinked into `~/.codex` and
-`~/.claude` by `links.sh`. Codex uses `.codex/config.toml` for model, sandbox,
-MCP servers, plugins, trusted projects, and Guardian review; command approvals
-live separately in `.codex/rules/default.rules`.
-
-Claude uses `.claude/settings.json`, `.claude/settings.local.json`,
-`.claude/hooks/*.sh`, and `.claude/CLAUDE.md`. Keep parallel behavior in both
-trees when it affects both agents: Python enforcement, RTK guidance, shared
-instructions, and safety rules.
-
-Shared custom skills live only in `.ai/skills`. `links.sh` removes old generated
-skill dirs and symlinks each skill into both `~/.codex/skills` and
-`~/.claude/skills`, so plugin caches stay derived state instead of source of
-truth.
-
 ## Modern CLI UX
 
 These are the muscle-memory upgrades from `.zshrc`:
@@ -81,6 +36,23 @@ dbtd     # debug Fusion dbt
 dbtr     # release Fusion dbt
 dbtc     # compute-dbt
 ```
+
+## LLM Agent
+
+Codex and Claude config are repo-backed, then symlinked into `~/.codex` and
+`~/.claude` by `links.sh`. Codex uses `.codex/config.toml` for model, sandbox,
+MCP servers, plugins, trusted projects, and Guardian review; command approvals
+live separately in `.codex/rules/default.rules`.
+
+Claude uses `.claude/settings.json`, `.claude/settings.local.json`,
+`.claude/hooks/*.sh`, and `.claude/CLAUDE.md`. Keep parallel behavior in both
+trees when it affects both agents: Python enforcement, RTK guidance, shared
+instructions, and safety rules.
+
+Shared custom skills live only in `.ai/skills`. `links.sh` removes old generated
+skill dirs and symlinks each skill into both `~/.codex/skills` and
+`~/.claude/skills`, so plugin caches stay derived state instead of source of
+truth.
 
 ## Daily Cheatsheet
 
@@ -168,11 +140,33 @@ workspaces/internal-analytics/settings.json -> ~/Developer/internal-analytics/.v
 workspaces/jaffle-sandbox/settings.json     -> ~/Developer/jaffle-sandbox/.vscode/settings.json
 ```
 
-## Inspiration
+## Managed Tools
 
-This setup is shaped by a lot of dotfiles spelunking, especially
-[gwenwindflower/dotfiles](https://github.com/gwenwindflower/dotfiles) and
-[serramatutu/dotfiles](https://github.com/serramatutu/dotfiles).
+| Tool | Config source | Home target | How configured |
+| --- | --- | --- | --- |
+| zsh/Prezto | `.zshrc`, `.zprofile`, `.zpreztorc`, `.zlogin`, `.zlogout`, `.zshenv` | `~/.*` | Prezto modules in `.zpreztorc`; login shell PATH/env in `.zprofile`; interactive tools in `.zshrc` |
+| Homebrew | `Brewfile` | Homebrew bundle state | `brew()` wrapper snapshots mutating operations back to `Brewfile` |
+| Ghostty | `.config/ghostty/config` | `~/.config/ghostty/config` | JetBrains Mono Nerd Font, light/dark GitHub themes, zsh shell integration |
+| Starship | `.config/starship.toml` | `~/.config/starship.toml` | Prompt format, git status, Python, AWS, command duration, time |
+| Git | `.gitconfig`, `.gitignore_global`, `.config/git/ignore` | `~/.gitconfig`, `~/.gitignore_global`, `~/.config/git/ignore` | `delta` pager, SSH signing, `rerere`, histogram diff, GitHub credential helper |
+| Git hooks | `.githooks/pre-commit` | repo-local `core.hooksPath` | Blocks likely-sensitive paths and TruffleHog findings in staged diff |
+| GitHub CLI | `.config/gh/hosts.yml` | `~/.config/gh/hosts.yml` | Auth host config, symlinked through `links.sh` |
+| Codex | `.codex/config.toml`, `.codex/AGENTS.md`, `.codex/RTK.md`, `.codex/rules/default.rules` | `~/.codex/...` | Model, sandbox, MCP servers, plugins, rules, trusted projects |
+| Claude | `.claude/CLAUDE.md`, `.claude/settings*.json`, `.claude/hooks/*.sh`, `.claude/RTK.md` | `~/.claude/...` | Shared instructions, hooks, permissions, RTK guidance |
+| Shared AI skills | `.ai/skills/*` | `~/.codex/skills/*`, `~/.claude/skills/*` | `links.sh` replaces old skill dirs and symlinks each skill into both agents |
+| dbt | `~/Developer/dotfiles_env/.dbt/*` | `~/.dbt/*` | Private profiles, Cloud config, MCP config, keyfile, user state |
+| dbt CLIs | `.zshrc` aliases | shell aliases | `dbtf`, `dbt-core`, `dbtd`, `dbtr`, `dbtc` route to Cloud/core/debug/release helpers |
+| Database drivers | `odbcinst.ini`, `odbc.ini`, `freetds.conf` | `/opt/homebrew/etc/...` and `~/.odbc.ini` | ODBC, FreeTDS, and user DSN config |
+| Snowflake/AWS/Databricks | symlinks into `dotfiles_env` or repo placeholders | `~/.snowflake`, `~/.aws`, `~/.databrickscfg` | Sensitive connection config stays private |
+| VS Code/Cursor | `.vscode/settings.json`, `workspaces/*/settings.json` | Code, Insiders, Cursor user settings; repo `.vscode` dirs | Shared editor settings and per-repo themes |
+| Zed | `.config/zed/settings.json` | `~/.config/zed/settings.json` | Zed user settings |
+| Worktrunk | `.config/wt.toml` | `~/.config/wt.toml` | Copies ignored cache after new worktree start; shell init from `.zshrc` |
+| Rust/Cargo | `.cargo/config.toml`, `.rustup/settings.toml` | `~/.cargo/config.toml`, `~/.rustup/settings.toml` | Cargo config and rustup toolchain settings |
+| SSH signing | `.ssh/allowed_signers`, `.ssh/config` | `~/.ssh/...` | Git SSH signing verification uses allowed signers file |
+| tmux | `.tmux.conf` | `~/.tmux.conf` | Mouse, easier splits, 1-based panes, reload binding |
+| Karabiner | `karabiner/karabiner.json` | `~/.config/karabiner/karabiner.json` | Keyboard rules |
+| Marimo | `.config/marimo/marimo.toml` | `~/.config/marimo/marimo.toml` | Marimo config |
+| Raycast scripts | `.raycast_scripts/*` | repo-managed scripts | Small local automation scripts |
 
 ## Architecture
 
@@ -287,3 +281,10 @@ git clone --recurse-submodules https://github.com/belak/prezto-contrib contrib
 Clone [`dbt-completion.bash`](https://github.com/dbt-labs/dbt-completion.bash)
 to `~/Developer/dbt-completion.bash`. `.zshrc` loads it through
 `bashcompinit`.
+
+## Inspiration
+
+- [@gwenwindflower](https://github.com/gwenwindflower) /
+  [gwenwindflower/dotfiles](https://github.com/gwenwindflower/dotfiles)
+- [@serramatutu](https://github.com/serramatutu) /
+  [serramatutu/dotfiles](https://github.com/serramatutu/dotfiles)
