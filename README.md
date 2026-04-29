@@ -34,6 +34,23 @@ config, and warehouse tooling. Public config lives here; private config stays in
 | Marimo | `.config/marimo/marimo.toml` | `~/.config/marimo/marimo.toml` | Marimo config |
 | Raycast scripts | `.raycast_scripts/*` | repo-managed scripts | Small local automation scripts |
 
+## LLM Agent
+
+Codex and Claude config are repo-backed, then symlinked into `~/.codex` and
+`~/.claude` by `links.sh`. Codex uses `.codex/config.toml` for model, sandbox,
+MCP servers, plugins, trusted projects, and Guardian review; command approvals
+live separately in `.codex/rules/default.rules`.
+
+Claude uses `.claude/settings.json`, `.claude/settings.local.json`,
+`.claude/hooks/*.sh`, and `.claude/CLAUDE.md`. Keep parallel behavior in both
+trees when it affects both agents: Python enforcement, RTK guidance, shared
+instructions, and safety rules.
+
+Shared custom skills live only in `.ai/skills`. `links.sh` removes old generated
+skill dirs and symlinks each skill into both `~/.codex/skills` and
+`~/.claude/skills`, so plugin caches stay derived state instead of source of
+truth.
+
 ## Modern CLI UX
 
 These are the muscle-memory upgrades from `.zshrc`:

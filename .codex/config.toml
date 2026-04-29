@@ -1,8 +1,10 @@
-model = "gpt-5.4"
+model = "gpt-5.5"
 model_reasoning_effort = "xhigh"
 approval_policy = "on-request"
 approvals_reviewer = "guardian_subagent"
 sandbox_mode = "workspace-write"
+
+notify = ["/Users/dataders/.codex/plugins/cache/openai-bundled/computer-use/1.0.758/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
 
 [sandbox_workspace_write]
 writable_roots = ["/Users/dataders/.cache"]
@@ -16,31 +18,23 @@ set = { UV_CACHE_DIR = "/tmp/uv-cache" }
 guardian_approval = true
 memories = true
 
-[mcp_servers.notion]
-url = "https://mcp.notion.com/mcp"
+[mcp_servers]
+# TOML uses dotted tables for nesting. The parent table is here only to make the
+# section grouping explicit; each server still gets its own [mcp_servers.<name>]
+# table below.
 
+# GitHub MCP and approval overrides. Keep these together so review diffs do not
+# make tool approvals look removed when they are only reordered.
 [mcp_servers.github]
 url = "https://dbt.runlayer.com/api/v1/proxy/7e8a07e2-98ed-4c76-8edb-d8a68b55bccc/mcp"
 
-[mcp_servers.github.tools.sub_issue_write]
-approval_mode = "approve"
-
-[mcp_servers.github.tools.issue_write]
+[mcp_servers.github.tools.add_comment_to_pending_review]
 approval_mode = "approve"
 
 [mcp_servers.github.tools.add_issue_comment]
 approval_mode = "approve"
 
-[mcp_servers.github.tools.add_comment_to_pending_review]
-approval_mode = "approve"
-
-[mcp_servers.github.tools.pull_request_review_write]
-approval_mode = "approve"
-
 [mcp_servers.github.tools.add_reply_to_pull_request_comment]
-approval_mode = "approve"
-
-[mcp_servers.github.tools.fork_repository]
 approval_mode = "approve"
 
 [mcp_servers.github.tools.create_branch]
@@ -52,12 +46,29 @@ approval_mode = "approve"
 [mcp_servers.github.tools.create_pull_request]
 approval_mode = "approve"
 
-[mcp_servers.github.tools.update_pull_request_branch]
+[mcp_servers.github.tools.fork_repository]
+approval_mode = "approve"
+
+[mcp_servers.github.tools.issue_write]
+approval_mode = "approve"
+
+[mcp_servers.github.tools.pull_request_review_write]
+approval_mode = "approve"
+
+[mcp_servers.github.tools.sub_issue_write]
 approval_mode = "approve"
 
 [mcp_servers.github.tools.update_pull_request]
 approval_mode = "approve"
 
+[mcp_servers.github.tools.update_pull_request_branch]
+approval_mode = "approve"
+
+# Notion MCP via Runlayer proxy.
+[mcp_servers.notion-runlayer]
+url = "https://dbt.runlayer.com/api/v1/proxy/24736211-1060-47e7-897e-fdf5a531a3d5/mcp"
+
+# Runlayer MCPs.
 [mcp_servers.slack]
 url = "https://dbt.runlayer.com/api/v1/proxy/dcf3b868-a852-4758-97aa-024fb941a173/mcp"
 
@@ -73,21 +84,81 @@ url = "https://dbt.runlayer.com/api/v1/proxy/70b141cc-940c-4190-8da5-f9cd50d3492
 [mcp_servers.runlayer-docs]
 url = "https://dbt.runlayer.com/api/v1/proxy/68a80158-1c82-4a97-b1aa-509703ad4b94/mcp"
 
-[projects."/Users/dataders/Developer/internal-analytics"]
+# Google Sheets aliases. Keep both spellings until all callers settle on one.
+[mcp_servers.google_sheets]
+url = "https://dbt.runlayer.com/api/v1/proxy/ab3aadc4-d6ac-4d92-85d6-cfba5eafc0e1/mcp"
+
+[mcp_servers.google-sheets]
+url = "https://dbt.runlayer.com/api/v1/proxy/ab3aadc4-d6ac-4d92-85d6-cfba5eafc0e1/mcp"
+
+[projects]
+# Trust the repo parent rather than every repo individually. Avoid trusting all
+# of /Users/dataders because home contains secrets and app state outside dev work.
+
+[projects."/Users/dataders/Developer"]
 trust_level = "trusted"
 
-[projects."/Users/dataders/Developer/fs"]
-trust_level = "trusted"
+[plugins]
+# Enabled plugins are explicit per plugin. No useful TOML consolidation here.
 
-[projects."/Users/dataders/Developer/scratch"]
-trust_level = "trusted"
+[plugins."superpowers@openai-curated"]
+enabled = true
 
-[projects."/Users/dataders/Developer/docs.getdbt.com"]
-trust_level = "trusted"
+[plugins."github@openai-curated"]
+enabled = true
 
-[projects."/Users/dataders/Developer/fusion_issue_analysis"]
-trust_level = "trusted"
+[plugins."notion@openai-curated"]
+enabled = true
 
-[projects."/Users/dataders/Developer/dotfiles"]
-trust_level = "trusted"
+[plugins."motherduck@openai-curated"]
+enabled = true
 
+[plugins."computer-use@openai-bundled"]
+enabled = true
+
+[plugins."browser-use@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[[skills.config]]
+name = "superpowers:using-git-worktrees"
+enabled = false
+
+[marketplaces]
+# Codex-managed plugin marketplaces. Keep each source explicit.
+
+[marketplaces.openai-bundled]
+last_updated = "2026-04-28T15:14:07Z"
+source_type = "local"
+source = "/Users/dataders/.codex/.tmp/bundled-marketplaces/openai-bundled"
+
+[marketplaces.openai-primary-runtime]
+last_updated = "2026-04-28T15:47:26Z"
+source_type = "local"
+source = "/Users/dataders/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+
+[marketplaces.claude-plugins-official]
+last_updated = "2026-04-28T19:18:42Z"
+last_revision = "38b5056c446aaf7895d5563591b94bc49e8e976e"
+source_type = "git"
+source = "https://github.com/anthropics/claude-plugins-official.git"
+
+[marketplaces.worktrunk]
+last_updated = "2026-04-28T19:18:46Z"
+last_revision = "5eae0d0b5b50267dd74da93b4248879dbd1b447e"
+source_type = "git"
+source = "https://github.com/max-sixty/worktrunk.git"
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+
+[notice]
+fast_default_opt_out = true
