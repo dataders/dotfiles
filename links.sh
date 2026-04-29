@@ -6,6 +6,8 @@ ln -sf "$(pwd)/.vscode/settings.json" "/Users/dataders/Library/Application Suppo
 # Individual config files (can't symlink entire directories like .config or .claude)
 mkdir -p ~/.config/ghostty
 ln -sf "$(pwd)/.config/ghostty/config" ~/.config/ghostty/config
+mkdir -p ~/.config/gh-dash
+ln -sf "$(pwd)/.config/gh-dash/config.yml" ~/.config/gh-dash/config.yml
 ln -sf "$(pwd)/.config/starship.toml" ~/.config/starship.toml
 ln -sf "$(pwd)/.config/wt.toml" ~/.config/wt.toml
 mkdir -p ~/.config/git

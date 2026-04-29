@@ -146,6 +146,7 @@ workspaces/jaffle-sandbox/settings.json     -> ~/Developer/jaffle-sandbox/.vscod
 | --- | --- | --- | --- |
 | zsh/Prezto | `.zshrc`, `.zprofile`, `.zpreztorc`, `.zlogin`, `.zlogout`, `.zshenv` | `~/.*` | Prezto modules in `.zpreztorc`; login shell PATH/env in `.zprofile`; interactive tools in `.zshrc` |
 | Homebrew | `Brewfile` | Homebrew bundle state | `brew()` wrapper snapshots mutating operations back to `Brewfile` |
+| GitHub dashboard | `.config/gh-dash/config.yml` | `~/.config/gh-dash/config.yml` | PR, review, issue, and notification sections for `gh dash` |
 | Ghostty | `.config/ghostty/config` | `~/.config/ghostty/config` | JetBrains Mono Nerd Font, light/dark GitHub themes, zsh shell integration |
 | Starship | `.config/starship.toml` | `~/.config/starship.toml` | Prompt format, git status, Python, AWS, command duration, time |
 | Git | `.gitconfig`, `.gitignore_global`, `.config/git/ignore` | `~/.gitconfig`, `~/.gitignore_global`, `~/.config/git/ignore` | `delta` pager, SSH signing, `rerere`, histogram diff, GitHub credential helper |
@@ -256,6 +257,7 @@ template.
 ```zsh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew bundle --file=~/Developer/dotfiles/Brewfile
+gh extension install dlvhdr/gh-dash
 ```
 
 ### Prezto
@@ -288,3 +290,5 @@ to `~/Developer/dbt-completion.bash`. `.zshrc` loads it through
   [gwenwindflower/dotfiles](https://github.com/gwenwindflower/dotfiles)
 - [@serramatutu](https://github.com/serramatutu) /
   [serramatutu/dotfiles](https://github.com/serramatutu/dotfiles)
+- [@ryancharris](https://github.com/ryancharris) /
+  [ryancharris/dotfiles](https://github.com/ryancharris/dotfiles)
