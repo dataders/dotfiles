@@ -22,13 +22,30 @@ shell-integration-features = cursor,sudo,title
 window-padding-x = 8
 window-padding-y = 8
 window-decoration = true
+mouse-hide-while-typing = true
+unfocused-split-opacity = 0.8
 
 # Clipboard
 clipboard-read = allow
 clipboard-write = allow
+copy-on-select = clipboard
+
+# Quick terminal
+quick-terminal-position = left
+
+# Keybinds
+keybind = cmd+shift+r=reload_config
+keybind = cmd+w=close_tab
+keybind = cmd+shift+h=new_split:down
+keybind = cmd+shift+v=new_split:right
+keybind = cmd+h=goto_split:left
+keybind = cmd+j=goto_split:down
+keybind = cmd+k=goto_split:up
+keybind = cmd+l=goto_split:right
+keybind = cmd+shift+period=move_tab:1
+keybind = cmd+shift+comma=move_tab:-1
 
 # Performance
 # vsync = true
-
 
 

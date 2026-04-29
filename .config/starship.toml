@@ -11,7 +11,6 @@ $directory\
 $git_branch\
 $git_status\
 $python\
-$conda\
 $aws\
 $cmd_duration\
 $line_break\
@@ -43,12 +42,6 @@ style = "bold red"
 format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
 symbol = " "
 style = "bold yellow"
-
-[conda]
-format = "[$symbol$environment]($style) "
-symbol = " "
-style = "bold green"
-ignore_base = true
 
 [aws]
 format = '[$symbol($profile )(\($region\) )]($style)'
