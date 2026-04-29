@@ -1,0 +1,61 @@
+#!/bin/sh
+set -eu
+
+if [ "${SKIP_SECRET_SCAN:-}" = "1" ]; then
+  echo "secret scan: skipped via SKIP_SECRET_SCAN=1"
+  exit 0
+fi
+
+if ! command -v trufflehog >/dev/null 2>&1; then
+  echo "secret scan: trufflehog not found" >&2
+  echo "Install it with: brew install trufflehog" >&2
+  exit 1
+fi
+
+if git diff --cached --quiet --no-ext-diff --; then
+  echo "secret scan: no staged changes"
+  exit 0
+fi
+
+tmp="${TMPDIR:-/tmp}/dotfiles-staged-diff.$$"
+paths="${TMPDIR:-/tmp}/dotfiles-staged-paths.$$"
+blocked="${TMPDIR:-/tmp}/dotfiles-blocked-paths.$$"
+trap 'rm -f "$tmp" "$paths" "$blocked"' EXIT HUP INT TERM
+
+git diff --cached --name-only --diff-filter=ACMR > "$paths"
+while IFS= read -r path; do
+  case "$path" in
+    .env|.env.*|*/.env|*/.env.*|*secret*|*secrets*|*.pem|*.key|credentials/*|.aws/config|.snowflake/connections.toml|.databrickscfg|.dbt/profiles.yml|.dbt/dbt_cloud.yml|.dbt/mcp.yml|.dbt/keyfile.json|.dbt/.user.yml)
+      echo "$path" >> "$blocked"
+      ;;
+  esac
+done < "$paths"
+
+if [ -s "$blocked" ]; then
+  echo "secret scan: blocked likely-sensitive staged path(s)" >&2
+  sed 's/^/  /' "$blocked" >&2
+  echo "Move secrets to ~/Developer/dotfiles_env or keep only symlinks in git." >&2
+  echo "Bypass only after review: SKIP_SECRET_SCAN=1 git commit ..." >&2
+  exit 1
+fi
+
+git diff --cached --no-ext-diff --binary > "$tmp"
+
+echo "secret scan: trufflehog staged diff"
+set +e
+trufflehog --log-level=-1 stdin \
+  --no-update \
+  --no-verification \
+  --fail \
+  --fail-on-scan-errors < "$tmp"
+status=$?
+set -e
+
+if [ "$status" -ne 0 ]; then
+  echo "secret scan: failed" >&2
+  echo "Move secrets to ~/Developer/dotfiles_env or unstage them." >&2
+  echo "Bypass only after review: SKIP_SECRET_SCAN=1 git commit ..." >&2
+  exit "$status"
+fi
+
+echo "secret scan: ok"
