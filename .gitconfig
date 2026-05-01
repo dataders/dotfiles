@@ -41,3 +41,5 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/opt/homebrew/bin/gh auth git-credential
+[include]
+	path = ~/Developer/dotfiles_env/gitconfig.local

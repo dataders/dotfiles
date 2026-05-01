@@ -55,8 +55,13 @@ alias fsd=/Users/dataders/Developer/fs/target/debug/fs
 
 eval "$(direnv hook zsh)"
 
-# Source secrets from dotfiles_env (not committed to public dotfiles repo)
-[[ -f ~/Developer/dotfiles_env/secrets.zsh ]] && source ~/Developer/dotfiles_env/secrets.zsh
+# Private/local overlays from dotfiles_env (not committed to public dotfiles repo)
+for _dotfiles_overlay in \
+    "$HOME/Developer/dotfiles_env/secrets.zsh" \
+    "$HOME/Developer/dotfiles_env/local.zsh"; do
+    [[ -f "$_dotfiles_overlay" ]] && source "$_dotfiles_overlay"
+done
+unset _dotfiles_overlay
 
 # dbt aliases
 alias dbtf=/Users/dataders/.local/bin/dbt
@@ -64,9 +69,6 @@ alias dbt-core=/Users/dataders/Developer/jaffle-sandbox/.venv/bin/dbt
 alias dbtd=/Users/dataders/Developer/fs/target/debug/dbt
 alias dbtr=/Users/dataders/Developer/fs/target/release/dbt
 alias dbtc=compute-dbt
-
-export AWS_PROFILE=SandboxPower
-export AWS_DEFAULT_PROFILE=SandboxPower
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Modern CLI Tools

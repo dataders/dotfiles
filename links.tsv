@@ -1,0 +1,52 @@
+# source	target	group	visibility	note
+repo:.zshrc	home:.zshrc	shell	public	interactive zsh config
+repo:.zprofile	home:.zprofile	shell	public	login shell env and PATH
+repo:.zshenv	home:.zshenv	shell	public	non-interactive zsh env bridge
+repo:.zlogin	home:.zlogin	shell	public	zsh login hook
+repo:.zlogout	home:.zlogout	shell	public	zsh logout hook
+repo:.zpreztorc	home:.zpreztorc	shell	public	Prezto module config
+repo:.gitconfig	home:.gitconfig	git	public	Git defaults with private include hook
+repo:.gitignore_global	home:.gitignore_global	git	public	global Git ignore file
+repo:.tmux.conf	home:.tmux.conf	terminal	public	tmux config
+repo:.vscode/settings.json	app:Code - Insiders/User/settings.json	editor	public	VS Code Insiders user settings
+repo:.vscode/settings.json	app:Code/User/settings.json	editor	public	VS Code user settings
+repo:.vscode/settings.json	app:Cursor/User/settings.json	editor	public	Cursor user settings
+repo:.config/ghostty/config	home:.config/ghostty/config	terminal	public	Ghostty terminal rendering config
+repo:.config/cmux/settings.json	home:.config/cmux/settings.json	terminal	public	cmux app settings
+repo:.config/gh-dash/config.yml	home:.config/gh-dash/config.yml	github	public	GitHub dashboard config
+repo:.config/starship.toml	home:.config/starship.toml	shell	public	Starship prompt config
+repo:.config/wt.toml	home:.config/wt.toml	worktree	public	Worktrunk config
+repo:.config/git/ignore	home:.config/git/ignore	git	public	XDG Git ignore file
+repo:.config/direnv/direnvrc	home:.config/direnv/direnvrc	shell	public	direnv helper functions
+repo:.config/gh/hosts.yml	home:.config/gh/hosts.yml	github	private	GitHub CLI host auth config
+repo:karabiner/karabiner.json	home:.config/karabiner/karabiner.json	keyboard	public	Karabiner keyboard rules
+repo:.config/marimo/marimo.toml	home:.config/marimo/marimo.toml	python	public	Marimo config
+repo:.config/zed/settings.json	home:.config/zed/settings.json	editor	public	Zed settings
+repo:.claude/hooks/enforce-uv.sh	home:.claude/hooks/enforce-uv.sh	agents	public	Claude uv enforcement hook
+repo:.claude/hooks/rtk-rewrite.sh	home:.claude/hooks/rtk-rewrite.sh	agents	public	Claude RTK rewrite hook
+repo:.claude/RTK.md	home:.claude/RTK.md	agents	public	Claude RTK guidance
+repo:.claude/settings.json	home:.claude/settings.json	agents	public	Claude shared settings
+repo:.claude/settings.local.json	home:.claude/settings.local.json	agents	public	Claude local settings tracked here
+repo:.claude/statusline.sh	home:.claude/statusline.sh	agents	public	Claude statusline
+repo:.claude/CLAUDE.md	home:.claude/CLAUDE.md	agents	public	Claude global instructions
+repo:.claude.json	home:.claude.json	agents	public	Claude desktop config
+repo:.codex/config.toml	home:.codex/config.toml	agents	public	Codex config
+repo:.codex/hooks.json	home:.codex/hooks.json	agents	public	Codex hooks config
+repo:.codex/AGENTS.md	home:.codex/AGENTS.md	agents	public	Codex global instructions
+repo:.codex/RTK.md	home:.codex/RTK.md	agents	public	Codex RTK guidance
+repo:.codex/rules/default.rules	home:.codex/rules/default.rules	agents	public	Codex command approval rules
+repo:.aws/config	home:.aws/config	warehouse	private	AWS config symlinked through dotfiles_env
+repo:.databrickscfg	home:.databrickscfg	warehouse	private	Databricks config symlinked through dotfiles_env
+repo:odbc.ini	home:.odbc.ini	warehouse	public	User ODBC DSN config
+repo:.snowflake/connections.toml	home:.snowflake/connections.toml	warehouse	private	Snowflake config symlinked through dotfiles_env
+repo:.cargo/config.toml	home:.cargo/config.toml	rust	public	Cargo config
+repo:.rustup/settings.toml	home:.rustup/settings.toml	rust	public	Rustup toolchain settings
+env:credentials/fusion.env.json	home:credentials/fusion.env.json	dbt	private	Fusion credentials JSON
+env:.dbt/profiles.yml	home:.dbt/profiles.yml	dbt	private	dbt profiles
+env:.dbt/dbt_cloud.yml	home:.dbt/dbt_cloud.yml	dbt	private	dbt Cloud config
+env:.dbt/mcp.yml	home:.dbt/mcp.yml	dbt	private	dbt MCP config
+env:.dbt/keyfile.json	home:.dbt/keyfile.json	dbt	private	dbt keyfile
+env:.dbt/.user.yml	home:.dbt/.user.yml	dbt	private	dbt user state
+repo:workspaces/fs/settings.json	developer:fs/.vscode/settings.json	editor	public	fs workspace settings
+repo:workspaces/internal-analytics/settings.json	developer:internal-analytics/.vscode/settings.json	editor	public	internal analytics workspace settings
+repo:workspaces/jaffle-sandbox/settings.json	developer:jaffle-sandbox/.vscode/settings.json	editor	public	jaffle sandbox workspace settings

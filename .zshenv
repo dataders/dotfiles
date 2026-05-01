@@ -10,5 +10,4 @@ if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; t
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
 
-AWS_PROFILE=SandboxPower
 . "$HOME/.cargo/env"

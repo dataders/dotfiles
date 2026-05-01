@@ -1,0 +1,13 @@
+# Shared direnv helpers.
+#
+# Use from a project .envrc:
+#   source_dotfiles_env
+#   source_dotfiles_env custom-name
+#
+# This keeps project-specific secrets in ~/Developer/dotfiles_env/projects/
+# while allowing public repos to use a stable, non-secret hook.
+
+source_dotfiles_env() {
+  local name="${1:-$(basename "$PWD")}"
+  source_env_if_exists "$HOME/Developer/dotfiles_env/projects/${name}.envrc"
+}
