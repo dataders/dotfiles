@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "permissions": {
     "allow": [
       "Bash(git status:*)",
@@ -198,10 +201,18 @@
       }
     }
   },
+  "skillOverrides": {
+    "superpowers:dispatching-parallel-agents": "off"
+  },
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
   "autoUpdatesChannel": "latest",
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
   "skipDangerousModePermissionPrompt": true,
+  "teammateMode": "tmux",
   "skipAutoPermissionPrompt": true,
   "voiceEnabled": true
 }
