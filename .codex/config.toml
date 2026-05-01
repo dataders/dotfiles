@@ -15,6 +15,7 @@ inherit = "core"
 set = { UV_CACHE_DIR = "/tmp/uv-cache" }
 
 [features]
+codex_hooks = true
 guardian_approval = true
 memories = true
 
@@ -96,6 +97,24 @@ url = "https://dbt.runlayer.com/api/v1/proxy/ab3aadc4-d6ac-4d92-85d6-cfba5eafc0e
 # of /Users/dataders because home contains secrets and app state outside dev work.
 
 [projects."/Users/dataders/Developer"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/dotfiles"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/fs"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/fusion_issue_analysis"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/fidget"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/jaffle-sandbox"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/scratch"]
 trust_level = "trusted"
 
 [plugins]

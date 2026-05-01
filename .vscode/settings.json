@@ -80,6 +80,7 @@
     "scm.repositories.sortOrder": "name",
     "snowflake.connectionsConfigFile": "/Users/dataders/.snowflake/connections.toml",
     "snowflake.enableNativeAppPanel": true,
+    "terminal.external.osxExec": "cmux",
     "terminal.integrated.inheritEnv": false,
     "window.autoDetectColorScheme": true,
     "window.zoomLevel": 2,

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux-settings.schema.json",
+  "schemaVersion": 1,
+  "app": {
+    "appearance": "system",
+    "newWorkspacePlacement": "afterCurrent",
+    "preferredEditor": "code",
+    "openMarkdownInCmuxViewer": true,
+    "keepWorkspaceOpenWhenClosingLastSurface": true,
+    "iMessageMode": true,
+    "commandPaletteSearchesAllSurfaces": true,
+    "warnBeforeQuit": true
+  },
+  "terminal": {
+    "showScrollBar": false
+  },
+  "notifications": {
+    "dockBadge": true,
+    "showInMenuBar": true,
+    "unreadPaneRing": true,
+    "paneFlash": true,
+    "sound": "default"
+  },
+  "sidebar": {
+    "branchLayout": "vertical",
+    "showNotificationMessage": true,
+    "showBranchDirectory": true,
+    "showPullRequests": true,
+    "openPullRequestLinksInCmuxBrowser": true,
+    "openPortLinksInCmuxBrowser": true,
+    "showPorts": true,
+    "showProgress": true
+  },
+  "automation": {
+    "socketControlMode": "automation",
+    "claudeCodeIntegration": true,
+    "portBase": 9100,
+    "portRange": 10
+  },
+  "browser": {
+    "openTerminalLinksInCmuxBrowser": true,
+    "interceptTerminalOpenCommandInCmuxBrowser": true,
+    "hostsToOpenInEmbeddedBrowser": [
+      "localhost",
+      "127.0.0.1",
+      "::1",
+      "0.0.0.0",
+      "*.localtest.me"
+    ],
+    "insecureHttpHostsAllowedInEmbeddedBrowser": [
+      "localhost",
+      "127.0.0.1",
+      "::1",
+      "0.0.0.0",
+      "*.localtest.me"
+    ]
+  }
+}
