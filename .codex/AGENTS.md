@@ -1,41 +1,20 @@
-# Global Development Context
+# Agent Rules
 
-## Environment
-- macOS (Apple Silicon)
-- Shell: zsh with Starship prompt + Prezto
-- Terminal: Ghostty
-- Package manager: Homebrew
-- Python: uv-managed virtual environments; conda/miniforge not used
+Canonical shared rules live in `/Users/dataders/Developer/dotfiles/AGENTS.md`.
+Use that file as source of truth. Keep this file short so Codex global context
+does not become noisy.
 
-## Python Package Management
-Always use `uv` for Python package management:
-- `uv run python3 -c "..."` — inline Python
-- `uv run python3 script.py` — run a script
-- `uv add <package>` — add a dependency to a project
-- `uvx <tool>` — run a one-off tool (e.g. `uvx ruff check`)
-Do NOT use bare `pip`, `pip3`, or `python3` directly.
+Hard rules:
 
-## Dotfiles Structure
-- **Public configs**: `~/Developer/dotfiles` (git-tracked, GitHub)
-- **Private/secrets**: `~/Developer/dotfiles_env` (local only, not pushed)
-- Symlinks managed by: `links.sh`
-- **Critical symlinks in `~/.dbt/`** point to `~/Developer/dotfiles_env/.dbt/` (profiles.yml, dbt_cloud.yml, mcp.yml, keyfile.json, .user.yml). **Do NOT delete these symlinks.** If you must remove one for testing, restore it immediately when done (e.g. `ln -sf ~/Developer/dotfiles_env/.dbt/dbt_cloud.yml ~/.dbt/dbt_cloud.yml`).
-
-## Primary Work
-- dbt (data build tool) development
-- Multiple dbt installations available:
-  - `dbtf` - dbt Cloud CLI
-  - `dbt-core` - dbt-core from venv
-  - `dbtd` / `dbtr` - custom debug/release builds
-- Data warehouses: Snowflake, BigQuery, Redshift, Databricks
-
-## Output Style
-Reply like caveman. Short sentence. No filler word. No article unless needed for clarity. Skip preamble, summary, transition. One sentence better than three.
-
-## Preferences
-- Keep changes minimal and focused
-- Prefer editing existing files over creating new ones
-- Do not use conda or miniforge; use `uv` and project virtual environments
-- Use direnv for project-specific environment variables
+- Use `uv`, never bare `pip`, `pip3`, or `python3`.
+- Public config lives in `~/Developer/dotfiles`; private config lives in
+  `~/Developer/dotfiles_env`.
+- Use `links.tsv` plus `./links.sh dry-run`, `./links.sh check`, and
+  `./links.sh doctor` for symlink work.
+- Do not delete critical `~/.dbt/*` symlinks.
+- Use explicit overlay hooks only: `secrets.zsh`, `local.zsh`,
+  `gitconfig.local`, and `source_dotfiles_env`.
+- Use matching repo-backed skills from `.ai/skills`.
+- Do not use `superpowers:using-git-worktrees`; use `worktrunk` and `wt`.
 
 @RTK.md
