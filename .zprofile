@@ -11,6 +11,7 @@
 
 if [[ "$OSTYPE" == darwin* ]]; then
   export BROWSER='open'
+  export TERMINAL='cmux'
 fi
 
 #

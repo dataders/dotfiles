@@ -22,13 +22,29 @@ shell-integration-features = cursor,sudo,title
 window-padding-x = 8
 window-padding-y = 8
 window-decoration = true
+window-show-tab-bar = never
+confirm-close-surface = false
 mouse-hide-while-typing = true
-unfocused-split-opacity = 0.8
+unfocused-split-opacity = 0.70
+split-divider-color = 45475a
+split-inherit-working-directory = true
+tab-inherit-working-directory = true
+window-inherit-working-directory = true
+window-inherit-font-size = true
+
+# Agent sessions produce long traces; keep enough context without endless RAM use.
+scrollback-limit = 50000
 
 # Clipboard
 clipboard-read = allow
 clipboard-write = allow
 copy-on-select = clipboard
+clipboard-trim-trailing-spaces = true
+clipboard-paste-protection = true
+clipboard-paste-bracketed-safe = true
+
+# macOS
+macos-option-as-alt = true
 
 # Quick terminal
 quick-terminal-position = left
@@ -36,16 +52,20 @@ quick-terminal-position = left
 # Keybinds
 keybind = cmd+shift+r=reload_config
 keybind = cmd+w=close_tab
-keybind = cmd+shift+h=new_split:down
-keybind = cmd+shift+v=new_split:right
-keybind = cmd+h=goto_split:left
-keybind = cmd+j=goto_split:down
-keybind = cmd+k=goto_split:up
-keybind = cmd+l=goto_split:right
-keybind = cmd+shift+period=move_tab:1
-keybind = cmd+shift+comma=move_tab:-1
+keybind = cmd+d=new_split:right
+keybind = cmd+shift+d=new_split:down
+keybind = cmd+alt+left=goto_split:left
+keybind = cmd+alt+right=goto_split:right
+keybind = cmd+alt+up=goto_split:up
+keybind = cmd+alt+down=goto_split:down
+keybind = cmd+ctrl+left=resize_split:left,20
+keybind = cmd+ctrl+right=resize_split:right,20
+keybind = cmd+ctrl+up=resize_split:up,10
+keybind = cmd+ctrl+down=resize_split:down,10
+keybind = alt+left=esc:b
+keybind = alt+right=esc:f
+keybind = alt+backspace=text:\x17
 
 # Performance
 # vsync = true
-
 
