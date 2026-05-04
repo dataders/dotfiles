@@ -202,7 +202,9 @@
     }
   },
   "skillOverrides": {
-    "superpowers:dispatching-parallel-agents": "off"
+    "superpowers:dispatching-parallel-agents": "off",
+    "superpowers:using-git-worktrees": "off",
+    "superpowers:subagent-driven-development": "off"
   },
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
