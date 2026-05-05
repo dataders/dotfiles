@@ -150,6 +150,11 @@
     "disableBypassPermissionsMode": "disable"
   },
   "model": "sonnet[1m]",
+  "skillOverrides": {
+    "superpowers:dispatching-parallel-agents": "off",
+    "superpowers:using-git-worktrees": "off",
+    "superpowers:subagent-driven-development": "off"
+  },
   "hooks": {
     "PreToolUse": [
       {
@@ -191,7 +196,8 @@
   "enabledPlugins": {
     "superpowers@superpowers-marketplace": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
-    "worktrunk@worktrunk": true
+    "worktrunk@worktrunk": true,
+    "codex@openai-codex": true
   },
   "extraKnownMarketplaces": {
     "worktrunk": {
@@ -199,12 +205,13 @@
         "source": "github",
         "repo": "max-sixty/worktrunk"
       }
+    },
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
     }
-  },
-  "skillOverrides": {
-    "superpowers:dispatching-parallel-agents": "off",
-    "superpowers:using-git-worktrees": "off",
-    "superpowers:subagent-driven-development": "off"
   },
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",

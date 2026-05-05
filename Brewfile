@@ -47,6 +47,7 @@ brew "scala@2.12"
 brew "starship"
 brew "tailscale", restart_service: :changed
 brew "tailspin"
+brew "teleport"
 brew "temporal"
 brew "tmux"
 brew "trash-cli"

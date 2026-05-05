@@ -4,3 +4,10 @@ profile = "default"
 
 [overrides]
 "/Users/dataders/Developer/fs.clickhouse-adapter" = "nightly-aarch64-apple-darwin"
+"/Users/dataders/Developer/fs.clickhouse-cdn-redist" = "nightly-aarch64-apple-darwin"
+"/Users/dataders/Developer/fs.clickhouse-macro-package" = "nightly-aarch64-apple-darwin"
+"/Users/dataders/Developer/fs.clickhouse-part-2-schemas" = "nightly-aarch64-apple-darwin"
+"/Users/dataders/Developer/fs.clickhouse-part-3-adapter" = "nightly-aarch64-apple-darwin"
+"/Users/dataders/Developer/fs.lp-index-col" = "nightly-aarch64-apple-darwin"
+"/Users/dataders/Developer/fs.lp-proto" = "nightly-aarch64-apple-darwin"
+"/Users/dataders/Developer/fs.serialize-LP" = "nightly-aarch64-apple-darwin"
