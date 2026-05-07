@@ -86,6 +86,15 @@ source /opt/homebrew/opt/forgit/share/forgit/forgit.plugin.zsh
 
 # fzf-tab: use bracket format so group headers render without raw escape codes
 zstyle ':completion:*:descriptions' format '[%d]'
+# hide group headers (zsh color codes don't render in fzf)
+zstyle ':fzf-tab:*' show-group none
+# show directory contents when completing cd; auto-select single matches; float in a popup
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -A --icons --group-directories-first $realpath'
+if [[ -n "$TMUX" || -n "$ZELLIJ" ]]; then
+  zstyle ':fzf-tab:*' fzf-flags '--select-1' '--tmux center,60%'
+else
+  zstyle ':fzf-tab:*' fzf-flags '--select-1' '--height=~40%'
+fi
 
 # Modern tool aliases
 alias cat='bat --paging=never'
@@ -217,4 +226,7 @@ if [[ -n "$CMUX_SURFACE_ID" ]]; then
 
   add-zsh-hook preexec _cmux_tab_preexec
   add-zsh-hook precmd _cmux_tab_precmd
+
+  # Fire theme change immediately on workspace switch (precmd only fires on command completion).
+  cmux set-hook workspace-focus "$HOME/Developer/dotfiles/bin/cmux-theme-on-focus" &>/dev/null
 fi
