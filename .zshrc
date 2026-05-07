@@ -198,19 +198,19 @@ if [[ -n "$CMUX_SURFACE_ID" ]]; then
       dir=${dir:-$(basename "$PWD")}
       branch=$(git branch --show-current 2>/dev/null)
       if [[ -n "$branch" ]]; then
-        cmux rename-tab "$dir · $branch" 2>/dev/null &!
+        cmux rename-tab "$dir · $branch" &>/dev/null &!
       else
-        cmux rename-tab "$dir" 2>/dev/null &!
+        cmux rename-tab "$dir" &>/dev/null &!
       fi
       repo="${dir%%.*}"
       if [[ "$repo" != "$_CMUX_WS_LAST_REPO" ]]; then
         _CMUX_WS_LAST_REPO="$repo"
         color="${_CMUX_REPO_COLORS[$repo]}"
-        [[ -n "$color" ]] && cmux workspace-action --action set-color --color "$color" 2>/dev/null &!
+        [[ -n "$color" ]] && cmux workspace-action --action set-color --color "$color" &>/dev/null &!
         local light dark
         light="${_CMUX_REPO_THEMES_LIGHT[$repo]}"
         dark="${_CMUX_REPO_THEMES_DARK[$repo]}"
-        [[ -n "$light" && -n "$dark" ]] && cmux themes set --light "$light" --dark "$dark" 2>/dev/null &!
+        [[ -n "$light" && -n "$dark" ]] && cmux themes set --light "$light" --dark "$dark" &>/dev/null &!
       fi
     fi
   }
