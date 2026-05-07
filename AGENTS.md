@@ -45,4 +45,19 @@ Bare `pip`, `pip3`, and `python3` invocations are blocked by a PreToolUse hook. 
 - Do not use `superpowers:using-git-worktrees`; use the `worktrunk` skill and `wt` for worktree workflows
 - Use relevant repo-backed skills from `.ai/skills`. If a task matches a skill name or description, open its `SKILL.md` first and follow it.
 
+## Agent Teams
+
+Spawn parallel teammates with native tools in this exact order:
+1. `TeamCreate` — creates the team and its task list
+2. `TaskCreate` — creates tasks under the team (after TeamCreate)
+3. `Agent` tool with `team_name` and `name` parameters — spawns the teammate
+
+Use `SendMessage` to communicate with teammates and `TaskUpdate` to track progress.
+`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set in `~/.claude/settings.json`.
+`teammateMode` is `"tmux"` — teammates get their own panes automatically.
+
+Never use `cmux claude-teams` (blocked in zshrc to prevent recursion) or `cmux new-workspace`
+(creates a plain terminal, not an agent teammate). The `superpowers:dispatching-parallel-agents`
+skill is disabled in settings.json.
+
 @RTK.md

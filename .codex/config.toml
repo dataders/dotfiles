@@ -18,6 +18,10 @@ set = { UV_CACHE_DIR = "/tmp/uv-cache" }
 codex_hooks = true
 guardian_approval = true
 memories = true
+terminal_resize_reflow = true
+external_migration = true
+prevent_idle_sleep = true
+goals = true
 
 [mcp_servers]
 # TOML uses dotted tables for nesting. The parent table is here only to make the
@@ -135,9 +139,6 @@ enabled = true
 [plugins."computer-use@openai-bundled"]
 enabled = true
 
-[plugins."browser-use@openai-bundled"]
-enabled = true
-
 [plugins."documents@openai-primary-runtime"]
 enabled = true
 
@@ -147,6 +148,9 @@ enabled = true
 [plugins."presentations@openai-primary-runtime"]
 enabled = true
 
+[plugins."browser-use@openai-bundled"]
+enabled = true
+
 [[skills.config]]
 name = "superpowers:using-git-worktrees"
 enabled = false
@@ -154,24 +158,24 @@ enabled = false
 [marketplaces]
 
 [marketplaces.openai-bundled]
-last_updated = "2026-05-05T13:03:04Z"
+last_updated = "2026-05-06T18:00:37Z"
 source_type = "local"
 source = "/Users/dataders/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-05-05T13:47:23Z"
+last_updated = "2026-05-06T18:47:37Z"
 source_type = "local"
 source = "/Users/dataders/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
 [marketplaces.claude-plugins-official]
-last_updated = "2026-05-05T13:51:42Z"
-last_revision = "ac45fdae4b7af187b5624599ab054090dedadd94"
+last_updated = "2026-05-06T22:41:02Z"
+last_revision = "d6947b6f35ada84a029349c76e9e44b1d35fb71e"
 source_type = "git"
 source = "https://github.com/anthropics/claude-plugins-official.git"
 
 [marketplaces.worktrunk]
-last_updated = "2026-05-05T13:51:51Z"
-last_revision = "9a5aa2b7bea0492dfa8642b6dc1608fa9e5d3f4b"
+last_updated = "2026-05-06T21:30:11Z"
+last_revision = "404bd563a54ec7ff5e15a913ed6ad76e812b7b6f"
 source_type = "git"
 source = "https://github.com/max-sixty/worktrunk.git"
 

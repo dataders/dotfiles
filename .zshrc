@@ -41,9 +41,7 @@ export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include"
 
 # Prompt handled by Starship (initialized at end of file)
 
-# autoload -U +X compinit && compinit
-autoload -U +X bashcompinit && bashcompinit
-source ~/Developer/dbt-completion.bash/dbt-completion.bash
+# dbt native zsh completion loaded via fpath (_dbt in ~/Developer/dbt-completion.bash)
 
 
 # zsh autocorrect disable specific commands
