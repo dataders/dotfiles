@@ -133,12 +133,28 @@ claude() {
   fi
 }
 
-# Auto-name cmux tabs to "repo · branch" on directory change or branch switch.
-# Fires on cd (pwd change) and after git checkout/switch/gh pr checkout.
-# Claude Code's session-start hook overrides this with a task title when claude launches.
+# Auto-name cmux tabs and color workspaces on directory change or branch switch.
+# Tab name: "repo · branch". Workspace color: looked up from _CMUX_REPO_COLORS.
+# Worktree suffix stripped for color lookup (e.g. fs.feat-foo → fs → Blue).
+# Claude Code's session-start hook overrides the tab name with a task title.
 if [[ -n "$CMUX_SURFACE_ID" ]]; then
   typeset -g _CMUX_TAB_LAST_PWD=""
   typeset -g _CMUX_TAB_GIT_CMD=0
+  typeset -g _CMUX_WS_LAST_REPO=""
+
+  typeset -gA _CMUX_REPO_COLORS=(
+    dotfiles              Amber
+    fs                    Blue
+    fidget                Green
+    dbt-clickhouse        Teal
+    duckdb-iceberg        Aqua
+    jaffle-sandbox        Olive
+    fusion_issue_analysis Purple
+    stocks                Rose
+    sandbox-spark-iceberg Navy
+    saas-metrics-demo     Indigo
+    query-plan-diff       Crimson
+  )
 
   _cmux_tab_preexec() {
     case "${1## }" in
@@ -150,7 +166,7 @@ if [[ -n "$CMUX_SURFACE_ID" ]]; then
     if [[ "$PWD" != "$_CMUX_TAB_LAST_PWD" ]] || (( _CMUX_TAB_GIT_CMD )); then
       _CMUX_TAB_LAST_PWD="$PWD"
       _CMUX_TAB_GIT_CMD=0
-      local dir branch
+      local dir branch repo color
       dir=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null)
       dir=${dir:-$(basename "$PWD")}
       branch=$(git branch --show-current 2>/dev/null)
@@ -158,6 +174,12 @@ if [[ -n "$CMUX_SURFACE_ID" ]]; then
         cmux rename-tab "$dir · $branch" 2>/dev/null &!
       else
         cmux rename-tab "$dir" 2>/dev/null &!
+      fi
+      repo="${dir%%.*}"
+      color="${_CMUX_REPO_COLORS[$repo]}"
+      if [[ -n "$color" && "$repo" != "$_CMUX_WS_LAST_REPO" ]]; then
+        _CMUX_WS_LAST_REPO="$repo"
+        cmux workspace-action --action set-color --color "$color" 2>/dev/null &!
       fi
     fi
   }
