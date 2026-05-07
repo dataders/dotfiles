@@ -146,44 +146,41 @@ if [[ -n "$CMUX_SURFACE_ID" ]]; then
     dotfiles              Amber
     fs                    Blue
     fidget                Green
-    dbt-clickhouse        Teal
-    duckdb-iceberg        Aqua
-    jaffle-sandbox        Olive
+    dbt-autofix           Teal
     fusion_issue_analysis Purple
+    internal-analytics    Aqua
+    jaffle-sandbox        Olive
     stocks                Rose
-    sandbox-spark-iceberg Navy
+    docs                  Navy
     saas-metrics-demo     Indigo
-    query-plan-diff       Crimson
   )
 
-  # Light/dark theme pairs per repo. cmux themes set is app-wide but follows the
-  # focused workspace — works well for the one-workspace-per-repo model.
+  # Light/dark theme pairs per repo (ranked by zoxide frecency).
+  # Note: docs.getdbt.com maps to key "docs" because precmd strips from first dot.
   typeset -gA _CMUX_REPO_THEMES_LIGHT=(
     dotfiles              "Gruvbox Light"
     fs                    "Iceberg Light"
     fidget                "Everforest Light Med"
-    dbt-clickhouse        "Flexoki Light"
-    duckdb-iceberg        "Bluloco Light"
-    jaffle-sandbox        "Zenbones Light"
+    dbt-autofix           "TokyoNight Day"
     fusion_issue_analysis "Rose Pine Dawn"
+    internal-analytics    "Kanagawa Lotus"
+    jaffle-sandbox        "Zenbones Light"
     stocks                "Melange Light"
-    sandbox-spark-iceberg "Dayfox"
+    docs                  "Flexoki Light"
     saas-metrics-demo     "Farmhouse Light"
-    query-plan-diff       "Atom One Light"
   )
 
   typeset -gA _CMUX_REPO_THEMES_DARK=(
     dotfiles              "Gruvbox Dark"
     fs                    "Iceberg Dark"
     fidget                "Everforest Dark Hard"
-    dbt-clickhouse        "Flexoki Dark"
-    duckdb-iceberg        "Bluloco Dark"
-    jaffle-sandbox        "Zenbones Dark"
+    dbt-autofix           "TokyoNight Storm"
     fusion_issue_analysis "Rose Pine"
+    internal-analytics    "Kanagawa Wave"
+    jaffle-sandbox        "Zenbones Dark"
     stocks                "Melange Dark"
-    sandbox-spark-iceberg "Nightfox"
+    docs                  "Flexoki Dark"
     saas-metrics-demo     "Farmhouse Dark"
-    query-plan-diff       "Atom One Dark"
   )
 
   _cmux_tab_preexec() {
