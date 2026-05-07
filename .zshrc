@@ -84,6 +84,9 @@ eval "$(zoxide init zsh)"
 # forgit (fzf-powered git commands - see docs/forgit.md)
 source /opt/homebrew/opt/forgit/share/forgit/forgit.plugin.zsh
 
+# fzf-tab: use bracket format so group headers render without raw escape codes
+zstyle ':completion:*:descriptions' format '[%d]'
+
 # Modern tool aliases
 alias cat='bat --paging=never'
 alias ls='eza --icons --group-directories-first'
@@ -129,3 +132,36 @@ claude() {
     command claude "$@"
   fi
 }
+
+# Auto-name cmux tabs to "repo · branch" on directory change or branch switch.
+# Fires on cd (pwd change) and after git checkout/switch/gh pr checkout.
+# Claude Code's session-start hook overrides this with a task title when claude launches.
+if [[ -n "$CMUX_SURFACE_ID" ]]; then
+  typeset -g _CMUX_TAB_LAST_PWD=""
+  typeset -g _CMUX_TAB_GIT_CMD=0
+
+  _cmux_tab_preexec() {
+    case "${1## }" in
+      git\ checkout*|git\ switch*|gh\ pr\ checkout*) _CMUX_TAB_GIT_CMD=1 ;;
+    esac
+  }
+
+  _cmux_tab_precmd() {
+    if [[ "$PWD" != "$_CMUX_TAB_LAST_PWD" ]] || (( _CMUX_TAB_GIT_CMD )); then
+      _CMUX_TAB_LAST_PWD="$PWD"
+      _CMUX_TAB_GIT_CMD=0
+      local dir branch
+      dir=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null)
+      dir=${dir:-$(basename "$PWD")}
+      branch=$(git branch --show-current 2>/dev/null)
+      if [[ -n "$branch" ]]; then
+        cmux rename-tab "$dir · $branch" 2>/dev/null &!
+      else
+        cmux rename-tab "$dir" 2>/dev/null &!
+      fi
+    fi
+  }
+
+  add-zsh-hook preexec _cmux_tab_preexec
+  add-zsh-hook precmd _cmux_tab_precmd
+fi
