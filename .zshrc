@@ -89,8 +89,8 @@ zstyle ':completion:*:descriptions' format '[%d]'
 
 # Modern tool aliases
 alias cat='bat --paging=never'
-alias ls='eza --icons --group-directories-first'
-alias ll='eza -la --icons --group-directories-first --git'
+alias ls='eza -A --icons --group-directories-first'
+alias ll='eza -lA --icons --group-directories-first --git --no-permissions --no-user'
 alias tree='eza --tree --icons'
 
 # Pipe --help through bat with syntax highlighting
@@ -156,6 +156,36 @@ if [[ -n "$CMUX_SURFACE_ID" ]]; then
     query-plan-diff       Crimson
   )
 
+  # Light/dark theme pairs per repo. cmux themes set is app-wide but follows the
+  # focused workspace — works well for the one-workspace-per-repo model.
+  typeset -gA _CMUX_REPO_THEMES_LIGHT=(
+    dotfiles              "Gruvbox Light"
+    fs                    "Iceberg Light"
+    fidget                "Everforest Light Med"
+    dbt-clickhouse        "Flexoki Light"
+    duckdb-iceberg        "Bluloco Light"
+    jaffle-sandbox        "Zenbones Light"
+    fusion_issue_analysis "Rose Pine Dawn"
+    stocks                "Melange Light"
+    sandbox-spark-iceberg "Dayfox"
+    saas-metrics-demo     "Farmhouse Light"
+    query-plan-diff       "Atom One Light"
+  )
+
+  typeset -gA _CMUX_REPO_THEMES_DARK=(
+    dotfiles              "Gruvbox Dark"
+    fs                    "Iceberg Dark"
+    fidget                "Everforest Dark Hard"
+    dbt-clickhouse        "Flexoki Dark"
+    duckdb-iceberg        "Bluloco Dark"
+    jaffle-sandbox        "Zenbones Dark"
+    fusion_issue_analysis "Rose Pine"
+    stocks                "Melange Dark"
+    sandbox-spark-iceberg "Nightfox"
+    saas-metrics-demo     "Farmhouse Dark"
+    query-plan-diff       "Atom One Dark"
+  )
+
   _cmux_tab_preexec() {
     case "${1## }" in
       git\ checkout*|git\ switch*|gh\ pr\ checkout*) _CMUX_TAB_GIT_CMD=1 ;;
@@ -176,10 +206,14 @@ if [[ -n "$CMUX_SURFACE_ID" ]]; then
         cmux rename-tab "$dir" 2>/dev/null &!
       fi
       repo="${dir%%.*}"
-      color="${_CMUX_REPO_COLORS[$repo]}"
-      if [[ -n "$color" && "$repo" != "$_CMUX_WS_LAST_REPO" ]]; then
+      if [[ "$repo" != "$_CMUX_WS_LAST_REPO" ]]; then
         _CMUX_WS_LAST_REPO="$repo"
-        cmux workspace-action --action set-color --color "$color" 2>/dev/null &!
+        color="${_CMUX_REPO_COLORS[$repo]}"
+        [[ -n "$color" ]] && cmux workspace-action --action set-color --color "$color" 2>/dev/null &!
+        local light dark
+        light="${_CMUX_REPO_THEMES_LIGHT[$repo]}"
+        dark="${_CMUX_REPO_THEMES_DARK[$repo]}"
+        [[ -n "$light" && -n "$dark" ]] && cmux themes set --light "$light" --dark "$dark" 2>/dev/null &!
       fi
     fi
   }
