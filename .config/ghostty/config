@@ -6,6 +6,7 @@ desktop-notifications = true
 # Theme (auto light/dark switching)
 theme = light:GitHub Light Default,dark:GitHub Dark Default
 
+custom-shader = /Users/dataders/Developer/ghostty-shaders/vignette.glsl
 # custom-shader = /Users/dataders/Developer/ghostty-shaders/retro-terminal.glsl
 # custom-shader = /Users/dataders/Developer/ghostty-shaders/bloom.glsl
 # custom-shader-animation = always
