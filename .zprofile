@@ -53,6 +53,13 @@ path=(
   /usr/local/{bin,sbin}
 )
 
+# Homebrew (Apple Silicon) zsh completions — must come before compinit
+fpath=(
+  /opt/homebrew/share/zsh/site-functions
+  $HOME/Developer/dbt-completion.bash
+  $fpath
+)
+
 export WASMTIME_HOME="$HOME/.wasmtime"
 export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include"
 

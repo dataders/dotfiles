@@ -65,6 +65,7 @@
       "Bash(bash:*)",
       "Bash(zsh:*)",
       "Bash(tmux:*)",
+      "Bash(cmux *)",
       "Bash(bat:*)",
       "Bash(eza:*)",
       "Bash(starship:*)",

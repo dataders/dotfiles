@@ -16,5 +16,6 @@ Hard rules:
   `gitconfig.local`, and `source_dotfiles_env`.
 - Use matching repo-backed skills from `.ai/skills`.
 - Use `worktrunk` / `wt` for worktrees, never `superpowers:using-git-worktrees`.
+- Spawn agent teams via `TeamCreate → TaskCreate → Agent(team_name)`; never `cmux claude-teams`, never bare `Agent(run_in_background=true)`.
 
 @RTK.md
