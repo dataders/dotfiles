@@ -102,6 +102,12 @@ alias ls='eza -A --icons --group-directories-first'
 alias ll='eza -lA --icons --group-directories-first --git --no-permissions --no-user'
 alias tree='eza --tree --icons'
 
+# Markdown rendering: mdcat renders inline (images via kitty graphics in Ghostty);
+# glow browses a repo's markdown tree
+alias md='mdcat'
+alias mdp='mdcat -p'
+alias mdb='glow .'
+
 # Pipe --help through bat with syntax highlighting
 alias -g -- '--help=--help | bat -plhelp'
 
