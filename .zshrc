@@ -108,6 +108,19 @@ alias md='mdcat'
 alias mdp='mdcat -p'
 alias mdb='glow .'
 
+# Yazi file manager: `y` to launch, `yy` to launch and cd to wherever you end up
+# (yazi writes its final cwd to a tempfile, the shell reads it after exit).
+alias y='yazi'
+function yy() {
+  local tmp="$(mktemp -t yazi-cwd.XXXXXX)"
+  command yazi "$@" --cwd-file="$tmp"
+  local cwd
+  if cwd="$(command cat -- "$tmp")" && [[ -n "$cwd" && "$cwd" != "$PWD" ]]; then
+    builtin cd -- "$cwd"
+  fi
+  rm -f -- "$tmp"
+}
+
 # Pipe --help through bat with syntax highlighting
 alias -g -- '--help=--help | bat -plhelp'
 

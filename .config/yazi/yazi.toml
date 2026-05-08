@@ -1,0 +1,27 @@
+# Yazi configuration
+# Reference: https://yazi-rs.github.io/docs/configuration/yazi
+#
+# Ghostty supports the kitty graphics protocol — yazi auto-detects this and
+# previews images inline in the side pane. Default text/markdown previews
+# use the built-in `code` plugin (bat-backed syntax highlighting).
+
+[mgr]
+show_hidden = true
+sort_by = "natural"
+sort_dir_first = true
+linemode = "size"
+
+[preview]
+max_width = 1000
+max_height = 1000
+
+# Pressing Enter on a .md file pages it through mdcat (rendered, with images).
+[opener]
+markdown = [
+  { run = 'mdcat -p "$@"', block = true, desc = "View rendered markdown" },
+]
+
+[open]
+prepend_rules = [
+  { url = "*.md", use = "markdown" },
+]
