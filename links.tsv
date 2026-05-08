@@ -16,6 +16,7 @@ repo:.config/cmux/settings.json	home:.config/cmux/settings.json	terminal	public	
 repo:.config/gh-dash/config.yml	home:.config/gh-dash/config.yml	github	public	GitHub dashboard config
 repo:.config/starship.toml	home:.config/starship.toml	shell	public	Starship prompt config
 repo:.config/wt.toml	home:.config/wt.toml	worktree	public	Worktrunk config
+repo:.config/yazi/yazi.toml	home:.config/yazi/yazi.toml	terminal	public	Yazi file manager config
 repo:.config/git/ignore	home:.config/git/ignore	git	public	XDG Git ignore file
 repo:.config/direnv/direnvrc	home:.config/direnv/direnvrc	shell	public	direnv helper functions
 repo:.config/gh/hosts.yml	home:.config/gh/hosts.yml	github	private	GitHub CLI host auth config
