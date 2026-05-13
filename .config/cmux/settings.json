@@ -26,8 +26,8 @@
     "showNotificationMessage": true,
     "showBranchDirectory": true,
     "showPullRequests": true,
-    "openPullRequestLinksInCmuxBrowser": true,
-    "openPortLinksInCmuxBrowser": true,
+    "openPullRequestLinksInCmuxBrowser": false,
+    "openPortLinksInCmuxBrowser": false,
     "showPorts": true,
     "showProgress": true
   },
@@ -38,8 +38,8 @@
     "portRange": 10
   },
   "browser": {
-    "openTerminalLinksInCmuxBrowser": true,
-    "interceptTerminalOpenCommandInCmuxBrowser": true,
+    "openTerminalLinksInCmuxBrowser": false,
+    "interceptTerminalOpenCommandInCmuxBrowser": false,
     "hostsToOpenInEmbeddedBrowser": [
       "localhost",
       "127.0.0.1",
