@@ -1,0 +1,49 @@
+{
+  "mcpServers": {
+    "fusion-graphene": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "/Users/dataders/Developer/fusion_issue_analysis/.worktrees/codex-graphene-prod",
+        "dashboard/graphene/mcp_server.py"
+      ],
+      "env": {
+        "FUSION_DB": "md:fusion_issues"
+      }
+    },
+    "fusion-issue-health": {
+      "command": "/opt/homebrew/bin/node",
+      "args": [
+        "/Users/dataders/Developer/fusion_issue_analysis.codex-mcp-ui-app-spike/dashboard/mcp-app/node_modules/tsx/dist/cli.mjs",
+        "/Users/dataders/Developer/fusion_issue_analysis.codex-mcp-ui-app-spike/dashboard/mcp-app/main.ts",
+        "--stdio"
+      ]
+    }
+  },
+  "preferences": {
+    "chromeExtensionEnabled": false,
+    "quickEntryShortcut": "off",
+    "quickEntryDictationShortcut": "capslock",
+    "localAgentModeTrustedFolders": [
+      "/Users/dataders/Library/CloudStorage/Dropbox/money26",
+      "/Users/dataders/Developer/contented-but-not-satisfied"
+    ],
+    "coworkScheduledTasksEnabled": true,
+    "ccdScheduledTasksEnabled": true,
+    "sidebarMode": "chat",
+    "dockBounceEnabled": true,
+    "coworkWebSearchEnabled": true,
+    "epitaxyPrefs": {
+      "starred-local-code-sessions": [],
+      "starred-cowork-spaces": [],
+      "starred-session-groups": [],
+      "dframe-local-slice": {
+        "pinnedOrder": [],
+        "customGroupAssignments": {},
+        "customGroupOrder": {}
+      }
+    },
+    "remoteToolsDeviceName": "anders-swanson"
+  }
+}
