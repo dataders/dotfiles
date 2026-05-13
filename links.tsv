@@ -42,6 +42,7 @@ repo:odbc.ini	home:.odbc.ini	warehouse	public	User ODBC DSN config
 repo:.snowflake/connections.toml	home:.snowflake/connections.toml	warehouse	private	Snowflake config symlinked through dotfiles_env
 repo:.cargo/config.toml	home:.cargo/config.toml	rust	public	Cargo config
 repo:.rustup/settings.toml	home:.rustup/settings.toml	rust	public	Rustup toolchain settings
+repo:.config/claude/claude_desktop_config.json	app:Claude/claude_desktop_config.json	agents	public	Claude Desktop MCP server config
 env:credentials/fusion.env.json	home:credentials/fusion.env.json	dbt	private	Fusion credentials JSON
 env:.dbt/profiles.yml	home:.dbt/profiles.yml	dbt	private	dbt profiles
 env:.dbt/dbt_cloud.yml	home:.dbt/dbt_cloud.yml	dbt	private	dbt Cloud config
