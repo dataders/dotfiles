@@ -153,10 +153,57 @@
   "model": "sonnet[1m]",
   "skillOverrides": {
     "superpowers:dispatching-parallel-agents": "off",
-    "superpowers:using-git-worktrees": "off",
-    "superpowers:subagent-driven-development": "off"
+    "superpowers:subagent-driven-development": "off",
+    "superpowers:using-git-worktrees": "off"
   },
   "hooks": {
+    "Notification": [
+      {
+        "matcher": "permission_prompt|elicitation_dialog|idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '\\033]777;notify;Claude Code;Needs your input\\007'"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' blocked",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' working",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' working",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Bash",
@@ -175,15 +222,62 @@
             "command": "~/.claude/hooks/rtk-rewrite.sh"
           }
         ]
-      }
-    ],
-    "Notification": [
+      },
       {
-        "matcher": "permission_prompt|elicitation_dialog|idle_prompt",
+        "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "printf '\\033]777;notify;Claude Code;Needs your input\\007'"
+            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' working",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' release",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' idle",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' working",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' working",
+            "timeout": 10
           }
         ]
       }
@@ -195,22 +289,22 @@
     "padding": 0
   },
   "enabledPlugins": {
-    "superpowers@superpowers-marketplace": true,
+    "codex@openai-codex": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
-    "worktrunk@worktrunk": true,
-    "codex@openai-codex": true
+    "superpowers@superpowers-marketplace": true,
+    "worktrunk@worktrunk": true
   },
   "extraKnownMarketplaces": {
-    "worktrunk": {
-      "source": {
-        "source": "github",
-        "repo": "max-sixty/worktrunk"
-      }
-    },
     "openai-codex": {
       "source": {
         "source": "github",
         "repo": "openai/codex-plugin-cc"
+      }
+    },
+    "worktrunk": {
+      "source": {
+        "source": "github",
+        "repo": "max-sixty/worktrunk"
       }
     }
   },
@@ -222,7 +316,9 @@
     "mode": "hold"
   },
   "skipDangerousModePermissionPrompt": true,
+  "theme": "auto",
   "teammateMode": "tmux",
+  "inputNeededNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
   "voiceEnabled": true
 }

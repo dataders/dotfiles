@@ -3,7 +3,7 @@
 ## Environment
 - macOS (Apple Silicon)
 - Shell: zsh with Starship prompt + Prezto
-- Terminal: cmux
+- Terminal: herdr (agent sessions) or cmux (when browser/PR sidebar needed)
 - Package manager: Homebrew
 - Python: uv-managed virtual environments; conda/miniforge not used
 
@@ -47,6 +47,7 @@ Bare `pip`, `pip3`, and `python3` invocations are blocked by a PreToolUse hook. 
 
 ## Agent Teams
 
+### Orchestration (always)
 Spawn parallel teammates with native tools in this exact order:
 1. `TeamCreate` — creates the team and its task list
 2. `TaskCreate` — creates tasks under the team (after TeamCreate)
@@ -54,10 +55,30 @@ Spawn parallel teammates with native tools in this exact order:
 
 Use `SendMessage` to communicate with teammates and `TaskUpdate` to track progress.
 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set in `~/.claude/settings.json`.
-`teammateMode` is `"tmux"` — teammates get their own panes automatically.
+The `superpowers:dispatching-parallel-agents` skill is disabled in settings.json.
 
-Never use `cmux claude-teams` (blocked in zshrc to prevent recursion) or `cmux new-workspace`
-(creates a plain terminal, not an agent teammate). The `superpowers:dispatching-parallel-agents`
-skill is disabled in settings.json.
+### Inside herdr
+`HERDR_ENV=1` when running inside herdr. The herdr Claude integration reports lifecycle
+state (working/blocked/idle) to the herdr sidebar automatically via installed hooks.
+
+`teammateMode` is `"tmux"` in settings.json. Inside herdr `$TMUX` is not set, so teammates
+spawned via the `Agent` tool run as background processes — they appear in the herdr sidebar
+via process detection but have no visible pane. To spawn an agent with visible output:
+
+```bash
+NEW=$(herdr pane split <your-pane-id> --direction right --no-focus \
+      | uv run python3 -c 'import sys,json; print(json.load(sys.stdin)["result"]["pane"]["pane_id"])')
+herdr pane run "$NEW" "claude"
+herdr wait output "$NEW" --match ">" --timeout 15000
+herdr pane run "$NEW" "your task prompt here"
+```
+
+Re-read pane IDs from `herdr pane list` rather than assuming they are stable.
+
+### Inside cmux
+The `claude()` wrapper in `.zshrc` auto-routes through `cmux claude-teams` when inside cmux,
+with a recursion guard so subagents fall through to `command claude` directly. Don't manually
+call `cmux claude-teams` or `cmux new-workspace` (creates a plain terminal, not a teammate).
+With cmux, `teammateMode: "tmux"` works and teammates get their own panes automatically.
 
 @RTK.md

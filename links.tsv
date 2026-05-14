@@ -15,9 +15,11 @@ repo:.config/ghostty/config	home:.config/ghostty/config	terminal	public	Ghostty 
 repo:.config/cmux/settings.json	home:.config/cmux/settings.json	terminal	public	cmux app settings
 repo:.config/gh-dash/config.yml	home:.config/gh-dash/config.yml	github	public	GitHub dashboard config
 repo:.config/starship.toml	home:.config/starship.toml	shell	public	Starship prompt config
-repo:.config/wt.toml	home:.config/wt.toml	worktree	public	Worktrunk config
+repo:.config/wt.toml	home:.config/wt.toml	worktree	public	Worktrunk project config
+repo:.config/worktrunk/config.toml	home:.config/worktrunk/config.toml	worktree	public	Worktrunk user config
 repo:.config/yazi/yazi.toml	home:.config/yazi/yazi.toml	terminal	public	Yazi file manager config
 repo:.config/git/ignore	home:.config/git/ignore	git	public	XDG Git ignore file
+repo:.config/jj/config.toml	home:.config/jj/config.toml	git	public	jj version control config
 repo:.config/direnv/direnvrc	home:.config/direnv/direnvrc	shell	public	direnv helper functions
 repo:.config/gh/hosts.yml	home:.config/gh/hosts.yml	github	private	GitHub CLI host auth config
 repo:karabiner/karabiner.json	home:.config/karabiner/karabiner.json	keyboard	public	Karabiner keyboard rules

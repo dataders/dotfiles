@@ -4,7 +4,8 @@ approval_policy = "on-request"
 approvals_reviewer = "guardian_subagent"
 sandbox_mode = "workspace-write"
 
-notify = ["/Users/dataders/.codex/plugins/cache/openai-bundled/computer-use/1.0.758/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
+
+notify = ["/Users/dataders/.codex/plugins/cache/openai-bundled/computer-use/1.0.770/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
 
 [sandbox_workspace_write]
 writable_roots = ["/Users/dataders/.cache"]
@@ -15,7 +16,7 @@ inherit = "core"
 set = { UV_CACHE_DIR = "/tmp/uv-cache" }
 
 [features]
-codex_hooks = true
+hooks = true
 guardian_approval = true
 memories = true
 terminal_resize_reflow = true
@@ -121,6 +122,9 @@ trust_level = "trusted"
 [projects."/Users/dataders/Developer/scratch"]
 trust_level = "trusted"
 
+[projects."/Users/dataders"]
+trust_level = "trusted"
+
 [plugins]
 # Enabled plugins are explicit per plugin. No useful TOML consolidation here.
 
@@ -158,24 +162,24 @@ enabled = false
 [marketplaces]
 
 [marketplaces.openai-bundled]
-last_updated = "2026-05-06T18:00:37Z"
+last_updated = "2026-05-08T20:47:30Z"
 source_type = "local"
 source = "/Users/dataders/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-05-06T18:47:37Z"
+last_updated = "2026-05-08T21:47:22Z"
 source_type = "local"
 source = "/Users/dataders/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
 [marketplaces.claude-plugins-official]
-last_updated = "2026-05-06T22:41:02Z"
-last_revision = "d6947b6f35ada84a029349c76e9e44b1d35fb71e"
+last_updated = "2026-05-14T17:21:10Z"
+last_revision = "1a2f18b05cf5652fd25403e8d229fc884fb84103"
 source_type = "git"
 source = "https://github.com/anthropics/claude-plugins-official.git"
 
 [marketplaces.worktrunk]
-last_updated = "2026-05-06T21:30:11Z"
-last_revision = "404bd563a54ec7ff5e15a913ed6ad76e812b7b6f"
+last_updated = "2026-05-14T17:21:15Z"
+last_revision = "8fba3f8fd8aa5f4b60b6eb4d48fc730ec3154da3"
 source_type = "git"
 source = "https://github.com/max-sixty/worktrunk.git"
 
