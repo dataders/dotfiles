@@ -102,5 +102,6 @@
     "rust-analyzer.inlayHints.typeHints.enable": false,
     "editor.minimap.enabled": true,
     "dbt.dbtPath": "/Users/dataders/.local/bin/dbt",
-    "dbt.lineage.defaultDepth": 2
+    "dbt.lineage.defaultDepth": 2,
+    "dbt.ggsql.cliPath": "/Users/dataders/Developer/fs.ggsql-fold-in/target/debug/ggsql"
 }
