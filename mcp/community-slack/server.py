@@ -64,5 +64,34 @@ def fetch_messages(days: int = 7, channel: str = "dbt-fusion-engine") -> list[di
     return _fetch_messages_impl(days=days, channel=channel)
 
 
+def _fetch_thread_impl(thread_ts: str, channel: str = "dbt-fusion-engine") -> list[dict[str, Any]]:
+    channel_id = resolve_channel(channel)
+    replies = []
+    cursor = None
+    while True:
+        kwargs: dict[str, Any] = {"channel": channel_id, "ts": thread_ts, "limit": 200}
+        if cursor:
+            kwargs["cursor"] = cursor
+        resp = client.conversations_replies(**kwargs)
+        msgs = resp.get("messages", [])
+        for msg in msgs[1:] if not cursor else msgs:
+            replies.append({
+                "ts": msg["ts"],
+                "user": msg.get("user", ""),
+                "text": msg.get("text", ""),
+            })
+        meta = resp.get("response_metadata", {})
+        cursor = meta.get("next_cursor") if resp.get("has_more") else None
+        if not cursor:
+            break
+    return replies
+
+
+@mcp.tool()
+def fetch_thread(thread_ts: str, channel: str = "dbt-fusion-engine") -> list[dict[str, Any]]:
+    """Fetch all replies in a Slack thread given a message timestamp."""
+    return _fetch_thread_impl(thread_ts=thread_ts, channel=channel)
+
+
 if __name__ == "__main__":
     mcp.run(transport="stdio")
