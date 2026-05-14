@@ -28,5 +28,41 @@ def resolve_channel(name: str) -> str:
     raise ValueError(f"Channel #{name} not found. Is the bot invited?")
 
 
+import time
+from datetime import datetime, timedelta, timezone
+from typing import Any
+
+
+def _fetch_messages_impl(days: int = 7, channel: str = "dbt-fusion-engine") -> list[dict[str, Any]]:
+    channel_id = resolve_channel(channel)
+    oldest = str((datetime.now(timezone.utc) - timedelta(days=days)).timestamp())
+    messages = []
+    cursor = None
+    while True:
+        kwargs: dict[str, Any] = {"channel": channel_id, "oldest": oldest, "limit": 200}
+        if cursor:
+            kwargs["cursor"] = cursor
+        resp = client.conversations_history(**kwargs)
+        for msg in resp.get("messages", []):
+            messages.append({
+                "ts": msg["ts"],
+                "user": msg.get("user", ""),
+                "text": msg.get("text", ""),
+                "thread_ts": msg.get("thread_ts"),
+                "reply_count": msg.get("reply_count", 0),
+            })
+        meta = resp.get("response_metadata", {})
+        cursor = meta.get("next_cursor") if resp.get("has_more") else None
+        if not cursor:
+            break
+    return messages
+
+
+@mcp.tool()
+def fetch_messages(days: int = 7, channel: str = "dbt-fusion-engine") -> list[dict[str, Any]]:
+    """Fetch all messages from a Slack channel for the past N days."""
+    return _fetch_messages_impl(days=days, channel=channel)
+
+
 if __name__ == "__main__":
     mcp.run(transport="stdio")
