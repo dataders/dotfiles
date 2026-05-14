@@ -19,6 +19,10 @@
         "/Users/dataders/Developer/fusion_issue_analysis.codex-mcp-ui-app-spike/dashboard/mcp-app/main.ts",
         "--stdio"
       ]
+    },
+    "community-slack": {
+      "command": "/Users/dataders/Developer/dotfiles/mcp/community-slack/run.sh",
+      "args": []
     }
   },
   "preferences": {
