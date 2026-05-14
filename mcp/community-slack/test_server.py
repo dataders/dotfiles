@@ -35,3 +35,21 @@ def test_fetch_messages_returns_list(monkeypatch):
     assert len(result) == 2
     assert result[0]["text"] == "hello"
     assert result[0]["reply_count"] == 2
+
+
+def test_fetch_thread_returns_replies(monkeypatch):
+    fake_resp = {
+        "messages": [
+            {"ts": "1000.0001", "user": "U123", "text": "parent"},
+            {"ts": "1000.0002", "user": "U456", "text": "reply 1"},
+            {"ts": "1000.0003", "user": "U789", "text": "reply 2"},
+        ],
+        "has_more": False,
+        "response_metadata": {"next_cursor": ""},
+    }
+    server = _load_server(monkeypatch)
+    server._channel_cache["dbt-fusion-engine"] = "C999"
+    with patch.object(server.client, "conversations_replies", return_value=fake_resp):
+        result = server._fetch_thread_impl(thread_ts="1000.0001", channel="dbt-fusion-engine")
+    assert len(result) == 2
+    assert result[0]["text"] == "reply 1"
