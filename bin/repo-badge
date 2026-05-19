@@ -1,0 +1,31 @@
+#!/usr/bin/env zsh
+# Output ANSI-colored "repo·branch" for starship custom.repo_badge.
+# Color matches _CMUX_REPO_COLORS in .zshrc (256-color ANSI codes).
+# Exits non-zero outside a git repo to suppress the badge.
+
+dir=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null) || exit 1
+[[ -z "$dir" ]] && exit 1
+
+branch=$(git branch --show-current 2>/dev/null)
+repo="${dir%%.*}"
+
+typeset -A colors=(
+  dotfiles              214   # Amber
+  fs                    33    # Blue
+  fidget                76    # Green
+  dbt-autofix           80    # Teal
+  fusion_issue_analysis 135   # Purple
+  internal-analytics    51    # Aqua
+  jaffle-sandbox        142   # Olive
+  stocks                211   # Rose
+  docs                  17    # Navy
+  saas-metrics-demo     62    # Indigo
+)
+
+color=${colors[$repo]:-245}   # Default: gray for unknown repos
+
+if [[ -n "$branch" ]]; then
+  printf '\033[38;5;%dm%s·%s\033[0m' "$color" "$repo" "$branch"
+else
+  printf '\033[38;5;%dm%s\033[0m' "$color" "$repo"
+fi
