@@ -1,0 +1,8 @@
+[user]
+name = "Anders Swanson"
+email = "anders.swanson@dbtlabs.com"
+
+[ui]
+diff.format = "git"
+pager = "delta"
+editor = "vim"
