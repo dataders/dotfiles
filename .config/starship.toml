@@ -16,8 +16,8 @@ $cmd_duration\
 $line_break\
 $character"""
 
-# Right-side prompt (shows time)
-right_format = """$time"""
+# Right-side prompt (shows repo badge + time)
+right_format = """$custom.repo_badge $time"""
 
 [character]
 success_symbol = "[❯](bold green)"
@@ -58,3 +58,9 @@ disabled = false
 format = '[$time]($style)'
 time_format = "%H:%M"
 style = "dimmed white"
+
+[custom.repo_badge]
+command = "~/Developer/dotfiles/bin/repo-badge"
+when = true
+format = "$output"
+shell = ["zsh", "-c"]
