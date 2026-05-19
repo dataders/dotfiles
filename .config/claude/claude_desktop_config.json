@@ -23,6 +23,10 @@
     "community-slack": {
       "command": "/Users/dataders/Developer/dotfiles/mcp/community-slack/run.sh",
       "args": []
+    },
+    "parallel-search": {
+      "command": "/Users/dataders/Developer/dotfiles/mcp/parallel-search/run.sh",
+      "args": []
     }
   },
   "preferences": {
