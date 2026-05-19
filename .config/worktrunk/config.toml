@@ -1,0 +1,15 @@
+# Place worktrees as siblings of the repo directory
+# e.g. /Users/dataders/Developer/fs.feature-auth
+worktree-path = "{{ repo_path }}/../{{ repo }}.{{ branch | sanitize }}"
+
+# Rename the cmux tab to "repo · branch" whenever wt switches worktrees.
+[post-switch]
+tab = "[ -n \"$CMUX_SURFACE_ID\" ] && cmux rename-tab \"{{ repo }} · {{ branch }}\" 2>/dev/null || true"
+
+[projects."github.com/dbt-labs/fs"]
+# Copy target/ (via reflink on APFS) when creating new worktrees
+# This gives new worktrees a warm build cache without duplicating disk space
+# NOTE: requires fs/.worktreeinclude (gitignored, not in dotfiles) — create manually on new machines:
+#   echo -e "target/\nlib/\n.claude/\n.agents/" > ~/Developer/fs/.worktreeinclude
+post-start.copy = "wt step copy-ignored"
+post-start.cargo-profile = "rustup override set beta"
