@@ -183,34 +183,6 @@ if [[ -n "$CMUX_SURFACE_ID" ]]; then
     saas-metrics-demo     Indigo
   )
 
-  # Light/dark theme pairs per repo (ranked by zoxide frecency).
-  # Note: docs.getdbt.com maps to key "docs" because precmd strips from first dot.
-  typeset -gA _CMUX_REPO_THEMES_LIGHT=(
-    dotfiles              "Gruvbox Light"
-    fs                    "Iceberg Light"
-    fidget                "Everforest Light Med"
-    dbt-autofix           "TokyoNight Day"
-    fusion_issue_analysis "Rose Pine Dawn"
-    internal-analytics    "Kanagawa Lotus"
-    jaffle-sandbox        "Zenbones Light"
-    stocks                "Melange Light"
-    docs                  "Flexoki Light"
-    saas-metrics-demo     "Farmhouse Light"
-  )
-
-  typeset -gA _CMUX_REPO_THEMES_DARK=(
-    dotfiles              "Gruvbox Dark"
-    fs                    "Iceberg Dark"
-    fidget                "Everforest Dark Hard"
-    dbt-autofix           "TokyoNight Storm"
-    fusion_issue_analysis "Rose Pine"
-    internal-analytics    "Kanagawa Wave"
-    jaffle-sandbox        "Zenbones Dark"
-    stocks                "Melange Dark"
-    docs                  "Flexoki Dark"
-    saas-metrics-demo     "Farmhouse Dark"
-  )
-
   _cmux_tab_preexec() {
     case "${1## }" in
       git\ checkout*|git\ switch*|gh\ pr\ checkout*) _CMUX_TAB_GIT_CMD=1 ;;
@@ -235,17 +207,10 @@ if [[ -n "$CMUX_SURFACE_ID" ]]; then
         _CMUX_WS_LAST_REPO="$repo"
         color="${_CMUX_REPO_COLORS[$repo]}"
         [[ -n "$color" ]] && cmux workspace-action --action set-color --color "$color" &>/dev/null &!
-        local light dark
-        light="${_CMUX_REPO_THEMES_LIGHT[$repo]}"
-        dark="${_CMUX_REPO_THEMES_DARK[$repo]}"
-        [[ -n "$light" && -n "$dark" ]] && cmux themes set --light "$light" --dark "$dark" &>/dev/null &!
       fi
     fi
   }
 
   add-zsh-hook preexec _cmux_tab_preexec
   add-zsh-hook precmd _cmux_tab_precmd
-
-  # Fire theme change immediately on workspace switch (precmd only fires on command completion).
-  cmux set-hook workspace-focus "$HOME/Developer/dotfiles/bin/cmux-theme-on-focus" &>/dev/null
 fi
