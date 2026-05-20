@@ -21,7 +21,7 @@ boundary, and a quick validation command.
 | Warehouse config | `.aws/config`, `.snowflake/connections.toml`, `.databrickscfg` | `~/.aws/config`, `~/.snowflake/connections.toml`, `~/.databrickscfg` | private via `dotfiles_env` symlinks | `./links.sh check` |
 | Editors | `.vscode/settings.json`, `.config/zed/settings.json` | Code, Insiders, Cursor, Zed user settings | public | `./links.sh check` |
 | Workspaces | `workspaces/*/settings.json` | `~/Developer/<repo>/.vscode/settings.json` | public | `./links.sh check` |
-| Terminal | `.config/cmux/settings.json`, `.config/ghostty/config`, `.tmux.conf` | `~/.config/cmux/settings.json`, `~/.config/ghostty/config`, `~/.tmux.conf` | public | `./links.sh check` |
+| Terminal | `.config/cmux/settings.json`, `.config/ghostty/config`, `.config/ghostty/themes`, `.config/ghostty/shaders`, `.tmux.conf` | `~/.config/cmux/settings.json`, `~/.config/ghostty/config`, `~/.config/ghostty/themes`, `~/.config/ghostty/shaders`, `~/.tmux.conf` | public | `./links.sh check` |
 | Homebrew | `Brewfile` | Homebrew bundle state | public | `brew bundle check --file=Brewfile` |
 | Rust/Cargo | `.cargo/config.toml`, `.rustup/settings.toml` | `~/.cargo/config.toml`, `~/.rustup/settings.toml` | public | `rustup show active-toolchain` |
 | Security hooks | `.githooks/pre-commit` | repo-local `core.hooksPath` | public | `git config core.hooksPath` |

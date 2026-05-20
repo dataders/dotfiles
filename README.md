@@ -98,6 +98,8 @@ app settings live in `.config/cmux/settings.json`.
 | Setting | Why it is set |
 | --- | --- |
 | `font-family = JetBrainsMono Nerd Font`, `font-size = 14` | Readable code font with icons for shell prompt/tooling. |
+| `theme = light:HorseLight,dark:HorseDark` | Repo-backed custom Ghostty theme with light/dark switching. |
+| `custom-shader = ~/.config/ghostty/shaders/horses-gallop.glsl` | Subtle terminal shader managed with the rest of Ghostty config. |
 | `window-show-tab-bar = never` | Hide Ghostty tabs because cmux owns workspaces/tabs. |
 | `confirm-close-surface = false` | Let cmux workspace controls handle close confirmation instead of double prompts. |
 | `split-inherit-working-directory`, `tab-inherit-working-directory`, `window-inherit-working-directory` | New panes/tabs/windows start in current repo. Essential for agent fanout. |
@@ -256,7 +258,7 @@ when deciding whether a config belongs in this public repo or in
 | zsh overlays | `~/Developer/dotfiles_env/secrets.zsh`, `~/Developer/dotfiles_env/local.zsh` | sourced by `.zshrc` when present | Private shell tokens, aliases, and one-off local tweaks |
 | Homebrew | `Brewfile` | Homebrew bundle state | `brew()` wrapper snapshots mutating operations back to `Brewfile` |
 | GitHub dashboard | `.config/gh-dash/config.yml` | `~/.config/gh-dash/config.yml` | PR, review, issue, and notification sections for `gh dash` |
-| cmux | `.config/cmux/settings.json`, `.config/ghostty/config` | `~/.config/cmux/settings.json`, `~/.config/ghostty/config` | Default terminal app; cmux app settings plus Ghostty terminal rendering config |
+| cmux | `.config/cmux/settings.json`, `.config/ghostty/config`, `.config/ghostty/themes`, `.config/ghostty/shaders` | `~/.config/cmux/settings.json`, `~/.config/ghostty/config`, `~/.config/ghostty/themes`, `~/.config/ghostty/shaders` | Default terminal app; cmux app settings plus Ghostty terminal rendering, themes, and shaders |
 | Starship | `.config/starship.toml` | `~/.config/starship.toml` | Prompt format, git status, Python, AWS, command duration, time |
 | Git | `.gitconfig`, `.gitignore_global`, `.config/git/ignore` | `~/.gitconfig`, `~/.gitignore_global`, `~/.config/git/ignore` | `delta` pager, SSH signing, `rerere`, histogram diff, GitHub credential helper, private `gitconfig.local` include |
 | Git hooks | `.githooks/pre-commit` | repo-local `core.hooksPath` | Blocks likely-sensitive paths and TruffleHog findings in staged diff |

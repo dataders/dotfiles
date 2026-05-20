@@ -1,0 +1,27 @@
+# HorseDark - stable at dusk, pasture at night
+# Background: dark forest green  Foreground: palomino tan
+
+background  = #0F1E0F
+foreground  = #CAB480
+cursor-color = #C09840
+selection-background = #2A4A2A
+selection-foreground = #E8D8B0
+
+# 16-color palette: greens, chestnuts, golds, sky blues
+palette = 0=#0F1E0F
+palette = 1=#A03820
+palette = 2=#3A7A3A
+palette = 3=#B89030
+palette = 4=#4A7AAA
+palette = 5=#8B5C28
+palette = 6=#3A9088
+palette = 7=#C0B090
+
+palette = 8=#2A3C2A
+palette = 9=#D45028
+palette = 10=#5AAC5A
+palette = 11=#E0C040
+palette = 12=#78AADA
+palette = 13=#B07840
+palette = 14=#5ABAB0
+palette = 15=#F0E4CC
