@@ -61,6 +61,25 @@ for _dotfiles_overlay in \
 done
 unset _dotfiles_overlay
 
+# ─────────────────────────────────────────────────────────────────────────────
+# The Stable (horse-pun aliases — we hoof it around here)
+# ─────────────────────────────────────────────────────────────────────────────
+alias stable='pwd'                          # where you are stabled
+alias hay='history'                         # look back at the bales
+alias trot='cd ..'                          # one step back
+alias canter='cd -'                         # return to last stable
+alias gallop='z'                            # fast jump (zoxide)
+alias paddock='eza -A --icons --group-directories-first'  # see who's in the paddock
+alias mane='git branch'                     # your mane branch
+alias herd='git status'                     # see the whole herd
+alias saddle='git add'                      # saddle up staged changes
+alias ride='git commit'                     # commit to the ride
+alias unbridle='git reset'                  # take off the bridle
+alias stampede='git push'                   # send the herd out
+alias roundup='git fetch --all --prune'     # round up from remotes
+alias hoofprint='git log --oneline'         # tracks left behind
+alias jockey='wt'                           # worktree manager (worktrunk)
+
 # dbt aliases
 alias dbtf=/Users/dataders/.local/bin/dbt
 alias dbt-core=/Users/dataders/Developer/jaffle-sandbox/.venv/bin/dbt
@@ -145,6 +164,11 @@ export PATH="$PATH:/Users/dataders/.local/bin"
 [[ -s ~/.zsh/completions/cortex.zsh ]] && source ~/.zsh/completions/cortex.zsh
 
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Stable hand's greeting
+# ─────────────────────────────────────────────────────────────────────────────
+printf '\e[38;5;172m🐴 stop working and start horsing around, Sophia! 🐎\e[0m\n'
 
 # Route claude through cmux claude-teams when inside cmux.
 # cmux claude-teams creates a tmux server socket at /tmp/cmux-claude-teams/UUID and sets $TMUX
