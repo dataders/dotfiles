@@ -5,13 +5,15 @@ desktop-notifications = true
 
 # Theme (auto light/dark switching)
 # Catppuccin: warm cream light, deep mocha dark — overridden per-repo by cmux precmd hook
-theme = light:Catppuccin Latte,dark:Catppuccin Mocha
+# theme = light:Catppuccin Latte,dark:Catppuccin Mocha
+theme = light:HorseLight,dark:HorseDark
 
-custom-shader = ~/.config/ghostty/shaders/tft-subtle.glsl
+# custom-shader = ~/.config/ghostty/shaders/tft-subtle.glsl
+custom-shader = ~/.config/ghostty/shaders/horses-gallop.glsl
+custom-shader-animation = always
 # custom-shader = ~/.config/ghostty/shaders/starfield-subtle.glsl
 # custom-shader = /Users/dataders/Developer/ghostty-shaders/retro-terminal.glsl
 # custom-shader = /Users/dataders/Developer/ghostty-shaders/bloom.glsl
-# custom-shader-animation = always
 
 # Font (requires: brew install --cask font-jetbrains-mono-nerd-font)
 font-family = JetBrainsMono Nerd Font
@@ -22,6 +24,7 @@ shell-integration = zsh
 shell-integration-features = cursor,sudo,title
 
 # Window
+background-opacity = 0.95
 window-padding-x = 8
 window-padding-y = 8
 window-decoration = true

@@ -1,0 +1,27 @@
+# HorseLight - morning in the meadow
+# Background: soft meadow green  Foreground: dark saddle brown
+
+background  = #E0EDD8
+foreground  = #2C1A0C
+cursor-color = #8B4513
+selection-background = #B8D4A8
+selection-foreground = #1A0C04
+
+# Palette: earthy browns + greens readable on light bg
+palette = 0=#2C1A0C
+palette = 1=#8B1800
+palette = 2=#2A6A2A
+palette = 3=#7A5A00
+palette = 4=#1A5A8A
+palette = 5=#6A3A10
+palette = 6=#1A7870
+palette = 7=#7A6A50
+
+palette = 8=#4A3020
+palette = 9=#C03018
+palette = 10=#3A9A3A
+palette = 11=#A07A00
+palette = 12=#2A7AAA
+palette = 13=#8A5028
+palette = 14=#2A9890
+palette = 15=#F8F4EC
