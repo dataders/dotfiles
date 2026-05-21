@@ -5,9 +5,10 @@ desktop-notifications = true
 
 # Theme (auto light/dark switching)
 # Catppuccin: warm cream light, deep mocha dark — overridden per-repo by cmux precmd hook
-theme = light:Catppuccin Latte,dark:Catppuccin Mocha
+theme = light:GitHub Light Default,dark:GitHub Dark Default
 
-custom-shader = ~/.config/ghostty/shaders/tft-subtle.glsl
+custom-shader = /Users/dataders/Developer/ghostty-shaders/vignette.glsl
+# custom-shader = ~/.config/ghostty/shaders/tft-subtle.glsl
 # custom-shader = ~/.config/ghostty/shaders/starfield-subtle.glsl
 # custom-shader = /Users/dataders/Developer/ghostty-shaders/retro-terminal.glsl
 # custom-shader = /Users/dataders/Developer/ghostty-shaders/bloom.glsl
