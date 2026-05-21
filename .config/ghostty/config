@@ -7,11 +7,9 @@ desktop-notifications = true
 # Catppuccin: warm cream light, deep mocha dark — overridden per-repo by cmux precmd hook
 theme = light:GitHub Light Default,dark:GitHub Dark Default
 
-custom-shader = /Users/dataders/Developer/ghostty-shaders/vignette.glsl
+custom-shader = ~/.config/ghostty/shaders/vignette.glsl
 # custom-shader = ~/.config/ghostty/shaders/tft-subtle.glsl
 # custom-shader = ~/.config/ghostty/shaders/starfield-subtle.glsl
-# custom-shader = /Users/dataders/Developer/ghostty-shaders/retro-terminal.glsl
-# custom-shader = /Users/dataders/Developer/ghostty-shaders/bloom.glsl
 # custom-shader-animation = always
 
 # Font (requires: brew install --cask font-jetbrains-mono-nerd-font)
