@@ -1,0 +1,50 @@
+#!/usr/bin/env zsh
+# Styled directory: dimmed parents / bold repo-colored current segment.
+# Same color map as repo-badge; defaults to cyan (39) for unknown repos or non-git dirs.
+
+typeset -A repo_colors=(
+  dotfiles              214
+  fs                    33
+  fidget                76
+  dbt-autofix           80
+  fusion_issue_analysis 135
+  internal-analytics    51
+  jaffle-sandbox        142
+  stocks                211
+  docs                  17
+  saas-metrics-demo     62
+)
+
+repo_dir=$(git rev-parse --show-toplevel 2>/dev/null)
+if [[ -n "$repo_dir" ]]; then
+  repo="${$(basename "$repo_dir")%%.*}"
+  color=${repo_colors[$repo]:-39}
+  rel="${PWD#$repo_dir}"
+  display="${repo_dir:t}${rel}"
+else
+  color=39
+  display="${PWD/#$HOME/~}"
+fi
+
+# Split into segments; drop leading empty element for absolute paths outside HOME
+segments=("${(@s:/:)display}")
+[[ -z "${segments[1]}" ]] && segments=("${segments[2,-1]}")
+
+# Truncate to max 3 segments
+(( ${#segments} > 3 )) && segments=("…" "${segments[-2]}" "${segments[-1]}")
+
+dim=$'\033[2;37m'
+reset=$'\033[0m'
+hi=$'\033[1;38;5;'"${color}"'m'
+
+out=""
+last=${#segments}
+for (( i=1; i<=last; i++ )); do
+  if (( i < last )); then
+    out+="${dim}${segments[$i]}${reset}/"
+  else
+    out+="${hi}${segments[$i]}${reset}"
+  fi
+done
+
+printf '%s' "$out"
