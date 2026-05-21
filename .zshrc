@@ -47,8 +47,6 @@ export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include"
 # zsh autocorrect disable specific commands
 alias gh='nocorrect gh'
 alias pip='noglob pip' # no searching w/ pip install
-alias source='noglob source'
-
 alias fsd=/Users/dataders/Developer/fs/target/debug/fs
 
 eval "$(direnv hook zsh)"
@@ -214,3 +212,8 @@ if [[ -n "$CMUX_SURFACE_ID" ]]; then
   add-zsh-hook preexec _cmux_tab_preexec
   add-zsh-hook precmd _cmux_tab_precmd
 fi
+
+# fast-syntax-highlighting — must be sourced last so it can wrap all ZLE widgets.
+# source alias set here (after fsh) because noglob source breaks fsh's internal sourcing.
+source /opt/homebrew/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+alias source='noglob source'

@@ -40,7 +40,6 @@ zstyle ':prezto:load' pmodule \
   'completion' \
   'fzf-tab' \
   'ssh' \
-  'syntax-highlighting' \
   'history-substring-search' \
   'git' \
   'autosuggestions'
@@ -170,15 +169,8 @@ zstyle ':prezto:module:ssh:load' identities 'id_ed25519'
 # Syntax Highlighting
 #
 
-# Set syntax highlighters.
-# By default, only the main highlighter is enabled.
-zstyle ':prezto:module:syntax-highlighting' highlighters \
-  'main' \
-  'brackets' \
-  'pattern' \
-  'line' \
-  'cursor' \
-  'root'
+# Replaced by fast-syntax-highlighting sourced directly in .zshrc (single-pass
+# highlighter vs. 6 serial passes; also avoids noglob source alias conflict).
 #
 # Set syntax highlighting styles.
 # zstyle ':prezto:module:syntax-highlighting' styles \
