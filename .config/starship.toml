@@ -7,7 +7,7 @@ command_timeout = 1000
 
 # Prompt format (left side)
 format = """
-$directory\
+${custom.dir}\
 $git_branch\
 $git_status\
 $python\
@@ -16,18 +16,10 @@ $cmd_duration\
 $line_break\
 $character"""
 
-# Right-side prompt (shows repo badge + time)
-right_format = """$custom.repo_badge $time"""
-
 [character]
 success_symbol = "[❯](bold green)"
 error_symbol = "[❯](bold red)"
 vimcmd_symbol = "[❮](bold green)"
-
-[directory]
-truncation_length = 3
-truncate_to_repo = true
-style = "bold cyan"
 
 [git_branch]
 format = "[$symbol$branch]($style) "
@@ -53,14 +45,7 @@ min_time = 2000
 format = "[$duration]($style) "
 style = "bold yellow"
 
-[time]
-disabled = false
-format = '[$time]($style)'
-time_format = "%H:%M"
-style = "dimmed white"
-
-[custom.repo_badge]
-command = "~/Developer/dotfiles/bin/repo-badge"
+[custom.dir]
+command = "~/Developer/dotfiles/bin/dir-badge"
 when = true
-format = "$output"
-shell = ["zsh", "-c"]
+format = "$output "
