@@ -160,7 +160,11 @@
       "Read(~/.npm/**)",
       "Read(~/.pypirc)",
       "Read(~/.gem/credentials)",
-      "Read(~/Library/Keychains/**)"
+      "Read(~/Library/Keychains/**)",
+      "Bash(rtk git push --force * main)",
+      "Bash(rtk git push --force * master)",
+      "Bash(rtk git push --force-with-lease * main)",
+      "Bash(rtk git push --force-with-lease * master)"
     ],
     "defaultMode": "auto",
     "disableBypassPermissionsMode": "disable"
