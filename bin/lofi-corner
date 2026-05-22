@@ -42,8 +42,7 @@ frames=("$FRAME_DIR"/frame*.png)
 
 # ── Terminal setup ────────────────────────────────────────────────────────────
 
-tput civis   # hide cursor — avoids flicker during position jumps
-trap 'tput cnorm; exit' INT TERM EXIT
+trap 'exit' INT TERM EXIT
 
 # ── Render loop ───────────────────────────────────────────────────────────────
 

@@ -224,10 +224,10 @@ alias source='noglob source'
 # Lofi corner — auto-start animated study girl in bottom-right of every Ghostty pane.
 # Tries the canonical path (post-merge) then the worktree path (during branch testing).
 # &! = background + disown (no job table entry, no "suspended" messages).
-if [[ -o interactive && $TERM_PROGRAM == ghostty ]]; then
+if [[ -o interactive && -n $GHOSTTY_RESOURCES_DIR ]]; then
   local _lc
   for _lc in ~/Developer/dotfiles{,.lofi-terminal}/bin/lofi-corner; do
-    [[ -x $_lc ]] && { $_lc &!; break }
+    [[ -x $_lc ]] && { $_lc >/dev/tty 2>/dev/null &!; break }
   done
   unset _lc
 fi
