@@ -38,17 +38,16 @@ palette = 15=#e8d8b8
 #
 # Approach A: GIF background + lightweight overlay (grain, warmth, vignette)
 # Note: Ghostty GIF animation support is version-dependent; may show first frame only.
-background-image = ~/.config/ghostty/assets/lofi-girl.gif
-background-image-opacity = 0.15
-custom-shader = ~/.config/ghostty/shaders/lofi-overlay.glsl
-custom-shader-animation = always
+# background-image = ~/.config/ghostty/assets/lofi-girl.gif
+# background-image-opacity = 0.15
+# custom-shader = ~/.config/ghostty/shaders/lofi-overlay.glsl
+# custom-shader-animation = always
 #
 # Approach B: static frame + full animated shader (rain, lamp bloom, grain)
-# Swap in these two lines and comment out the two above.
-# background-image = ~/.config/ghostty/assets/lofi-girl.png
-# background-image-opacity = 0.15
-# custom-shader = ~/.config/ghostty/shaders/lofi-rain.glsl
-# custom-shader-animation = always
+background-image = ~/.config/ghostty/assets/lofi-girl.png
+background-image-opacity = 0.15
+custom-shader = ~/.config/ghostty/shaders/lofi-rain.glsl
+custom-shader-animation = always
 #
 # Approach C: no background-image — run `lofi-panel` in a right split instead
 # (brew install chafa  required)
