@@ -22,9 +22,7 @@ trap 'tput cnorm; exit' INT TERM
 
 while true; do
   chafa \
-    --format=symbols \
-    --symbols=block+border+extra \
-    --colors=256 \
+    --format=kitty \
     --size="$(tput cols)x$(tput lines)" \
     --animate=on \
     --duration=0 \
