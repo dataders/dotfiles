@@ -75,10 +75,4 @@ herdr pane run "$NEW" "your task prompt here"
 
 Re-read pane IDs from `herdr pane list` rather than assuming they are stable.
 
-### Inside cmux
-The `claude()` wrapper in `.zshrc` auto-routes through `cmux claude-teams` when inside cmux,
-with a recursion guard so subagents fall through to `command claude` directly. Don't manually
-call `cmux claude-teams` or `cmux new-workspace` (creates a plain terminal, not a teammate).
-With cmux, `teammateMode: "tmux"` works and teammates get their own panes automatically.
-
 @RTK.md
