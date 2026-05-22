@@ -27,6 +27,7 @@ repo:.config/marimo/marimo.toml	home:.config/marimo/marimo.toml	python	public	Ma
 repo:.config/zed/settings.json	home:.config/zed/settings.json	editor	public	Zed settings
 repo:.claude/hooks/enforce-uv.sh	home:.claude/hooks/enforce-uv.sh	agents	public	Claude uv enforcement hook
 repo:.claude/hooks/rtk-rewrite.sh	home:.claude/hooks/rtk-rewrite.sh	agents	public	Claude RTK rewrite hook
+repo:.claude/hooks/session-monitor.sh	home:.claude/hooks/session-monitor.sh	agents	public	Claude session monitor hook
 repo:.claude/RTK.md	home:.claude/RTK.md	agents	public	Claude RTK guidance
 repo:.claude/settings.json	home:.claude/settings.json	agents	public	Claude shared settings
 repo:.claude/settings.local.json	home:.claude/settings.local.json	agents	public	Claude local settings tracked here
