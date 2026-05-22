@@ -148,20 +148,6 @@ export PATH="$PATH:/Users/dataders/.local/bin"
 
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
 
-# Route claude through cmux claude-teams when inside cmux.
-# cmux claude-teams creates a tmux server socket at /tmp/cmux-claude-teams/UUID and sets $TMUX
-# to point to it — Claude Code needs $TMUX to spawn background agents as new panes
-# (teammateMode: "tmux" in settings.json). Without this, agent teams silently run as
-# local processes with no visible panes. The $TMUX guard prevents recursion: agent
-# panes spawned by Claude Code inherit the cmux-claude-teams socket path, so they
-# fall through to `command claude` directly.
-claude() {
-  if [[ -n "$CMUX_SURFACE_ID" && "$TMUX" != /tmp/cmux-claude-teams/* ]]; then
-    cmux claude-teams "$@"
-  else
-    command claude "$@"
-  fi
-}
 
 # Auto-name cmux tabs and color workspaces on directory change or branch switch.
 # Tab name: "repo · branch". Workspace color: looked up from _CMUX_REPO_COLORS.
