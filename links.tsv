@@ -12,6 +12,7 @@ repo:.vscode/settings.json	app:Code - Insiders/User/settings.json	editor	public	
 repo:.vscode/settings.json	app:Code/User/settings.json	editor	public	VS Code user settings
 repo:.vscode/settings.json	app:Cursor/User/settings.json	editor	public	Cursor user settings
 repo:.config/ghostty/config	home:.config/ghostty/config	terminal	public	Ghostty terminal rendering config
+repo:.config/ghostty/assets	home:.config/ghostty/assets	terminal	public	Ghostty background image assets
 repo:.config/cmux/settings.json	home:.config/cmux/settings.json	terminal	public	cmux app settings
 repo:.config/gh-dash/config.yml	home:.config/gh-dash/config.yml	github	public	GitHub dashboard config
 repo:.config/starship.toml	home:.config/starship.toml	shell	public	Starship prompt config
