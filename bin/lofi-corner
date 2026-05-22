@@ -1,16 +1,14 @@
 #!/usr/bin/env zsh
 # lofi-corner — animated study girl in the bottom-right corner
-# Uses Kitty Graphics Protocol: renders each frame at cursor position,
-# so placing the cursor in the corner gives a true corner overlay.
+# Uses Kitty Graphics Protocol: renders each frame at the cursor position,
+# so the cursor anchors the image to the bottom-right of whichever pane
+# this runs in.
 #
-# Usage:
-#   lofi-corner          # run in a dedicated Ghostty split (cmd+d)
-#   lofi-corner &        # background overlay on the current pane
+# Usage: run in a small dedicated Ghostty split
+#   cmd+d to split right, cmd+ctrl+left to narrow it, then: lofi-corner
 #
 # Env overrides:
 #   LOFI_COLS=32   LOFI_ROWS=17   LOFI_MARGIN=1
-
-setopt NO_MONITOR   # suppress "job N done" notifications
 
 GIF="$HOME/.config/ghostty/assets/lofi-girl.gif"
 FRAME_DIR="$HOME/.config/ghostty/assets/frames"
@@ -59,7 +57,11 @@ while true; do
 
     printf '\0337'                   # ESC 7 — save cursor position
     printf '\033[%d;%dH' $row $col  # jump to corner
-    chafa --format=kitty --size="${IMG_COLS}x${IMG_ROWS}" "$frame" 2>/dev/null
+    chafa --format=kitty \
+          --size="${IMG_COLS}x${IMG_ROWS}" \
+          --fg-color="#e2c9a8" \
+          --bg-color="#0e1520" \
+          "$frame" 2>/dev/null
     printf '\0338'                   # ESC 8 — restore cursor position
 
     sleep $FRAME_DELAY
