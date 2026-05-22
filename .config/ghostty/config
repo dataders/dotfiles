@@ -102,6 +102,7 @@ quick-terminal-position = left
 
 # Keybinds
 keybind = cmd+shift+r=reload_config
+keybind = cmd+shift+l=new_split:right
 keybind = cmd+w=close_tab
 keybind = cmd+d=new_split:right
 keybind = cmd+shift+d=new_split:down
