@@ -17,33 +17,34 @@ $line_break\
 $character"""
 
 [character]
-success_symbol = "[❯](bold green)"
-error_symbol = "[❯](bold red)"
-vimcmd_symbol = "[❮](bold green)"
+# Warm amber on success, soft red on error — matches lamp light
+success_symbol = "[❯](bold #d4824a)"
+error_symbol = "[❯](bold #c44040)"
+vimcmd_symbol = "[❮](bold #d4824a)"
 
 [git_branch]
 format = "[$symbol$branch]($style) "
 symbol = " "
-style = "bold purple"
+style = "bold #6ab0a0"   # teal — her sweater
 
 [git_status]
 format = '([\[$all_status$ahead_behind\]]($style) )'
-style = "bold red"
+style = "bold #c44040"   # red — her scarf
 
 [python]
 format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
 symbol = " "
-style = "bold yellow"
+style = "bold #e89848"   # bright amber
 
 [aws]
 format = '[$symbol($profile )(\($region\) )]($style)'
 symbol = " "
-style = "bold orange"
+style = "bold #6a88b8"   # city-window blue
 
 [cmd_duration]
 min_time = 2000
 format = "[$duration]($style) "
-style = "bold yellow"
+style = "#c8b898"         # muted warm gray — unobtrusive
 
 [custom.dir]
 command = "~/Developer/dotfiles/bin/dir-badge"

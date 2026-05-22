@@ -1,0 +1,32 @@
+#!/usr/bin/env zsh
+# lofi-panel — Approach C: render the lofi girl GIF in a terminal split
+# Requires: brew install chafa
+# Usage: run in a narrow Ghostty split (cmd+d, then resize with cmd+ctrl+left)
+
+GIF="$HOME/.config/ghostty/assets/lofi-girl.gif"
+
+if ! command -v chafa &>/dev/null; then
+  print -P "%F{yellow}lofi-panel needs chafa:%f  brew install chafa"
+  exit 1
+fi
+
+if [[ ! -f "$GIF" ]]; then
+  print -P "%F{red}Missing:%f $GIF"
+  print -P "Run: curl -L 'https://media1.tenor.com/m/0hjOGLFaQa0AAAAd/lofi-girl-lofi.gif' -o $GIF"
+  exit 1
+fi
+
+# Hide cursor, clear screen, loop the GIF
+tput civis
+trap 'tput cnorm; exit' INT TERM
+
+while true; do
+  chafa \
+    --format=symbols \
+    --symbols=block+border+extra \
+    --colors=256 \
+    --size="$(tput cols)x$(tput lines)" \
+    --animate=on \
+    --duration=0 \
+    "$GIF"
+done
