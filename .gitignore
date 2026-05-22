@@ -1,4 +1,5 @@
 .DS_Store
+.config/ghostty/assets/frames/
 ./zshenv
 .claude/settings.local.json
 logs/

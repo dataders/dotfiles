@@ -1,0 +1,71 @@
+#!/usr/bin/env zsh
+# lofi-corner — animated study girl in the bottom-right corner
+# Uses Kitty Graphics Protocol: renders each frame at the cursor position,
+# so the cursor anchors the image to the bottom-right of whichever pane
+# this runs in.
+#
+# Usage: run in a small dedicated Ghostty split
+#   cmd+d to split right, cmd+ctrl+left to narrow it, then: lofi-corner
+#
+# Env overrides:
+#   LOFI_COLS=32   LOFI_ROWS=17   LOFI_MARGIN=1
+
+# Prevent SIGTTOU from suspending us when running as a background process
+trap '' TTOU TTIN
+
+GIF="$HOME/.config/ghostty/assets/lofi-girl.gif"
+FRAME_DIR="$HOME/.config/ghostty/assets/frames"
+
+IMG_COLS=${LOFI_COLS:-32}
+IMG_ROWS=${LOFI_ROWS:-17}
+MARGIN=${LOFI_MARGIN:-1}
+FRAME_DELAY=0.05   # ~20 fps — matches the source GIF
+
+# ── Preflight ─────────────────────────────────────────────────────────────────
+
+for cmd in chafa ffmpeg; do
+  command -v $cmd &>/dev/null || { print -P "%F{yellow}lofi-corner needs $cmd:%f  brew install $cmd"; exit 1 }
+done
+[[ -f $GIF ]] || { print -P "%F{red}missing:%f $GIF"; exit 1 }
+
+# ── Frame cache ───────────────────────────────────────────────────────────────
+# Extract once; re-extract if GIF is newer than the cache.
+
+if [[ ! -d $FRAME_DIR ]] || [[ $GIF -nt $FRAME_DIR/frame0001.png ]]; then
+  mkdir -p "$FRAME_DIR"
+  [[ -t 1 ]] && printf "lofi-corner: extracting frames..."
+  ffmpeg -i "$GIF" "$FRAME_DIR/frame%04d.png" -y 2>/dev/null
+  [[ -t 1 ]] && printf " done\n"
+fi
+
+frames=("$FRAME_DIR"/frame*.png)
+
+# ── Terminal setup ────────────────────────────────────────────────────────────
+
+trap 'exit' INT TERM EXIT
+
+# ── Render loop ───────────────────────────────────────────────────────────────
+
+while true; do
+  for frame in $frames; do
+    cols=$(tput cols)
+    rows=$(tput lines)
+
+    # Bottom-right anchor, with margin
+    col=$(( cols - IMG_COLS - MARGIN + 1 ))
+    row=$(( rows - IMG_ROWS - MARGIN ))
+    (( col < 1 )) && col=1
+    (( row < 1 )) && row=1
+
+    printf '\0337'                   # ESC 7 — save cursor position
+    printf '\033[%d;%dH' $row $col  # jump to corner
+    chafa --format=kitty \
+          --size="${IMG_COLS}x${IMG_ROWS}" \
+          --fg-color="#e2c9a8" \
+          --bg-color="#0e1520" \
+          "$frame" 2>/dev/null
+    printf '\0338'                   # ESC 8 — restore cursor position
+
+    sleep $FRAME_DELAY
+  done
+done

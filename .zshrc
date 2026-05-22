@@ -131,13 +131,12 @@ brew() {
     local ret=$?
     case "$1" in
         install|uninstall|remove|rm|upgrade|tap|untap)
-            command brew bundle dump --file=~/Developer/dotfiles/Brewfile --force
-            ;;&
-        install|upgrade)
-            local _fsh_dir=/opt/homebrew/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting
-            [[ -f "$_fsh_dir/fast-highlight" ]] && zcompile "$_fsh_dir/fast-highlight" "$_fsh_dir/fast-string-highlight"
-            ;;
+            command brew bundle dump --file=~/Developer/dotfiles/Brewfile --force ;;
     esac
+    if [[ $1 == install || $1 == upgrade ]]; then
+        local _fsh_dir=/opt/homebrew/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting
+        [[ -f "$_fsh_dir/fast-highlight" ]] && zcompile "$_fsh_dir/fast-highlight" "$_fsh_dir/fast-string-highlight"
+    fi
     return $ret
 }
 # Added by dbt installer
@@ -221,3 +220,4 @@ fi
 # source alias set here (after fsh) because noglob source breaks fsh's internal sourcing.
 source /opt/homebrew/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 alias source='noglob source'
+

@@ -5,16 +5,65 @@ desktop-notifications = true
 
 # Theme (auto light/dark switching)
 # Catppuccin: warm cream light, deep mocha dark — overridden per-repo by cmux precmd hook
-theme = light:GitHub Light Default,dark:GitHub Dark Default
+# theme = light:GitHub Light Default,dark:GitHub Dark Default
 
-custom-shader = ~/.config/ghostty/shaders/vignette.glsl
+# ── Lofi Girl palette (inlined — extracted from the study girl scene) ─────────
+background              = #0e1520
+foreground              = #e2c9a8
+cursor-color            = #d4824a
+cursor-text             = #0e1520
+selection-background    = #2a3a50
+selection-foreground    = #e2c9a8
+palette = 0=#1a2030
+palette = 1=#c44040
+palette = 2=#3d8b7a
+palette = 3=#d4824a
+palette = 4=#4a6595
+palette = 5=#8b5888
+palette = 6=#6ab0a0
+palette = 7=#c8b898
+palette = 8=#2a3a50
+palette = 9=#e05858
+palette = 10=#5ab09a
+palette = 11=#e89848
+palette = 12=#6a88b8
+palette = 13=#a07898
+palette = 14=#88c8b8
+palette = 15=#e8d8b8
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Lofi Girl background + shader ────────────────────────────────────────────
+# Three approaches — uncomment exactly ONE approach block at a time.
+# Reload config: cmd+shift+r
+#
+# Approach A: GIF background + lightweight overlay (grain, warmth, vignette)
+# Note: Ghostty GIF animation support is version-dependent; may show first frame only.
+# background-image = ~/.config/ghostty/assets/lofi-girl.gif
+# background-image-opacity = 0.15
+# custom-shader = ~/.config/ghostty/shaders/lofi-overlay.glsl
+# custom-shader-animation = always
+#
+# Approach B: static frame + full animated shader (rain, lamp bloom, grain)
+background-image = ~/.config/ghostty/assets/lofi-girl.png
+background-image-opacity = 0.15
+custom-shader = ~/.config/ghostty/shaders/lofi-rain.glsl
+custom-shader-animation = always
+#
+# Approach C: no background-image — run `lofi-panel` in a right split instead
+# (brew install chafa  required)
+# custom-shader = ~/.config/ghostty/shaders/lofi-overlay.glsl
+# custom-shader-animation = always
+# ─────────────────────────────────────────────────────────────────────────────
+
+# previous shaders (kept for reference)
+# custom-shader = ~/.config/ghostty/shaders/vignette.glsl
 # custom-shader = ~/.config/ghostty/shaders/tft-subtle.glsl
 # custom-shader = ~/.config/ghostty/shaders/starfield-subtle.glsl
-# custom-shader-animation = always
 
 # Font (requires: brew install --cask font-jetbrains-mono-nerd-font)
 font-family = JetBrainsMono Nerd Font
 font-size = 14
+font-style = "Light"
 
 # Shell integration (Ghostty's killer feature)
 shell-integration = zsh
@@ -53,6 +102,7 @@ quick-terminal-position = left
 
 # Keybinds
 keybind = cmd+shift+r=reload_config
+keybind = cmd+shift+l=new_split:right
 keybind = cmd+w=close_tab
 keybind = cmd+d=new_split:right
 keybind = cmd+shift+d=new_split:down
