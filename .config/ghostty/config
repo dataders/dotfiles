@@ -5,16 +5,44 @@ desktop-notifications = true
 
 # Theme (auto light/dark switching)
 # Catppuccin: warm cream light, deep mocha dark — overridden per-repo by cmux precmd hook
-theme = light:GitHub Light Default,dark:GitHub Dark Default
+# theme = light:GitHub Light Default,dark:GitHub Dark Default
 
-custom-shader = ~/.config/ghostty/shaders/vignette.glsl
+# ── Lofi Girl theme ───────────────────────────────────────────────────────────
+# Three approaches — uncomment exactly ONE approach block at a time.
+# Reload config: cmd+shift+r
+#
+# Approach A: GIF background + lightweight overlay (grain, warmth, vignette)
+# Note: Ghostty GIF animation support is version-dependent; may show first frame only.
+theme = lofi-dark
+background-image = ~/.config/ghostty/assets/lofi-girl.gif
+background-image-opacity = 0.15
+custom-shader = ~/.config/ghostty/shaders/lofi-overlay.glsl
+custom-shader-animation = always
+#
+# Approach B: static frame + full animated shader (rain, lamp bloom, grain)
+# Swap in these three lines and comment out the three above.
+# theme = lofi-dark
+# background-image = ~/.config/ghostty/assets/lofi-girl.png
+# background-image-opacity = 0.15
+# custom-shader = ~/.config/ghostty/shaders/lofi-rain.glsl
+# custom-shader-animation = always
+#
+# Approach C: no background-image — run `lofi-panel` in a right split instead
+# (brew install chafa  required)
+# theme = lofi-dark
+# custom-shader = ~/.config/ghostty/shaders/lofi-overlay.glsl
+# custom-shader-animation = always
+# ─────────────────────────────────────────────────────────────────────────────
+
+# previous shaders (kept for reference)
+# custom-shader = ~/.config/ghostty/shaders/vignette.glsl
 # custom-shader = ~/.config/ghostty/shaders/tft-subtle.glsl
 # custom-shader = ~/.config/ghostty/shaders/starfield-subtle.glsl
-# custom-shader-animation = always
 
 # Font (requires: brew install --cask font-jetbrains-mono-nerd-font)
 font-family = JetBrainsMono Nerd Font
 font-size = 14
+font-style = "Light"
 
 # Shell integration (Ghostty's killer feature)
 shell-integration = zsh
