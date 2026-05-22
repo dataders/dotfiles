@@ -1,38 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(rtk:*)",
-      "Bash(readlink:*)",
-      "Bash(git -C /Users/dataders/Developer/dotfiles log --oneline -10)",
-      "Bash(git -C /Users/dataders/Developer/dotfiles config:*)",
-      "Bash(git -C /Users/dataders/Developer/dotfiles submodule status)",
-      "Bash(for file in .zshrc .zshenv .zprofile .zlogin .zpreztorc .zlogout)",
-      "Bash(do echo \"=== $file ===\")",
-      "Bash(done)",
-      "Bash(git -C /Users/dataders/.zprezto log -1 --oneline)",
-      "Bash(xargs:*)",
-      "WebSearch",
-      "Bash(/opt/homebrew/opt/fzf/install:*)",
-      "Bash(ln:*)",
-      "Bash(starship:*)",
-      "Bash(zoxide:*)",
-      "Bash(bat:*)",
-      "Bash(eza:*)",
-      "Bash(git -C ~/Developer/dotfiles status --short)",
-      "Bash(git -C ~/Developer/dotfiles add .dbt/mcp.yml .dbt/mcp.lock)",
-      "Bash(tmux:*)",
-      "Bash(echo:*)",
-      "Bash(chmod:*)",
-      "Bash(git -C ~/Developer/dotfiles status)",
-      "Bash(git -C ~/Developer/dotfiles diff)",
-      "Bash(/usr/bin/diff:*)",
-      "Bash(git:*)",
-      "Bash(launchctl getenv:*)",
-      "Bash(zsh:*)",
-      "Bash(grep:*)",
-      "Bash(bash:*)",
-      "Read(//Users/dataders/Library/Application Support/Cursor/User/**)",
-      "Read(//Users/dataders/Library/Application Support/Code - Insiders/User/**)"
+      "Bash(/opt/homebrew/opt/fzf/install:*)"
     ]
   }
 }
