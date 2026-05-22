@@ -10,6 +10,9 @@
 # Env overrides:
 #   LOFI_COLS=32   LOFI_ROWS=17   LOFI_MARGIN=1
 
+# Prevent SIGTTOU from suspending us when running as a background process
+trap '' TTOU TTIN
+
 GIF="$HOME/.config/ghostty/assets/lofi-girl.gif"
 FRAME_DIR="$HOME/.config/ghostty/assets/frames"
 
@@ -30,9 +33,9 @@ done
 
 if [[ ! -d $FRAME_DIR ]] || [[ $GIF -nt $FRAME_DIR/frame0001.png ]]; then
   mkdir -p "$FRAME_DIR"
-  printf "lofi-corner: extracting frames..."
+  [[ -t 1 ]] && printf "lofi-corner: extracting frames..."
   ffmpeg -i "$GIF" "$FRAME_DIR/frame%04d.png" -y 2>/dev/null
-  printf " done (%d frames)\n" $(ls "$FRAME_DIR"/frame*.png | wc -l | tr -d ' ')
+  [[ -t 1 ]] && printf " done\n"
 fi
 
 frames=("$FRAME_DIR"/frame*.png)

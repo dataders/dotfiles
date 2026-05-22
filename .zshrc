@@ -221,3 +221,9 @@ fi
 # source alias set here (after fsh) because noglob source breaks fsh's internal sourcing.
 source /opt/homebrew/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 alias source='noglob source'
+
+# Lofi corner — auto-start animated study girl in bottom-right of every Ghostty pane.
+# &! = background + disown (no job table entry, no "suspended" messages).
+if [[ -o interactive && $TERM_PROGRAM == ghostty ]] && command -v lofi-corner &>/dev/null; then
+  lofi-corner &!
+fi
