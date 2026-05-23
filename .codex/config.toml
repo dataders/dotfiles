@@ -97,6 +97,23 @@ url = "https://dbt.runlayer.com/api/v1/proxy/ab3aadc4-d6ac-4d92-85d6-cfba5eafc0e
 [mcp_servers.google-sheets]
 url = "https://dbt.runlayer.com/api/v1/proxy/ab3aadc4-d6ac-4d92-85d6-cfba5eafc0e1/mcp"
 
+# Local stdio MCPs — scripts live in dotfiles/mcp/.
+[mcp_servers.serena]
+command = "serena"
+args = ["start-mcp-server", "--context=codex", "--project-from-cwd"]
+
+[mcp_servers.cocoindex-code]
+command = "ccc"
+args = ["mcp"]
+
+[mcp_servers.community-slack]
+command = "/Users/dataders/Developer/dotfiles/mcp/community-slack/run.sh"
+args = []
+
+[mcp_servers.parallel-search]
+command = "/Users/dataders/Developer/dotfiles/mcp/parallel-search/run.sh"
+args = []
+
 [projects]
 # Trust the repo parent rather than every repo individually. Avoid trusting all
 # of /Users/dataders because home contains secrets and app state outside dev work.

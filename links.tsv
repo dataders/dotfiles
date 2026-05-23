@@ -33,6 +33,7 @@ repo:.claude/settings.json	home:.claude/settings.json	agents	public	Claude share
 repo:.claude/settings.local.json	home:.claude/settings.local.json	agents	public	Claude local settings tracked here
 repo:.claude/statusline.sh	home:.claude/statusline.sh	agents	public	Claude statusline
 repo:.claude/CLAUDE.md	home:.claude/CLAUDE.md	agents	public	Claude global instructions
+repo:.claude/mcp.json	home:.claude/mcp.json	agents	public	Claude MCP server definitions
 repo:.claude.json	home:.claude.json	agents	public	Claude desktop config
 repo:.codex/config.toml	home:.codex/config.toml	agents	public	Codex config
 repo:.codex/hooks.json	home:.codex/hooks.json	agents	public	Codex hooks config

@@ -18,4 +18,10 @@ Hard rules:
 - Use `worktrunk` / `wt` for worktrees, never `superpowers:using-git-worktrees`.
 - Spawn agent teams via `TeamCreate → TaskCreate → Agent(team_name)`; never `cmux claude-teams`, never bare `Agent(run_in_background=true)`.
 
+MCP config layout (all tracked in dotfiles via links.tsv):
+
+- `~/.claude/mcp.json` → `dotfiles/.claude/mcp.json` — Claude Code user-level MCP servers (serena, cocoindex-code, parallel-search)
+- `~/.codex/config.toml` → `dotfiles/.codex/config.toml` — Codex MCP servers (same local MCPs + Runlayer remotes)
+- `~/.claude/settings.json` and `~/.claude.json` are also symlinked; `mcpServers` is NOT valid in settings files — use `mcp.json` only.
+
 @RTK.md
