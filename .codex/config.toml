@@ -189,19 +189,34 @@ source_type = "local"
 source = "/Users/dataders/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
 [marketplaces.claude-plugins-official]
-last_updated = "2026-05-14T17:21:10Z"
-last_revision = "1a2f18b05cf5652fd25403e8d229fc884fb84103"
+last_updated = "2026-05-24T19:54:16Z"
+last_revision = "3449c10cd1f254c2529a4a7e96a094ef118a00a5"
 source_type = "git"
 source = "https://github.com/anthropics/claude-plugins-official.git"
 
 [marketplaces.worktrunk]
-last_updated = "2026-05-14T17:21:15Z"
-last_revision = "8fba3f8fd8aa5f4b60b6eb4d48fc730ec3154da3"
+last_updated = "2026-05-24T19:54:18Z"
+last_revision = "b073284391da4cc86a2c29a83eecbfa75a3fc123"
 source_type = "git"
 source = "https://github.com/max-sixty/worktrunk.git"
+
+[tui]
+status_line = ["model-with-reasoning", "current-dir"]
+status_line_use_colors = true
 
 [tui.model_availability_nux]
 "gpt-5.5" = 4
 
 [notice]
 fast_default_opt_out = true
+
+[hooks.state]
+
+[hooks.state."/Users/dataders/.codex/hooks.json:session_start:0:0"]
+trusted_hash = "sha256:227cfe4e820ee2a9e90f9fc04f26c2411086eb2f55d66a2c2ccb3a6aeaa82dec"
+
+[hooks.state."/Users/dataders/.codex/hooks.json:user_prompt_submit:0:0"]
+trusted_hash = "sha256:00a4e50b8d3d657caa09b33c1b04832b60138a674c388421fd1ccb30024052b8"
+
+[hooks.state."/Users/dataders/.codex/hooks.json:stop:0:0"]
+trusted_hash = "sha256:7c5c3e7f0718ef6d5afbe4d5cc2ef408a99c772fe157c043df6d80b24619fcf1"
