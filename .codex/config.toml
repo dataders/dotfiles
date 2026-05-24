@@ -101,10 +101,7 @@ url = "https://dbt.runlayer.com/api/v1/proxy/ab3aadc4-d6ac-4d92-85d6-cfba5eafc0e
 [mcp_servers.serena]
 command = "serena"
 args = ["start-mcp-server", "--context=codex", "--project-from-cwd"]
-
-[mcp_servers.cocoindex-code]
-command = "ccc"
-args = ["mcp"]
+startup_timeout_sec = 60
 
 [mcp_servers.community-slack]
 command = "/Users/dataders/Developer/dotfiles/mcp/community-slack/run.sh"

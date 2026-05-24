@@ -5,11 +5,6 @@
       "command": "serena",
       "args": ["start-mcp-server", "--context", "claude-code", "--project-from-cwd"]
     },
-    "cocoindex-code": {
-      "type": "stdio",
-      "command": "ccc",
-      "args": ["mcp"]
-    },
     "parallel-search": {
       "type": "stdio",
       "command": "/Users/dataders/Developer/dotfiles/mcp/parallel-search/run.sh",
