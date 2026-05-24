@@ -1,25 +1,5 @@
 {
   "mcpServers": {
-    "fusion-graphene": {
-      "command": "uv",
-      "args": [
-        "run",
-        "--directory",
-        "/Users/dataders/Developer/fusion_issue_analysis/.worktrees/codex-graphene-prod",
-        "dashboard/graphene/mcp_server.py"
-      ],
-      "env": {
-        "FUSION_DB": "md:fusion_issues"
-      }
-    },
-    "fusion-issue-health": {
-      "command": "/opt/homebrew/bin/node",
-      "args": [
-        "/Users/dataders/Developer/fusion_issue_analysis.codex-mcp-ui-app-spike/dashboard/mcp-app/node_modules/tsx/dist/cli.mjs",
-        "/Users/dataders/Developer/fusion_issue_analysis.codex-mcp-ui-app-spike/dashboard/mcp-app/main.ts",
-        "--stdio"
-      ]
-    },
     "community-slack": {
       "command": "/Users/dataders/Developer/dotfiles/mcp/community-slack/run.sh",
       "args": []
