@@ -1,6 +1,7 @@
 .DS_Store
 ./zshenv
 .claude/settings.local.json
+.claude/worktrees/
 logs/
 .dbt/
 .ssh/known_hosts.old
