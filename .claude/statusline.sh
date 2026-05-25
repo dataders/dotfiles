@@ -43,4 +43,6 @@ if [[ -n "$TRANSCRIPT" && -f "$TRANSCRIPT" && -n "$SESSION_ID" ]]; then
   [[ -n "$COST_STR" ]] && COST_STR=" | ${COST_STR}"
 fi
 
-echo "[$MODEL]${GIT_INFO} Context: ${PERCENT}%${COST_STR}"
+DISK=$(df -h / | awk 'NR==2 {print $4}')
+
+echo "[$MODEL]${GIT_INFO} Context: ${PERCENT}% | Disk: ${DISK}${COST_STR}"
