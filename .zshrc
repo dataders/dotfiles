@@ -78,6 +78,9 @@ eval "$(zoxide init zsh)"
 
 # fzf (fuzzy finder: Ctrl+R for history, Ctrl+T for files)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# fzf 0.48+ binds ^I to fzf-completion, overriding fzf-tab; restore fzf-tab as TAB handler
+# (fzf's ^R history, ^T file, and ^[c cd widgets are unaffected by this rebind)
+[[ -n "${fzf_default_completion}" ]] && bindkey '^I' "$fzf_default_completion"
 
 # forgit (fzf-powered git commands - see docs/forgit.md)
 source /opt/homebrew/opt/forgit/share/forgit/forgit.plugin.zsh
