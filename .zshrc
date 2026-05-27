@@ -63,6 +63,7 @@ unset _dotfiles_overlay
 alias dbtf=/Users/dataders/.local/bin/dbt
 alias dbt-core=/Users/dataders/Developer/jaffle-sandbox/.venv/bin/dbt
 alias dbtd=/Users/dataders/Developer/fs/target/debug/dbt
+alias dbtmv=/Users/dataders/Developer/fs.clickhouse-clean-materialized-views/target/debug/dbt
 alias dbtr=/Users/dataders/Developer/fs/target/release/dbt
 alias dbtc=compute-dbt
 
