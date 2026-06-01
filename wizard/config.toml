@@ -1,0 +1,4 @@
+model = "openai_subscription/gpt-5.5"
+model_reasoning_effort = "medium"
+[projects."/Users/dataders/Developer/internal-analytics"]
+trust_level = "trusted"

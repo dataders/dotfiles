@@ -1,0 +1,11 @@
+version = 1
+
+[global]
+terms_of_use_accepted_at = "2026-06-01T19:36:11Z"
+
+[projects."/Users/dataders/Developer/internal-analytics"]
+onboarded_at = "2026-06-01T19:36:36.158290+00:00"
+path = "/Users/dataders/.local/bin/dbt"
+
+[projects."/Users/dataders/Developer/internal-analytics".deferral]
+mode = "fusion_cloud"
