@@ -33,6 +33,18 @@ class LinksScriptTests(unittest.TestCase):
         manifest = (ROOT / "links.tsv").read_text()
 
         self.assertIn("repo:.config/starship.toml\thome:.config/starship.toml", manifest)
+        self.assertIn(
+            "repo:wizard/config.toml\thome:.dbt/wizard/config.toml",
+            manifest,
+        )
+        self.assertIn(
+            "repo:AGENTS.md\thome:.dbt/wizard/AGENTS.md",
+            manifest,
+        )
+        self.assertIn(
+            "repo:.codex/rules/default.rules\thome:.dbt/wizard/rules/default.rules",
+            manifest,
+        )
         self.assertIn("env:.dbt/profiles.yml\thome:.dbt/profiles.yml", manifest)
         self.assertIn(
             "repo:workspaces/fs/settings.json\tdeveloper:fs/.vscode/settings.json",
