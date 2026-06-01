@@ -337,54 +337,25 @@ prefix_rule(
         "sort -u file.txt",
     ],
 )
-prefix_rule(pattern=["uv", "run", "python3", "-m", "unittest"], decision="allow")
-prefix_rule(pattern=["uv", "run", "prefab", "export"], decision="allow")
-prefix_rule(pattern=["uv", "run", "python3", "-m", "http.server", "8081"], decision="allow")
-prefix_rule(pattern=["open", "http://127.0.0.1:8081/"], decision="allow")
-prefix_rule(pattern=["open", "http://127.0.0.1:8081/prefab/app_windows_2000.html"], decision="allow")
-prefix_rule(pattern=["git", "worktree", "remove", "/Users/dataders/Developer/fs.zachruben-model-docs-panel"], decision="allow")
-prefix_rule(pattern=["gh", "workflow"], decision="allow")
-prefix_rule(pattern=["gh", "api"], decision="allow")
-prefix_rule(pattern=["gh", "pr", "list"], decision="allow")
-prefix_rule(pattern=["gh", "run", "list"], decision="allow")
-prefix_rule(pattern=["gh", "pr", "status"], decision="allow")
-prefix_rule(pattern=["gh", "pr", "view"], decision="allow")
-prefix_rule(pattern=["git", "fetch"], decision="allow")
-prefix_rule(pattern=["cargo", "build"], decision="allow")
-prefix_rule(pattern=["git", "add"], decision="allow")
-prefix_rule(pattern=["git", "commit"], decision="allow")
-prefix_rule(pattern=["git", "rebase"], decision="allow")
-prefix_rule(pattern=["/Users/dataders/Developer/fs.codex-local-filesystem-catalog/target/debug/dbt"], decision="allow")
-prefix_rule(pattern=["ps"], decision="allow")
-prefix_rule(pattern=["kill", "74082", "74200"], decision="allow")
-prefix_rule(pattern=["zsh", "-ic", "/Users/dataders/Developer/fs.codex-local-filesystem-catalog/target/debug/dbt parse --profiles-dir . --target ducklake_md_no_path --no-partial-parse"], decision="allow")
-prefix_rule(pattern=["git", "worktree", "add"], decision="allow")
-prefix_rule(pattern=["zsh", "-ic", "/Users/dataders/Developer/fs.codex-local-filesystem-catalog/target/debug/dbt parse --profiles-dir . --target catalog_showcase --no-partial-parse"], decision="allow")
-prefix_rule(pattern=["zsh", "-ic", "/Users/dataders/Developer/fs.codex-local-filesystem-catalog/target/debug/dbt ls --profiles-dir . --target catalog_showcase --select tag:catalog_demo"], decision="allow")
-prefix_rule(pattern=["git", "push"], decision="allow")
-prefix_rule(pattern=["colima", "start"], decision="allow")
-prefix_rule(pattern=["wt", "switch"], decision="allow")
-prefix_rule(pattern=["cp", "-R", ".claude/skills/repro-workflow/assets/templates/_template", "repros/fusion-1002"], decision="allow")
-prefix_rule(pattern=["cp", "-R"], decision="allow")
-prefix_rule(pattern=["mkdir", "-p"], decision="allow")
-prefix_rule(pattern=["dbt"], decision="allow")
-prefix_rule(pattern=["env", "BIGQUERY_TEST_DATABASE=dummy_project", "BIGQUERY_USER_SCHEMA=dummy_schema", "BIGQUERY_SERVICE_KEY_PATH=/tmp/nonexistent-keyfile.json", "dbt"], decision="allow")
-prefix_rule(pattern=["uvx", "--from", "dbt-core"], decision="allow")
-prefix_rule(pattern=["rm", "-rf", "target/"], decision="allow")
-prefix_rule(pattern=["rm", "-rf", "target"], decision="allow")
-prefix_rule(pattern=["ps", "-ax", "-o", "pid,command"], decision="allow")
-prefix_rule(pattern=["codex", "debug", "prompt-input"], decision="allow")
-prefix_rule(pattern=["ps", "-ax", "-o", "pid,comm"], decision="allow")
-prefix_rule(pattern=["rm", "-rf", "logs", "target", "dbt_packages"], decision="allow")
-prefix_rule(pattern=["git", "push", "-u", "origin", "HEAD"], decision="allow")
-prefix_rule(pattern=["rm", "-rf", "repros/fusion-1002/target", "repros/fusion-1002/logs", "repros/fusion-1002/dbt_internal_packages", "repros/fusion-1002/dbt_packages"], decision="allow")
-prefix_rule(pattern=["ps", "-axo", "pid,ppid,stat,command"], decision="allow")
-prefix_rule(pattern=["cargo", "xtask", "check-llm"], decision="allow")
-prefix_rule(pattern=["changie", "new"], decision="allow")
-prefix_rule(pattern=["cargo", "xtask", "test"], decision="allow")
-prefix_rule(pattern=["git", "cherry-pick"], decision="allow")
-prefix_rule(pattern=["cargo", "xtask", "fmt"], decision="allow")
-prefix_rule(pattern=["/bin/zsh", "-lc", "gh pr create --draft --base main --head codex/duckdb-horizon-catalog --title \"[codex] Support DuckDB Horizon catalogs\" --body $'## Summary\\n- Add DuckDB catalogs.yml v2 support for Snowflake Horizon, including Horizon ATTACH defaults and staged-create capability metadata.\\n- Consolidate the recent DuckDB catalog worktrees into this PR: Quack catalog attach support, catalog-routed DuckDB sources, runtime table-format fixes, and replay helper updates.\\n- Make DuckDB Iceberg table materialization write directly to Iceberg targets and use create-then-insert when the catalog does not support staged create.\\n\\n## Validation\\n- cargo xtask test --llm --no-external-deps -p dbt-loader table_materialization_uses_create_insert_when_stage_create_is_unsupported\\n- cargo xtask test --llm --no-external-deps -p dbt-loader rename_relation_commits_before_iceberg_rename\\n- cargo xtask test --llm --no-external-deps -p dbt-schemas horizon_duckdb_v2_valid\\n- cargo xtask test --llm --no-external-deps -p dbt-schemas quack_duckdb_v2_valid\\n- cargo xtask test --llm --no-external-deps -p dbt-adapter duckdb_v2_horizon_catalog_builds_relation\\n- cargo xtask test --llm --no-external-deps -p dbt-adapter duckdb_v2_quack_catalog_builds_relation\\n- cargo xtask test --llm --no-external-deps -p dbt-adapter duckdb_attach_fixtures\\n- cargo xtask check-llm -p dbt-loader\\n- cargo xtask check-llm -p dbt-adapter\\n- cargo xtask check-llm -p dbt-schemas\\n- cargo xtask check-llm -p dbt-auth\\n- cargo xtask check-llm -p dbt-parser\\n- cargo xtask check-llm -p sdf-adapter'"], decision="allow")
-prefix_rule(pattern=["gh", "pr", "edit"], decision="allow")
-prefix_rule(pattern=["rg", "cargo|nextest|rustc|xtask|gh pr"], decision="allow")
-prefix_rule(pattern=["git", "-C"], decision="allow")
+
+prefix_rule(
+    pattern = ["wizard"],
+    decision = "allow",
+    justification = "Wizard CLI self-invocation is trusted.",
+    match = [
+        "wizard exec",
+        "wizard doctor",
+    ],
+)
+
+prefix_rule(
+    pattern = ["pkill", "-f", "^wizard$"],
+    decision = "allow",
+    justification = "Cleaning up a stuck Wizard process is trusted.",
+)
+
+prefix_rule(
+    pattern = ["rm", "-rf", "dbt_packages", "target"],
+    decision = "allow",
+    justification = "Clearing dbt build artifacts is routine (specific override of the general rm -rf forbid).",
+)

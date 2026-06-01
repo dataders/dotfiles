@@ -21,6 +21,7 @@ repo:.config/yazi/yazi.toml	home:.config/yazi/yazi.toml	terminal	public	Yazi fil
 repo:.config/git/ignore	home:.config/git/ignore	git	public	XDG Git ignore file
 repo:.config/jj/config.toml	home:.config/jj/config.toml	git	public	jj version control config
 repo:.config/direnv/direnvrc	home:.config/direnv/direnvrc	shell	public	direnv helper functions
+repo:bin/shadowtraffic-clickhouse	home:.local/bin/shadowtraffic-clickhouse	warehouse	public	ShadowTraffic ClickHouse lab command
 repo:.config/gh/hosts.yml	home:.config/gh/hosts.yml	github	private	GitHub CLI host auth config
 repo:karabiner/karabiner.json	home:.config/karabiner/karabiner.json	keyboard	public	Karabiner keyboard rules
 repo:.config/marimo/marimo.toml	home:.config/marimo/marimo.toml	python	public	Marimo config
@@ -34,6 +35,7 @@ repo:.claude/settings.local.json	home:.claude/settings.local.json	agents	public	
 repo:.claude/statusline.sh	home:.claude/statusline.sh	agents	public	Claude statusline
 repo:.claude/CLAUDE.md	home:.claude/CLAUDE.md	agents	public	Claude global instructions
 repo:.claude/mcp.json	home:.claude/mcp.json	agents	public	Claude MCP server definitions
+repo:.serena/serena_config.yml	home:.serena/serena_config.yml	agents	public	Serena MCP global config
 repo:.claude.json	home:.claude.json	agents	public	Claude desktop config
 repo:.codex/config.toml	home:.codex/config.toml	agents	public	Codex config
 repo:.codex/hooks.json	home:.codex/hooks.json	agents	public	Codex hooks config
@@ -56,3 +58,8 @@ env:.dbt/.user.yml	home:.dbt/.user.yml	dbt	private	dbt user state
 repo:workspaces/fs/settings.json	developer:fs/.vscode/settings.json	editor	public	fs workspace settings
 repo:workspaces/internal-analytics/settings.json	developer:internal-analytics/.vscode/settings.json	editor	public	internal analytics workspace settings
 repo:workspaces/jaffle-sandbox/settings.json	developer:jaffle-sandbox/.vscode/settings.json	editor	public	jaffle sandbox workspace settings
+repo:wizard/config.toml	home:.dbt/wizard/config.toml	agents	public	Wizard general config (Codex schema)
+repo:wizard/wizard_config.toml	home:.dbt/wizard/wizard_config.toml	agents	public	Wizard per-project state
+repo:wizard/providers.json	home:.dbt/wizard/providers.json	agents	public	Wizard model provider catalog
+repo:.codex/rules/default.rules	home:.dbt/wizard/rules/default.rules	agents	public	Shared Codex/Wizard command-approval rules
+repo:AGENTS.md	home:.dbt/wizard/AGENTS.md	agents	public	Shared global agent instructions

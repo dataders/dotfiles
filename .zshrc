@@ -63,6 +63,7 @@ unset _dotfiles_overlay
 alias dbtf=/Users/dataders/.local/bin/dbt
 alias dbt-core=/Users/dataders/Developer/jaffle-sandbox/.venv/bin/dbt
 alias dbtd=/Users/dataders/Developer/fs/target/debug/dbt
+alias dbtmv=/Users/dataders/Developer/fs.clickhouse-clean-materialized-views/target/debug/dbt
 alias dbtr=/Users/dataders/Developer/fs/target/release/dbt
 alias dbtc=compute-dbt
 
@@ -78,6 +79,9 @@ eval "$(zoxide init zsh)"
 
 # fzf (fuzzy finder: Ctrl+R for history, Ctrl+T for files)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# fzf 0.48+ binds ^I to fzf-completion, overriding fzf-tab; restore fzf-tab as TAB handler
+# (fzf's ^R history, ^T file, and ^[c cd widgets are unaffected by this rebind)
+[[ -n "${fzf_default_completion}" ]] && bindkey '^I' "$fzf_default_completion"
 
 # forgit (fzf-powered git commands - see docs/forgit.md)
 source /opt/homebrew/opt/forgit/share/forgit/forgit.plugin.zsh
@@ -89,9 +93,9 @@ zstyle ':fzf-tab:*' show-group none
 # show directory contents when completing cd; auto-select single matches; float in a popup
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -A --icons --group-directories-first $realpath'
 if [[ -n "$TMUX" || -n "$ZELLIJ" ]]; then
-  zstyle ':fzf-tab:*' fzf-flags '--select-1' '--tmux center,60%'
+  zstyle ':fzf-tab:*' fzf-flags '--select-1' '--no-sort' '--tmux center,60%'
 else
-  zstyle ':fzf-tab:*' fzf-flags '--select-1' '--height=~40%'
+  zstyle ':fzf-tab:*' fzf-flags '--select-1' '--no-sort' '--height=~40%'
 fi
 
 # Modern tool aliases
