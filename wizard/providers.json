@@ -1,0 +1,154 @@
+{
+  "providers": {
+    "anthropic": {
+      "enabled": true,
+      "credential_source": "env_or_auth_file",
+      "models": [
+        {
+          "id": "anthropic/claude-sonnet-4-6",
+          "target": "anthropic/claude-sonnet-4-6"
+        },
+        {
+          "id": "anthropic/claude-opus-4-7",
+          "target": "anthropic/claude-opus-4-7"
+        },
+        {
+          "id": "anthropic/claude-haiku-4-5",
+          "target": "anthropic/claude-haiku-4-5"
+        }
+      ]
+    },
+    "azure": {
+      "enabled": false,
+      "credential_source": "env_or_auth_file",
+      "models": [
+        {
+          "id": "azure/gpt-5.5",
+          "target": "azure/gpt-5.5"
+        },
+        {
+          "id": "azure/gpt-5.4",
+          "target": "azure/gpt-5.4"
+        },
+        {
+          "id": "azure/gpt-5.4-mini",
+          "target": "azure/gpt-5.4-mini"
+        }
+      ],
+      "api_version": "preview"
+    },
+    "bedrock": {
+      "enabled": false,
+      "credential_source": "env_or_auth_file",
+      "models": [
+        {
+          "id": "bedrock/global.anthropic.claude-sonnet-4-6",
+          "target": "bedrock/converse/global.anthropic.claude-sonnet-4-6"
+        },
+        {
+          "id": "bedrock/us.anthropic.claude-sonnet-4-6",
+          "target": "bedrock/converse/us.anthropic.claude-sonnet-4-6"
+        },
+        {
+          "id": "bedrock/eu.anthropic.claude-sonnet-4-6",
+          "target": "bedrock/converse/eu.anthropic.claude-sonnet-4-6"
+        },
+        {
+          "id": "bedrock/apac.anthropic.claude-sonnet-4-6",
+          "target": "bedrock/converse/apac.anthropic.claude-sonnet-4-6"
+        },
+        {
+          "id": "bedrock/anthropic.claude-sonnet-4-6",
+          "target": "bedrock/converse/anthropic.claude-sonnet-4-6"
+        },
+        {
+          "id": "bedrock/global.anthropic.claude-opus-4-7",
+          "target": "bedrock/converse/global.anthropic.claude-opus-4-7"
+        },
+        {
+          "id": "bedrock/us.anthropic.claude-opus-4-7",
+          "target": "bedrock/converse/us.anthropic.claude-opus-4-7"
+        },
+        {
+          "id": "bedrock/eu.anthropic.claude-opus-4-7",
+          "target": "bedrock/converse/eu.anthropic.claude-opus-4-7"
+        },
+        {
+          "id": "bedrock/apac.anthropic.claude-opus-4-7",
+          "target": "bedrock/converse/apac.anthropic.claude-opus-4-7"
+        },
+        {
+          "id": "bedrock/anthropic.claude-opus-4-7",
+          "target": "bedrock/converse/anthropic.claude-opus-4-7"
+        },
+        {
+          "id": "bedrock/global.anthropic.claude-haiku-4-5-20251001-v1:0",
+          "target": "bedrock/converse/global.anthropic.claude-haiku-4-5-20251001-v1:0"
+        },
+        {
+          "id": "bedrock/us.anthropic.claude-haiku-4-5-20251001-v1:0",
+          "target": "bedrock/converse/us.anthropic.claude-haiku-4-5-20251001-v1:0"
+        },
+        {
+          "id": "bedrock/eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+          "target": "bedrock/converse/eu.anthropic.claude-haiku-4-5-20251001-v1:0"
+        },
+        {
+          "id": "bedrock/apac.anthropic.claude-haiku-4-5-20251001-v1:0",
+          "target": "bedrock/converse/apac.anthropic.claude-haiku-4-5-20251001-v1:0"
+        },
+        {
+          "id": "bedrock/anthropic.claude-haiku-4-5-20251001-v1:0",
+          "target": "bedrock/converse/anthropic.claude-haiku-4-5-20251001-v1:0"
+        }
+      ],
+      "region": "us-east-1"
+    },
+    "openai": {
+      "enabled": false,
+      "credential_source": "env_or_auth_file",
+      "models": [
+        {
+          "id": "openai/gpt-5.5",
+          "target": "openai/gpt-5.5"
+        },
+        {
+          "id": "openai/gpt-5.4",
+          "target": "openai/gpt-5.4"
+        },
+        {
+          "id": "openai/gpt-5.4-mini",
+          "target": "openai/gpt-5.4-mini"
+        }
+      ]
+    },
+    "openai_subscription": {
+      "enabled": true,
+      "credential_source": "env_or_auth_file",
+      "models": [
+        {
+          "id": "openai_subscription/gpt-5.5",
+          "target": "chatgpt/gpt-5.5"
+        }
+      ]
+    },
+    "snowflake": {
+      "enabled": false,
+      "credential_source": "env_or_auth_file",
+      "models": [
+        {
+          "id": "snowflake/claude-sonnet-4-6",
+          "target": "claude-sonnet-4-6"
+        },
+        {
+          "id": "snowflake/claude-opus-4-7",
+          "target": "claude-opus-4-7"
+        },
+        {
+          "id": "snowflake/claude-haiku-4-5",
+          "target": "claude-haiku-4-5"
+        }
+      ]
+    }
+  }
+}
