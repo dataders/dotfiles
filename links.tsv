@@ -58,3 +58,8 @@ env:.dbt/.user.yml	home:.dbt/.user.yml	dbt	private	dbt user state
 repo:workspaces/fs/settings.json	developer:fs/.vscode/settings.json	editor	public	fs workspace settings
 repo:workspaces/internal-analytics/settings.json	developer:internal-analytics/.vscode/settings.json	editor	public	internal analytics workspace settings
 repo:workspaces/jaffle-sandbox/settings.json	developer:jaffle-sandbox/.vscode/settings.json	editor	public	jaffle sandbox workspace settings
+repo:wizard/config.toml	home:.dbt/wizard/config.toml	agents	public	Wizard general config (Codex schema)
+repo:wizard/wizard_config.toml	home:.dbt/wizard/wizard_config.toml	agents	public	Wizard per-project state
+repo:wizard/providers.json	home:.dbt/wizard/providers.json	agents	public	Wizard model provider catalog
+repo:.codex/rules/default.rules	home:.dbt/wizard/rules/default.rules	agents	public	Shared Codex/Wizard command-approval rules
+repo:AGENTS.md	home:.dbt/wizard/AGENTS.md	agents	public	Shared global agent instructions
