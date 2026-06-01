@@ -1,5 +1,8 @@
 model = "openai_subscription/gpt-5.5"
 model_reasoning_effort = "medium"
+# Enable rmcp client so url-based (streamable_http) MCP servers load; older
+# Codex-fork parser otherwise treats every mcp_server as stdio and rejects url.
+experimental_use_rmcp_client = true
 [projects."/Users/dataders/Developer/internal-analytics"]
 trust_level = "trusted"
 
