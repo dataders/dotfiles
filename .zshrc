@@ -20,6 +20,7 @@ path_additions=(
     "/opt/homebrew/opt/openjdk@17/bin"           # OpenJDK 17
     "$HOME/.wasmtime/bin"                        # Wasmtime
     "$HOME/.codeium/windsurf/bin"                # Windsurf
+    "/opt/homebrew/share/google-cloud-sdk/bin"   # gcloud CLI
     "$HOME/.local/bin"                           # dbt Cloud CLI, local scripts
 )
 
