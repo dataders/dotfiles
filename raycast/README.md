@@ -21,6 +21,28 @@ open raycast/Raycast.rayconfig   # triggers Raycast import dialog
 
 Scripts live in `dotfiles/.raycast_scripts/` and Raycast is configured to read them directly from that path — no symlink needed.
 
+## Snippets as code
+
+Text-expansion snippets are kept as a plain, diffable source-of-truth in
+[`snippets.json`](snippets.json) — separate from the binary `.rayconfig` so
+individual snippets show up in `git diff` and can be reviewed/edited directly.
+
+```bash
+# Edit snippets.json, then push the definitions into Raycast:
+./raycast/import-snippets.sh   # opens one "Import Snippets" confirmation dialog
+```
+
+Each entry is `{ "name", "keyword", "text" }`. Raycast skips any snippet whose
+name/text/keyword already exists, so re-running the import is safe and
+idempotent. Under the hood the script builds Raycast's import deeplink
+(`raycast://snippets/import?snippet=<url-encoded-json>`, one repeated `snippet=`
+param per entry).
+
+| Keyword | Expands to |
+|---|---|
+| `m13n` | materialization |
+| `aeng` | analytics engineer |
+
 ## Current habits
 
 ### Launcher basics
