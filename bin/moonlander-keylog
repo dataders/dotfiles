@@ -7,12 +7,16 @@ set -euo pipefail
 # Homebrew's qmk lives in /opt/homebrew/bin; ensure it's reachable under launchd.
 case ":$PATH:" in *":/opt/homebrew/bin:"*) ;; *) PATH="/opt/homebrew/bin:$PATH";; esac
 export PATH
+# qmk console is Python; when its stdout is a pipe (not a tty) it block-buffers,
+# so a slow trickle of keypresses never reaches the file. Force unbuffered I/O.
+export PYTHONUNBUFFERED=1
 
 LOGDIR="$HOME/.local/share/moonlander-keylog"
 # 8 fields: keycode,row,col,layer,pressed(0/1),mods,oneshotmods,tapcount
 PATTERN='0x[0-9A-Fa-f]{4},[0-9]+,[0-9]+,[0-9]+,[01],0x[0-9A-Fa-f]{2},0x[0-9A-Fa-f]{2},[0-9]+'
 
-filter() { grep -oE "$PATTERN"; }   # pulls the CSV out of qmk console's prefixed lines
+# --line-buffered so grep flushes each match immediately instead of in ~4KB blocks.
+filter() { grep --line-buffered -oE "$PATTERN"; }
 
 if [ "${1:-}" = "--filter" ]; then
   filter
