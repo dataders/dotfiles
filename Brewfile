@@ -129,3 +129,5 @@ uv "harlequin", with: ["duckdb==1.4.4"]
 uv "openai-whisper"
 uv "sqlfluff"
 uv "wtg-cli"
+tap "qmk/qmk"
+brew "qmk"
