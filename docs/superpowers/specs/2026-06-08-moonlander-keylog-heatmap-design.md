@@ -57,24 +57,40 @@ sequence that can reconstruct typed text (including passwords). Therefore:
 #endif
 ```
 
-and inside `process_record_user`, before the existing return:
+The existing `process_record_user` is a `switch (keycode)` with **multiple early
+`return false;` paths** (`QK_MODS`, `ST_MACRO_*`, `RGB_SLD`, `HSV_*`). A hook
+placed before the trailing `return true;` would silently miss every one of those
+keys. The logging block therefore goes **at the very top of the function, before
+the `switch`**, so every event is counted:
 
 ```c
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef CONSOLE_ENABLE
-    const bool is_combo = record->event.type == COMBO_EVENT;
     uprintf("0x%04X,%u,%u,%u,%b,0x%02X,0x%02X,%u\n",
         keycode,
-        is_combo ? 254 : record->event.key.row,
-        is_combo ? 254 : record->event.key.col,
+        record->event.key.row,
+        record->event.key.col,
         get_highest_layer(layer_state),
         record->event.pressed,
         get_mods(),
         get_oneshot_mods(),
         record->tap.count);
 #endif
+    switch (keycode) {
+    // ... existing cases unchanged ...
 ```
 
-8 fields: keycode, row, col, layer, pressed, mods, oneshot-mods, tap-count.
+8 fields: keycode, row, col, layer, pressed, mods, oneshot-mods, tap-count. This
+is the exact format precondition's generator documents and parses — **no header
+row**, column order as above.
+
+**Combos are deliberately omitted.** The repo has no `COMBO_ENABLE` and defines no
+combos, so a `record->event.type == COMBO_EVENT` branch would be dead code and
+`COMBO_EVENT` may not even be a defined enum without the feature compiled in
+(compile risk). The user's "combos/shortcuts" goal is served instead by the
+**mods, oneshot-mods, and tap-count fields** plus tap-dance/layer-tap data already
+in the layout (`TAP_DANCE_ENABLE = yes`). If true QMK combos are wanted later,
+that is a separate change (`COMBO_ENABLE = yes` + combo definitions).
 
 **Constraint:** these files are the Oryx *source export*. The instrumentation is a
 local-only divergence from Oryx — re-exporting from Oryx will overwrite it. The
@@ -83,30 +99,52 @@ round-tripped through Oryx.
 
 ### 2. Build & flash toolchain
 
-- Add `qmk-cli` to `Brewfile`; install it.
-- `qmk setup zsa/qmk_firmware` (ZSA's fork — the Oryx export depends on ZSA's tree:
-  `RGB_MATRIX_CUSTOM_KB`, `ORYX_ENABLE`, ZSA custom keycodes).
-- Copy the `moonlander/` source into the fork's keymap dir, `qmk compile`,
-  producing a per-revision `.bin`.
-- **Flash via Keymapp's file-flash** (the rev A/B file path already documented in
-  `moonlander/README.md`) — avoids dfu-util setup. Use the rev matching the board.
+- Add the qmk CLI to `Brewfile` (verify exact entry — Homebrew installs it via the
+  `qmk/qmk/qmk` tap: `brew "qmk/qmk/qmk"`).
+- **One-time prerequisite (separate from per-build):** `qmk setup zsa/qmk_firmware`
+  clones ZSA's fork *and* pulls a multi-GB ARM toolchain. ZSA's fork is required —
+  the Oryx export depends on ZSA's tree (`RGB_MATRIX_CUSTOM_KB`, `ORYX_ENABLE`, ZSA
+  custom keycodes); upstream qmk will not compile it.
+- `bin/moonlander-build` (the per-build helper) copies the `moonlander/` source into
+  the fork's keymap dir and runs `qmk compile`, producing a per-revision `.bin`.
 
-A helper script (`bin/moonlander-build`) encapsulates the copy + compile so the
-build is one command and documented.
+**Flashing — `qmk flash` is the primary path.** Since the qmk CLI is being
+installed anyway, `qmk flash` drives DFU directly and avoids an unverified
+assumption. **Do NOT assume Keymapp will file-flash an arbitrary qmk-built bin** —
+`moonlander/README.md` documents a `[DFU] Supplied firmware does not match the
+device` failure, and Keymapp's known-good paths are its auto-detecting **Flash**
+button (Oryx firmware) or per-revision bins from the *Oryx* zip. Keymapp file-flash
+of a locally-built per-rev bin may work but is **unvalidated**; the plan must test
+it before relying on it, and `qmk flash` is the documented fallback. This
+reconciles with the README rather than contradicting it.
 
 ### 3. Background logger + LaunchAgent
 
-- `bin/moonlander-keylog` — runs `qmk console`, normalizes each line with `sed`
-  (qmk console prepends a device-name prefix that would corrupt CSV column 1;
-  strip everything up to the leading `0x` keycode), and appends to
-  `~/.local/share/moonlander-keylog/keylog-$(date +%Y%m%d).csv`. Output stays
-  exactly 8 columns so it uploads cleanly to the heatmap generator.
+- `bin/moonlander-keylog` — runs `qmk console` **pinned to the Moonlander's
+  VID:PID** via `--device` (bare `qmk console` may attach to the wrong device when
+  multiple keyboards are connected; the VID:PID is discoverable from `qmk console`'s
+  device list or System Information — the plan must capture the actual value, not
+  assume it). Each console line carries a device-name prefix, so column 1 must be
+  recovered **by extracting the 8-column CSV substring** rather than a naive
+  `sed s/^.*0x/0x/` (greedy — the mods fields are also `0x..`). Use
+  `grep -oE` of the full 8-field pattern (the same regex precondition documents),
+  appending matches to `~/.local/share/moonlander-keylog/keylog-$(date +%Y%m%d).csv`.
+  Output stays exactly 8 columns; the build/log smoke test asserts the column count.
 - LaunchAgent plist `com.dataders.moonlander-keylog.plist`:
   - `RunAtLoad = true` (starts at login),
-  - `KeepAlive = true` (restarts on crash / keyboard disconnect),
-  - stdout/stderr to a separate log for debugging.
+  - `KeepAlive = true` + an explicit `ThrottleInterval` (≥10s). When the board is
+    unplugged `qmk console` exits and launchd respawns it; throttling keeps this a
+    benign idle loop, not a tight spin. Document this expected board-absent behavior.
+  - stdout/stderr to a separate debug log (not the keylog CSV).
+  - **macOS first-run permission:** reading the HID console via hidapi may trigger a
+    TCC / Input-Monitoring prompt. A LaunchAgent runs in the user's GUI session so
+    the prompt can appear, but auto-start may silently fail until granted — the plan
+    must include a documented first-run grant + re-login step and verify the agent
+    actually logs afterward.
   - Tracked in dotfiles, symlinked to `~/Library/LaunchAgents/` via a new
-    `links.tsv` row (group `moonlander`, visibility `public`).
+    `links.tsv` row (group `moonlander`, visibility `public`). No prior LaunchAgent
+    rows exist, so this establishes the convention; record the exact repo source
+    path (`Library/LaunchAgents/com.dataders.moonlander-keylog.plist`).
 
 Fault tolerance comes from append-only file writes plus `RunAtLoad`/`KeepAlive`;
 no data is held in memory or in an app that must stay open.
@@ -119,6 +157,8 @@ no data is held in memory or in an app that must stay open.
 - Backblaze: add the log dir to Backblaze's exclusion list (documented step;
   Backblaze exclusions are a GUI/`bzinfo` setting, surfaced in README).
 - Dropbox: ensure the dir is not under `~/Dropbox` (it is not) — documented.
+- **Time Machine / local snapshots:** `tmutil addexclusion ~/.local/share/moonlander-keylog`
+  so the keylog is captured by neither Time Machine backups nor APFS local snapshots.
 - `bin/moonlander-keylog-purge` — deletes all `keylog-*.csv`. One command.
 
 ### 5. Analysis (deferred ~days, separate session)
@@ -141,9 +181,13 @@ This phase is out of scope for the build plan; it produces a report, not code.
 
 ## Success criteria
 
-- Console-enabled firmware flashed; key events appear in the dated CSV.
-- Logger auto-starts at login and resumes after a forced kill (KeepAlive verified).
-- Log dir confirmed excluded from Backblaze and not under Dropbox.
+- Console-enabled firmware builds against ZSA's fork and flashes (via `qmk flash`,
+  Keymapp file-flash only if validated); key events appear in the dated CSV.
+- Each CSV line is exactly 8 columns (column-count assertion passes).
+- Logger auto-starts at login and resumes after a forced kill (KeepAlive verified),
+  and behaves benignly when the board is unplugged.
+- macOS HID/Input-Monitoring permission granted; agent logs after re-login.
+- Log dir confirmed excluded from Backblaze, Time Machine, and not under Dropbox.
 - A sample CSV uploads to the heatmap generator and renders a per-layer heatmap.
 - Purge helper removes raw logs in one command.
 
@@ -158,5 +202,6 @@ This phase is out of scope for the build plan; it produces a report, not code.
 | Purge helper | `bin/moonlander-keylog-purge` | yes |
 | LaunchAgent | `Library/LaunchAgents/com.dataders.moonlander-keylog.plist` (symlinked) | yes |
 | `links.tsv` row | plist → `~/Library/LaunchAgents/` | yes |
-| Brewfile | `qmk-cli` | yes |
+| `.gitignore` | ignore any build scratch / stray logs | yes |
+| Brewfile | qmk CLI (`qmk/qmk/qmk` tap — verify) | yes |
 | Docs | `moonlander/README.md` (build/log/privacy workflow) | yes |
