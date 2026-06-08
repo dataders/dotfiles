@@ -43,3 +43,70 @@ auto-detects the board's revision and flashes the correct half.
 3. If you ever must flash by file, use the single per-revision bin from the
    Oryx source `.zip` (`zsa_moonlander_reva_*.bin` or `..._revb_*.bin`) — never
    the combined download.
+
+## Keystroke logging (heatmap data)
+
+These source files carry a small **console-logging instrumentation** that is
+*not* part of the Oryx export: `rules.mk` has `CONSOLE_ENABLE = yes` and
+`keymap.c` has a `uprintf` hook at the top of `process_record_user` that emits
+one CSV line per key event (keycode, row, col, layer, pressed, mods,
+oneshot-mods, tap count). The data feeds
+[precondition's heatmap generator](https://precondition.github.io/qmk-heatmap)
+to find most/least-used keys per layer and guide layout refinements.
+
+**Console diverges from Oryx.** Re-exporting from Oryx overwrites `keymap.c`
+and `rules.mk` and will drop the hook. Keep *layout* edits in Oryx, but
+re-apply the console hook + `CONSOLE_ENABLE` locally after any re-export
+(see `git log` / `git show` for this repo's instrumentation commits).
+
+### Build & flash the console firmware
+
+The Oryx-only path (Keymapp, above) builds upstream firmware without the hook.
+To get a console-enabled build you must compile against **ZSA's qmk fork**:
+
+```bash
+qmk setup zsa/qmk_firmware   # one-time, multi-GB toolchain + fork clone
+bin/moonlander-build         # copies this dir's source into the fork, qmk compile
+qmk flash -kb zsa/moonlander -km anders-colemak   # board in reset first
+```
+
+`qmk` comes from the Homebrew `qmk/qmk` tap (see `Brewfile`). Confirm the
+console is live with `qmk console -d 0x3297:0x1969` (Moonlander Mark I
+VID:PID) — pressing keys should print `0x....,<row>,<col>,...` lines.
+
+### Logging daemon
+
+`bin/moonlander-keylog` runs `qmk console` pinned to the board's VID:PID,
+normalizes each line to clean 8-column CSV (`grep -oE`), and appends to a dated
+file under `~/.local/share/moonlander-keylog/keylog-YYYYMMDD.csv`. A KeepAlive
+LaunchAgent (`Library/LaunchAgents/com.dataders.moonlander-keylog.plist`,
+symlinked into `~/Library/LaunchAgents/` via `links.tsv`) keeps it running
+across crashes, unplugs, and reboots. The logger's `--filter` mode reads stdin
+and emits the cleaned CSV, so the normalization regex is testable without
+hardware.
+
+### Privacy
+
+The keylog is a raw record of every keystroke, so the log directory is kept out
+of every backup/sync path:
+
+- **Time Machine** — `tmutil addexclusion ~/.local/share/moonlander-keylog`
+  (verify with `tmutil isexcluded`).
+- **Backblaze** — add `~/.local/share/moonlander-keylog` under
+  Settings → Exclusions (GUI; Backblaze backs up the whole disk by default).
+- **Dropbox** — the dir lives under `~/.local/share`, not `~/Dropbox`.
+- **git** — `.gitignore` blocks `keylog-*.csv` and `moonlander/keymaps/` as a
+  defensive guard against accidental in-repo copies.
+
+Wipe all collected data at any time with `bin/moonlander-keylog-purge`.
+
+### Analysis
+
+Once several days of typing have accumulated, upload the dated CSV(s) to
+[precondition's heatmap generator](https://precondition.github.io/qmk-heatmap)
+and cross-check against Keymapp's live heatmap, then derive concrete
+`anders-colemak` refinements. Purge the raw logs when done.
+
+See the design spec and implementation plan for full detail:
+- `docs/superpowers/specs/2026-06-08-moonlander-keylog-heatmap-design.md`
+- `docs/superpowers/plans/2026-06-08-moonlander-keylog-heatmap.md`
