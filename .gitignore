@@ -5,3 +5,7 @@
 logs/
 .dbt/
 .ssh/known_hosts.old
+
+# Moonlander keylogger (never commit raw keystrokes or stray build bins)
+keylog-*.csv
+moonlander/keymaps/
