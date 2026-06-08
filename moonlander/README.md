@@ -65,18 +65,29 @@ The Oryx-only path (Keymapp, above) builds upstream firmware without the hook.
 To get a console-enabled build you must compile against **ZSA's qmk fork**:
 
 ```bash
-qmk setup zsa/qmk_firmware   # one-time, multi-GB toolchain + fork clone
-bin/moonlander-build         # copies this dir's source into the fork, qmk compile
-qmk flash -kb zsa/moonlander -km anders-colemak   # board in reset first
+# one-time: qmk CLI + ARM toolchain (Homebrew qmk/qmk + osx-cross/arm taps must be trusted)
+brew install qmk/qmk/qmk
+qmk setup -y -b firmware25 zsa/qmk_firmware      # fork default branch is firmware25, NOT master
+qmk config user.qmk_home="$HOME/qmk_firmware"
+
+bin/moonlander-build                             # builds BOTH revs (reva + revb)
+# flash the bin matching YOUR board's revision (board in reset first):
+export PATH="/opt/homebrew/opt/arm-none-eabi-gcc@8/bin:/opt/homebrew/bin:$PATH"
+qmk flash -kb zsa/moonlander/revb -km anders-colemak   # or .../reva
 ```
 
-`qmk` comes from the Homebrew `qmk/qmk` tap (see `Brewfile`). Confirm the
-console is live with `qmk console -d 0x3297:0x1969` (Moonlander Mark I
-VID:PID) — pressing keys should print `0x....,<row>,<col>,...` lines.
+Notes from the first build (2026-06-08):
+- `qmk` is from the Homebrew `qmk/qmk` tap; the ARM compiler (`arm-none-eabi-gcc@8`
+  via `osx-cross/arm`) is **keg-only**, so `bin/moonlander-build` prepends it to PATH.
+- firmware25 splits the keyboard into `zsa/moonlander/reva` and `…/revb` — there is
+  no bare `zsa/moonlander` target. Both bins land in `~/qmk_firmware/`.
+- Confirm the console is live with `qmk console` — pressing keys should print
+  `0x....,<row>,<col>,<layer>,...` lines. (The logger captures all consoles and
+  filters by format, so no `-d` device pin is needed.)
 
 ### Logging daemon
 
-`bin/moonlander-keylog` runs `qmk console` pinned to the board's VID:PID,
+`bin/moonlander-keylog` runs `qmk console` (all consoles),
 normalizes each line to clean 8-column CSV (`grep -oE`), and appends to a dated
 file under `~/.local/share/moonlander-keylog/keylog-YYYYMMDD.csv`. A KeepAlive
 LaunchAgent (`Library/LaunchAgents/com.dataders.moonlander-keylog.plist`,

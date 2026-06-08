@@ -1,19 +1,34 @@
 #!/usr/bin/env bash
 # Build console-enabled Moonlander firmware from the Oryx source export.
+# Builds BOTH hardware revisions (reva + revb) — flash the one matching your board.
 set -euo pipefail
 
 QMK_HOME="${QMK_HOME:-$HOME/qmk_firmware}"
 SRC="$(cd "$(dirname "$0")/.." && pwd)/moonlander"
 KM_DIR="$QMK_HOME/keyboards/zsa/moonlander/keymaps/anders-colemak"
 
-[ -d "$QMK_HOME" ] || { echo "qmk fork not found at $QMK_HOME — run 'qmk setup zsa/qmk_firmware'"; exit 1; }
+# Homebrew's qmk toolchain (arm-none-eabi-gcc@8) is keg-only — put it on PATH.
+for p in /opt/homebrew/opt/arm-none-eabi-gcc@8/bin \
+         /opt/homebrew/opt/arm-none-eabi-binutils/bin \
+         /opt/homebrew/bin; do
+  [ -d "$p" ] && PATH="$p:$PATH"
+done
+export PATH
+
+command -v qmk >/dev/null || { echo "qmk not found — 'brew install qmk/qmk/qmk'"; exit 1; }
+[ -d "$QMK_HOME" ] || { echo "qmk fork not found at $QMK_HOME — run 'qmk setup -b firmware25 zsa/qmk_firmware'"; exit 1; }
 
 mkdir -p "$KM_DIR"
 for f in keymap.c config.h rules.mk keymap.json; do
-  [ -f "$SRC/$f" ] && cp "$SRC/$f" "$KM_DIR/"
+  [ -f "$SRC/$f" ] && command cp -f "$SRC/$f" "$KM_DIR/"   # command cp: bypass any cp -i alias
 done
 
-echo "Compiling zsa/moonlander:anders-colemak ..."
-qmk compile -kb zsa/moonlander -km anders-colemak
+# firmware25 splits the Moonlander into reva/revb subtargets; there is no bare
+# `zsa/moonlander`. Build both; the user flashes the bin matching their board.
+for rev in revb reva; do
+  echo "Compiling zsa/moonlander/$rev:anders-colemak ..."
+  qmk compile -kb "zsa/moonlander/$rev" -km anders-colemak
+done
 
-echo "Done. Firmware bin(s) are in $QMK_HOME/ (zsa_moonlander_anders_colemak*.bin)."
+echo "Done. Firmware bins in $QMK_HOME/:"
+ls -1 "$QMK_HOME"/zsa_moonlander_rev*_anders-colemak.bin 2>/dev/null || true

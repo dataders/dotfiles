@@ -74,12 +74,14 @@ Expected: a version string (not "command not found"), and confirmation that
 
 - [ ] **Step 4: 🔌 Clone ZSA's fork + toolchain (multi-GB, one-time)**
 
-Run: `qmk setup zsa/qmk_firmware -b firmware24`
+Run: `qmk setup -y -b firmware25 zsa/qmk_firmware`
 (ZSA's fork is required — the Oryx export uses `RGB_MATRIX_CUSTOM_KB`, `ORYX_ENABLE`,
-and ZSA custom keycodes that upstream qmk lacks. Branch name to **verify** against
-ZSA's current default; if `firmware24` is wrong, use the default branch `qmk setup`
-selects.)
-Expected: `~/qmk_firmware` (ZSA fork) present; `qmk doctor` reports a usable build env.
+and ZSA custom keycodes that upstream qmk lacks. **The fork's default branch is
+`firmware25`** — confirmed via `git ls-remote --symref` on 2026-06-08. The plain
+`qmk setup zsa/qmk_firmware` fails with `Remote branch master not found`, so the
+`-b firmware25` is required.) Also `qmk config user.qmk_home="$HOME/qmk_firmware"`.
+Expected: `~/qmk_firmware` (~1.9 GB) present; `qmk doctor` may flag non-fatal warnings
+but the ARM compile still works.
 
 - [ ] **Step 5: Commit the Brewfile change**
 
@@ -119,12 +121,12 @@ paths (`QK_MODS`, `ST_MACRO_*`, `RGB_SLD`, `HSV_*`). The hook MUST sit before th
 ```c
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef CONSOLE_ENABLE
-    uprintf("0x%04X,%u,%u,%u,%b,0x%02X,0x%02X,%u\n",
+    uprintf("0x%04X,%u,%u,%u,%u,0x%02X,0x%02X,%u\n",
         keycode,
         record->event.key.row,
         record->event.key.col,
         get_highest_layer(layer_state),
-        record->event.pressed,
+        (unsigned int)record->event.pressed,
         get_mods(),
         get_oneshot_mods(),
         record->tap.count);
@@ -202,9 +204,17 @@ git commit -m "moonlander: add build helper for console firmware"
 
 - [ ] **Step 1: Flash via qmk (primary path)**
 
-Put the board in reset (small reset button / the configured `RESET` key), then run:
-`qmk flash -kb zsa/moonlander -km anders-colemak`
-Expected: DFU completes; board reboots.
+Put the board in reset (small reset button / the configured `RESET` key), then run
+the flash for YOUR board's revision (firmware25 splits the target into reva/revb;
+rev B started shipping mid-Dec 2025). With the keg-only toolchain on PATH:
+```bash
+export PATH="/opt/homebrew/opt/arm-none-eabi-gcc@8/bin:/opt/homebrew/opt/arm-none-eabi-binutils/bin:/opt/homebrew/bin:$PATH"
+qmk flash -kb zsa/moonlander/revb -km anders-colemak   # or .../reva
+```
+Both bins are already built at `~/qmk_firmware/zsa_moonlander_rev{a,b}_anders-colemak.bin`.
+Expected: DFU completes; board reboots. (If unsure of your revision, the bootloader
+device name tells you — see `moonlander/README.md`: "Moonlander Bootloader" = rev B,
+"STM32 Bootloader" = rev A.)
 
 Do NOT assume Keymapp will file-flash this locally-built bin — `moonlander/README.md`
 documents a `[DFU] Supplied firmware does not match the device` failure. If `qmk flash`
