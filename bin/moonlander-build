@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Build console-enabled Moonlander firmware from the Oryx source export.
+set -euo pipefail
+
+QMK_HOME="${QMK_HOME:-$HOME/qmk_firmware}"
+SRC="$(cd "$(dirname "$0")/.." && pwd)/moonlander"
+KM_DIR="$QMK_HOME/keyboards/zsa/moonlander/keymaps/anders-colemak"
+
+[ -d "$QMK_HOME" ] || { echo "qmk fork not found at $QMK_HOME — run 'qmk setup zsa/qmk_firmware'"; exit 1; }
+
+mkdir -p "$KM_DIR"
+for f in keymap.c config.h rules.mk keymap.json; do
+  [ -f "$SRC/$f" ] && cp "$SRC/$f" "$KM_DIR/"
+done
+
+echo "Compiling zsa/moonlander:anders-colemak ..."
+qmk compile -kb zsa/moonlander -km anders-colemak
+
+echo "Done. Firmware bin(s) are in $QMK_HOME/ (zsa_moonlander_anders_colemak*.bin)."
