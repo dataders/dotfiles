@@ -1,5 +1,8 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
+#ifdef CONSOLE_ENABLE
+#include "print.h"
+#endif
 #define MOON_LED_LEVEL LED_LEVEL
 #ifndef ZSA_SAFE_RANGE
 #define ZSA_SAFE_RANGE SAFE_RANGE
@@ -197,6 +200,17 @@ tap_dance_action_t tap_dance_actions[] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+#ifdef CONSOLE_ENABLE
+    uprintf("0x%04X,%u,%u,%u,%b,0x%02X,0x%02X,%u\n",
+        keycode,
+        record->event.key.row,
+        record->event.key.col,
+        get_highest_layer(layer_state),
+        record->event.pressed,
+        get_mods(),
+        get_oneshot_mods(),
+        record->tap.count);
+#endif
   switch (keycode) {
   case QK_MODS ... QK_MODS_MAX:
     // Mouse and consumer keys (volume, media) with modifiers work inconsistently across operating systems,
