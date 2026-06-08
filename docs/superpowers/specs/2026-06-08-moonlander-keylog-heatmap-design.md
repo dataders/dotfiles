@@ -66,12 +66,12 @@ the `switch`**, so every event is counted:
 ```c
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef CONSOLE_ENABLE
-    uprintf("0x%04X,%u,%u,%u,%b,0x%02X,0x%02X,%u\n",
+    uprintf("0x%04X,%u,%u,%u,%u,0x%02X,0x%02X,%u\n",
         keycode,
         record->event.key.row,
         record->event.key.col,
         get_highest_layer(layer_state),
-        record->event.pressed,
+        (unsigned int)record->event.pressed,
         get_mods(),
         get_oneshot_mods(),
         record->tap.count);
@@ -79,6 +79,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     // ... existing cases unchanged ...
 ```
+
+**`%u`, not `%b`, for the pressed field.** precondition's docs show `%b`, but
+`arm-none-eabi-gcc 8.5` (ZSA firmware25 toolchain) rejects it under `-Werror=format`
+(`unknown conversion type character 'b'`). `record->event.pressed` is a bool, so
+`(unsigned int)…` + `%u` prints `0`/`1` identically and the `[01]` parser regex
+still matches. Verified: both reva/revb compiled clean 2026-06-08.
 
 8 fields: keycode, row, col, layer, pressed, mods, oneshot-mods, tap-count. This
 matches the `uprintf` format and egrep capture that precondition's generator

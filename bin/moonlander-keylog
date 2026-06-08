@@ -4,7 +4,10 @@
 #   moonlander-keylog --filter   # read stdin, emit clean CSV (for tests)
 set -euo pipefail
 
-VIDPID="0x3297:0x1969"   # ZSA Moonlander Mark I (verified 2026-06-08)
+# Homebrew's qmk lives in /opt/homebrew/bin; ensure it's reachable under launchd.
+case ":$PATH:" in *":/opt/homebrew/bin:"*) ;; *) PATH="/opt/homebrew/bin:$PATH";; esac
+export PATH
+
 LOGDIR="$HOME/.local/share/moonlander-keylog"
 # 8 fields: keycode,row,col,layer,pressed(0/1),mods,oneshotmods,tapcount
 PATTERN='0x[0-9A-Fa-f]{4},[0-9]+,[0-9]+,[0-9]+,[01],0x[0-9A-Fa-f]{2},0x[0-9A-Fa-f]{2},[0-9]+'
@@ -16,8 +19,11 @@ if [ "${1:-}" = "--filter" ]; then
   exit 0
 fi
 
+# No `-d VID:PID` pin: only the Moonlander runs our 8-field hook, and the strict
+# PATTERN above discards any other QMK console output, so capturing all consoles
+# is both simpler and more robust than qmk's ambiguous <pid>:<vid> device flag.
 mkdir -p "$LOGDIR"
-exec qmk console -d "$VIDPID" 2>/dev/null \
+exec qmk console 2>/dev/null \
   | filter \
   | while IFS= read -r line; do
       printf '%s\n' "$line" >> "$LOGDIR/keylog-$(date +%Y%m%d).csv"
