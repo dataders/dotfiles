@@ -61,13 +61,16 @@ brew "qmk"
 
 - [ ] **Step 2: Install it**
 
-Run: `brew bundle --file=Brewfile` (or `brew install qmk/qmk/qmk`)
-Expected: `qmk` on PATH.
+Run: `brew bundle --file=Brewfile`
+Expected: `qmk` on PATH. If `brew "qmk"` fails to resolve, the fully-qualified
+formula is `brew install qmk/qmk/qmk` — fall back to that and use `brew "qmk/qmk/qmk"`
+in the Brewfile instead.
 
 - [ ] **Step 3: Verify the CLI**
 
-Run: `qmk --version`
-Expected: a version string, not "command not found".
+Run: `qmk --version` and `qmk console --help | grep -- --device`
+Expected: a version string (not "command not found"), and confirmation that
+`console` accepts `-d/--device VID:PID` (the form Tasks 4–5 rely on).
 
 - [ ] **Step 4: 🔌 Clone ZSA's fork + toolchain (multi-GB, one-time)**
 
@@ -163,7 +166,9 @@ KM_DIR="$QMK_HOME/keyboards/zsa/moonlander/keymaps/anders-colemak"
 [ -d "$QMK_HOME" ] || { echo "qmk fork not found at $QMK_HOME — run 'qmk setup zsa/qmk_firmware'"; exit 1; }
 
 mkdir -p "$KM_DIR"
-cp "$SRC"/{keymap.c,keymap.json,config.h,rules.mk} "$KM_DIR/"
+for f in keymap.c config.h rules.mk keymap.json; do
+  [ -f "$SRC/$f" ] && cp "$SRC/$f" "$KM_DIR/"
+done
 
 echo "Compiling zsa/moonlander:anders-colemak ..."
 qmk compile -kb zsa/moonlander -km anders-colemak
@@ -300,8 +305,9 @@ git commit -m "moonlander: add HID-console keylogger with testable CSV filter"
 
 - [ ] **Step 1: Write the LaunchAgent plist**
 
-Create `Library/LaunchAgents/com.dataders.moonlander-keylog.plist`. Use the absolute
-path to the symlinked `bin/` (adjust if `~/bin` differs):
+Create `Library/LaunchAgents/com.dataders.moonlander-keylog.plist`. `ProgramArguments`
+points at the repo `bin/` path directly (intentional — the plist is machine-specific
+and this sidesteps any `~/.local/bin` symlink timing):
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -342,7 +348,8 @@ repo:Library/LaunchAgents/com.dataders.moonlander-keylog.plist	home:Library/Laun
 
 - [ ] **Step 3: Dry-run the symlink change**
 
-Run: `./links.sh dry-run`
+Ensure the target dir exists first: `mkdir -p ~/Library/LaunchAgents` (it already does
+on this machine). Then run: `./links.sh dry-run`
 Expected: shows the new plist link to be created; no errors, no clobbering of
 existing links (especially NOT touching `~/.dbt/*`).
 
@@ -420,12 +427,13 @@ Expected: `PASS: purged`.
 
 Append to `.gitignore`:
 ```
-# Moonlander keylogger (never commit raw keystrokes)
-moonlander/*.bin
-*.keylog.csv
+# Moonlander keylogger (never commit raw keystrokes or stray build bins)
+keylog-*.csv
+moonlander/keymaps/
 ```
-(The real logs live outside the repo under `~/.local/share`, but this guards against
-accidental in-repo copies and stray build bins.)
+(The real logs live outside the repo under `~/.local/share` and the build bin lands
+in `~/qmk_firmware`, so these patterns are a defensive guard against accidental
+in-repo copies — they match the actual `keylog-*.csv` filename, not `*.keylog.csv`.)
 
 - [ ] **Step 7: Commit**
 
