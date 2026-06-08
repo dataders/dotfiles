@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Capture Moonlander HID console output as clean 8-column CSV.
+#   moonlander-keylog            # run qmk console, append to dated log
+#   moonlander-keylog --filter   # read stdin, emit clean CSV (for tests)
+set -euo pipefail
+
+VIDPID="0x3297:0x1969"   # ZSA Moonlander Mark I (verified 2026-06-08)
+LOGDIR="$HOME/.local/share/moonlander-keylog"
+# 8 fields: keycode,row,col,layer,pressed(0/1),mods,oneshotmods,tapcount
+PATTERN='0x[0-9A-Fa-f]{4},[0-9]+,[0-9]+,[0-9]+,[01],0x[0-9A-Fa-f]{2},0x[0-9A-Fa-f]{2},[0-9]+'
+
+filter() { grep -oE "$PATTERN"; }   # pulls the CSV out of qmk console's prefixed lines
+
+if [ "${1:-}" = "--filter" ]; then
+  filter
+  exit 0
+fi
+
+mkdir -p "$LOGDIR"
+exec qmk console -d "$VIDPID" 2>/dev/null \
+  | filter \
+  | while IFS= read -r line; do
+      printf '%s\n' "$line" >> "$LOGDIR/keylog-$(date +%Y%m%d).csv"
+    done
