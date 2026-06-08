@@ -81,8 +81,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 ```
 
 8 fields: keycode, row, col, layer, pressed, mods, oneshot-mods, tap-count. This
-is the exact format precondition's generator documents and parses — **no header
-row**, column order as above.
+matches the `uprintf` format and egrep capture that precondition's generator
+documents (no header row, column order as above) — but treat it as
+verify-before-relying: confirm the generator's expected column order / header
+against a small sample upload before collecting days of data.
 
 **Combos are deliberately omitted.** The repo has no `COMBO_ENABLE` and defines no
 combos, so a `record->event.type == COMBO_EVENT` branch would be dead code and
