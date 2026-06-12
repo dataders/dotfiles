@@ -20,8 +20,8 @@ Hard rules:
 
 MCP config layout (all tracked in dotfiles via links.tsv):
 
-- `~/.claude/mcp.json` → `dotfiles/.claude/mcp.json` — Claude Code user-level MCP servers (serena, cocoindex-code, parallel-search)
-- `~/.codex/config.toml` → `dotfiles/.codex/config.toml` — Codex MCP servers (same local MCPs + Runlayer remotes)
-- `~/.claude/settings.json` and `~/.claude.json` are also symlinked; `mcpServers` is NOT valid in settings files — use `mcp.json` only.
+- Claude Code reads MCP servers from `~/.claude.json` (→ `dotfiles/.claude.json`); top-level `mcpServers` = user scope. Add via `claude mcp add <name> --scope user …`. Currently: github, lucid, serena, parallel-search. (`~/.claude/mcp.json` is NOT read by Claude Code — kept empty.)
+- `~/.codex/config.toml` → `dotfiles/.codex/config.toml` — Codex MCP servers (local MCPs + Runlayer remotes, incl. lucid).
+- `~/.claude/settings.json` and `~/.claude.json` are symlinked too; `mcpServers` is NOT valid in settings files — it belongs in `~/.claude.json` top-level, not `settings.json`.
 
 @RTK.md
