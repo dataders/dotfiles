@@ -11,6 +11,9 @@ Hard rules:
   `~/Developer/dotfiles_env`.
 - Use `links.tsv` plus `./links.sh dry-run`, `./links.sh check`, and
   `./links.sh doctor` for symlink work.
+- Never run `./links.sh apply` from a worktree / Conductor workspace — it
+  repoints `~` symlinks into the throwaway checkout and breaks them on archive.
+  Apply only from the primary checkout `~/Developer/dotfiles`.
 - Do not delete critical `~/.dbt/*` symlinks.
 - Use explicit overlay hooks only: `secrets.zsh`, `local.zsh`,
   `gitconfig.local`, and `source_dotfiles_env`.
