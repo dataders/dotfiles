@@ -9,6 +9,10 @@
       "type": "stdio",
       "command": "/Users/dataders/Developer/dotfiles/mcp/parallel-search/run.sh",
       "args": []
+    },
+    "lucid": {
+      "type": "http",
+      "url": "https://dbt.runlayer.com/api/v1/proxy/5bcab31b-de80-4be2-a8ea-553d8c365fea/mcp"
     }
   }
 }
