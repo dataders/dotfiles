@@ -56,6 +56,7 @@ env:.dbt/mcp.yml	home:.dbt/mcp.yml	dbt	private	dbt MCP config
 env:.dbt/keyfile.json	home:.dbt/keyfile.json	dbt	private	dbt keyfile
 env:.dbt/.user.yml	home:.dbt/.user.yml	dbt	private	dbt user state
 repo:workspaces/fs/settings.json	developer:fs/.vscode/settings.json	editor	public	fs workspace settings
+repo:workspaces/fs/conductor.toml	developer:fs/.conductor/settings.local.toml	agents	public	fs Conductor spotlight-testing config
 repo:workspaces/internal-analytics/settings.json	developer:internal-analytics/.vscode/settings.json	editor	public	internal analytics workspace settings
 repo:workspaces/jaffle-sandbox/settings.json	developer:jaffle-sandbox/.vscode/settings.json	editor	public	jaffle sandbox workspace settings
 repo:wizard/config.toml	home:.dbt/wizard/config.toml	agents	public	Wizard general config (Codex schema)
