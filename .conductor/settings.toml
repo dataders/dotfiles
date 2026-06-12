@@ -1,0 +1,53 @@
+# Conductor repository settings — github.com/dataders/dotfiles
+# Schema: https://conductor.build/schemas/settings.repo.schema.json
+"$schema" = "https://conductor.build/schemas/settings.repo.schema.json"
+
+# Intentionally minimal. Everything Conductor's agents need is already defined
+# in config that Conductor discovers on its own. This file only holds settings
+# that are (a) specific to THIS repo and (b) NOT discoverable elsewhere.
+#
+# Deliberately EXCLUDED, and where Conductor already finds it:
+#
+#   Agent instructions / rules ....... AGENTS.md + .claude/CLAUDE.md (read by the
+#                                      Claude Code / Codex agent directly). So no
+#                                      [prompts] section — it would duplicate them.
+#
+#   MCP servers ...................... ~/.claude/mcp.json (Claude) and
+#                                      ~/.codex/config.toml (Codex), both symlinked
+#                                      from this repo and user-level → inherited.
+#
+#   Agent teams (TeamCreate→…) ....... CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 set in
+#                                      ~/.claude/settings.json AND ~/.codex/config.toml,
+#                                      both discovered. No env var needed here.
+#
+#   uv / rtk enforcement hooks ....... ~/.claude/hooks/*.sh, symlinked & user-level →
+#                                      apply to Conductor's Claude agents automatically.
+#
+#   claude / codex executables ....... codex is on PATH (/opt/homebrew/bin/codex);
+#                                      Conductor launches Claude Code via its own
+#                                      integration, NOT the .zshrc claude() cmux wrapper,
+#                                      so no executable_path override is needed.
+#
+#   [scripts] setup/run .............. This is a config repo with no build and no
+#                                      long-running dev server. The only "dev loop" is
+#                                      `uv run python3 -m unittest discover -s tests`,
+#                                      which is fine to run by hand. No setup/run script
+#                                      earns its keep — and a setup script must NEVER run
+#                                      `links.sh apply` (see AGENTS.md: it would repoint
+#                                      your ~ symlinks into the throwaway worktree).
+#
+#   secrets (dotfiles_env) ........... .databrickscfg / bigquery-service-key.json are
+#                                      tracked git symlinks → every workspace inherits
+#                                      them. No [file_include_globs] / .worktreeinclude
+#                                      needed.
+#
+# Generic, cross-repo Conductor behavior (model defaults, reasoning, tool approvals,
+# workspace location) is NOT repo-configurable — it lives in ~/.conductor/settings.toml.
+#
+# --- Optional Conductor-only workflow prefs (uncomment to opt in) ---------------
+# These ARE genuinely Conductor-only (no other tool defines them). Left off so the
+# file asserts no behavior you haven't chosen.
+#
+# [git]
+# delete_branch_on_archive = true   # tidy branches when archiving a workspace
+# archive_on_merge = true           # auto-archive a workspace once its PR merges

@@ -18,6 +18,7 @@ Bare `pip`, `pip3`, and `python3` invocations are blocked by a PreToolUse hook. 
 - **Public configs**: `~/Developer/dotfiles` (git-tracked, GitHub)
 - **Private/secrets**: `~/Developer/dotfiles_env` (local only, not pushed)
 - Symlinks managed by: `links.tsv` plus `links.sh`; use `./links.sh dry-run`, `./links.sh check`, and `./links.sh doctor` before/after link changes.
+- **Never run `./links.sh apply` from a worktree or Conductor workspace.** `links.sh` derives its repo root from the script's own location, so applying from a throwaway worktree repoints your `~` symlinks (`.zshrc`, `.gitconfig`, MCP configs, etc.) into that worktree — they break when the worktree is archived. Run `apply` only from the primary checkout `~/Developer/dotfiles`. From a worktree, `dry-run`/`check`/`doctor` (read-only) are fine.
 - Overlay hooks are explicit only: `.zshrc` may source `dotfiles_env/secrets.zsh` and `dotfiles_env/local.zsh`; `.gitconfig` may include `dotfiles_env/gitconfig.local`; direnv projects may call `source_dotfiles_env`. Do not add profile flags or broad auto-discovery.
 - **Critical symlinks in `~/.dbt/`** point to `~/Developer/dotfiles_env/.dbt/` (profiles.yml, dbt_cloud.yml, mcp.yml, keyfile.json, .user.yml). **Do NOT delete these symlinks.** If you must remove one for testing, restore it immediately when done (e.g. `ln -sf ~/Developer/dotfiles_env/.dbt/dbt_cloud.yml ~/.dbt/dbt_cloud.yml`).
 
