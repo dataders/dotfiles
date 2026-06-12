@@ -1,0 +1,17 @@
+# Conductor settings for the fs (dbt-fusion) repo.
+# Stored here in dotfiles, symlinked to ~/Developer/fs/.conductor/settings.local.toml
+# via links.tsv (group: agents). Named *.local.toml at the target so Conductor
+# treats it as PERSONAL repo settings and fs's git ignores it (.git/info/exclude) —
+# it is never committed to the shared fs repo, and the symlink never leaks to teammates.
+"$schema" = "https://conductor.build/schemas/settings.repo.schema.json"
+
+# fs is a large Rust workspace. `cargo xtask test` is the only supported full-suite
+# run (per fs README), and the debug/release target/ is multi-GB and slow to build.
+# Spotlight testing runs the suite from the repo ROOT — one shared target/ and one
+# nextest cache — while agents keep editing in their own Conductor workspaces, instead
+# of every workspace compiling its own target/ from scratch.
+spotlight_testing = true
+
+[scripts]
+run = "cargo xtask test"      # fs README: the only supported way to run the full suite
+run_mode = "nonconcurrent"    # single shared root build/target — don't run in parallel
