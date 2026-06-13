@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Delete all raw Moonlander keylogs.
+set -euo pipefail
+LOGDIR="$HOME/.local/share/moonlander-keylog"
+shopt -s nullglob
+files=("$LOGDIR"/keylog-*.csv)
+if [ ${#files[@]} -eq 0 ]; then echo "No keylogs to purge."; exit 0; fi
+rm -v "${files[@]}"
+echo "Purged ${#files[@]} keylog file(s)."

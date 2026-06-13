@@ -21,6 +21,8 @@ path_additions=(
     "$HOME/.wasmtime/bin"                        # Wasmtime
     "$HOME/.codeium/windsurf/bin"                # Windsurf
     "$HOME/.local/bin"                           # dbt Cloud CLI, local scripts
+    "/opt/homebrew/opt/arm-none-eabi-gcc@8/bin"  # ARM compiler (keg-only) for QMK/Moonlander builds
+    "/opt/homebrew/opt/arm-none-eabi-binutils/bin" # ARM objcopy/ld (keg-only) for QMK firmware bins
 )
 
 # Prepend each path if it exists and isn't already in PATH

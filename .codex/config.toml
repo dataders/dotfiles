@@ -1,8 +1,10 @@
 model = "gpt-5.5"
 model_reasoning_effort = "xhigh"
 approval_policy = "on-request"
-approvals_reviewer = "guardian_subagent"
+approvals_reviewer = "user"
 sandbox_mode = "workspace-write"
+
+notify = ["/Users/dataders/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
 
 [sandbox_workspace_write]
 writable_roots = ["/Users/dataders/.cache"]
@@ -10,7 +12,10 @@ network_access = true
 
 [shell_environment_policy]
 inherit = "core"
-set = { UV_CACHE_DIR = "/tmp/uv-cache" }
+
+[shell_environment_policy.set]
+UV_CACHE_DIR = "/tmp/uv-cache"
+CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1"
 
 [features]
 hooks = true
@@ -20,16 +25,11 @@ terminal_resize_reflow = true
 external_migration = true
 prevent_idle_sleep = true
 goals = true
+js_repl = false
 
-[mcp_servers]
-# TOML uses dotted tables for nesting. The parent table is here only to make the
-# section grouping explicit; each server still gets its own [mcp_servers.<name>]
-# table below.
-
-# GitHub MCP and approval overrides. Keep these together so review diffs do not
-# make tool approvals look removed when they are only reordered.
 [mcp_servers.github]
 url = "https://dbt.runlayer.com/api/v1/proxy/7e8a07e2-98ed-4c76-8edb-d8a68b55bccc/mcp"
+bearer_token_env_var = "GITHUB_PAT_MCP"
 
 [mcp_servers.github.tools.add_comment_to_pending_review]
 approval_mode = "approve"
@@ -67,11 +67,9 @@ approval_mode = "approve"
 [mcp_servers.github.tools.update_pull_request_branch]
 approval_mode = "approve"
 
-# Notion MCP via Runlayer proxy.
 [mcp_servers.notion-runlayer]
 url = "https://dbt.runlayer.com/api/v1/proxy/24736211-1060-47e7-897e-fdf5a531a3d5/mcp"
 
-# Runlayer MCPs.
 [mcp_servers.slack]
 url = "https://dbt.runlayer.com/api/v1/proxy/dcf3b868-a852-4758-97aa-024fb941a173/mcp"
 
@@ -87,17 +85,22 @@ url = "https://dbt.runlayer.com/api/v1/proxy/70b141cc-940c-4190-8da5-f9cd50d3492
 [mcp_servers.runlayer-docs]
 url = "https://dbt.runlayer.com/api/v1/proxy/68a80158-1c82-4a97-b1aa-509703ad4b94/mcp"
 
-# Google Sheets aliases. Keep both spellings until all callers settle on one.
 [mcp_servers.google_sheets]
 url = "https://dbt.runlayer.com/api/v1/proxy/ab3aadc4-d6ac-4d92-85d6-cfba5eafc0e1/mcp"
 
 [mcp_servers.google-sheets]
 url = "https://dbt.runlayer.com/api/v1/proxy/ab3aadc4-d6ac-4d92-85d6-cfba5eafc0e1/mcp"
 
-# Local stdio MCPs — scripts live in dotfiles/mcp/.
+[mcp_servers.lucid]
+url = "https://dbt.runlayer.com/api/v1/proxy/5bcab31b-de80-4be2-a8ea-553d8c365fea/mcp"
+
 [mcp_servers.serena]
 command = "serena"
-args = ["start-mcp-server", "--context=codex", "--project-from-cwd"]
+args = [
+    "start-mcp-server",
+    "--context=codex",
+    "--project-from-cwd",
+]
 startup_timeout_sec = 60
 
 [mcp_servers.community-slack]
@@ -108,9 +111,26 @@ args = []
 command = "/Users/dataders/Developer/dotfiles/mcp/parallel-search/run.sh"
 args = []
 
-[projects]
-# Trust the repo parent rather than every repo individually. Avoid trusting all
-# of /Users/dataders because home contains secrets and app state outside dev work.
+[mcp_servers.strudel]
+command = "strudel-mcp"
+
+[mcp_servers.node_repl]
+args = []
+command = "/Applications/Codex.app/Contents/Resources/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = ""
+NODE_REPL_NODE_PATH = "/Applications/Codex.app/Contents/Resources/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/Users/dataders/.codex"
+CODEX_HOME = "/Users/dataders/.codex"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "4b6bfaf4ed2ce9b5cd68e60a61642eb4927a36306ba8c8993f6058607b3530fb"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+CODEX_CLI_PATH = "/Applications/Codex.app/Contents/Resources/codex"
 
 [projects."/Users/dataders/Developer"]
 trust_level = "trusted"
@@ -136,8 +156,26 @@ trust_level = "trusted"
 [projects."/Users/dataders"]
 trust_level = "trusted"
 
-[plugins]
-# Enabled plugins are explicit per plugin. No useful TOML consolidation here.
+[projects."/Users/dataders/Developer/duckdb-iceberg"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/dbt-fusion-clickhouse-demo"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/james-river-gooners"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/dbt-clickhouse"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/dbt_aws_cloud_cost"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/dbt-duckdb"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/conductor/repos/Quickstart"]
+trust_level = "trusted"
 
 [plugins."superpowers@openai-curated"]
 enabled = true
@@ -151,9 +189,6 @@ enabled = true
 [plugins."motherduck@openai-curated"]
 enabled = true
 
-[plugins."computer-use@openai-bundled"]
-enabled = true
-
 [plugins."documents@openai-primary-runtime"]
 enabled = true
 
@@ -163,39 +198,46 @@ enabled = true
 [plugins."presentations@openai-primary-runtime"]
 enabled = true
 
-[plugins."browser-use@openai-bundled"]
+[plugins."worktrunk@worktrunk"]
+enabled = true
+
+[plugins."sites@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
 enabled = true
 
 [[skills.config]]
 name = "superpowers:using-git-worktrees"
 enabled = false
 
-[marketplaces]
-
 [marketplaces.openai-bundled]
-last_updated = "2026-05-08T20:47:30Z"
+last_updated = "2026-06-12T17:42:23Z"
 source_type = "local"
 source = "/Users/dataders/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-05-08T21:47:22Z"
+last_updated = "2026-06-03T18:47:37Z"
 source_type = "local"
 source = "/Users/dataders/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
 [marketplaces.claude-plugins-official]
-last_updated = "2026-05-25T14:39:40Z"
-last_revision = "1b527e2ee74e6dbd198e22cd41701c3b6f47dfec"
+last_updated = "2026-06-12T19:41:33Z"
+last_revision = "eb1510e138223ac656d9032f6caa625f8b52d207"
 source_type = "git"
 source = "https://github.com/anthropics/claude-plugins-official.git"
 
 [marketplaces.worktrunk]
-last_updated = "2026-05-25T14:37:12Z"
-last_revision = "2ff656d10d794b433b1e9b8cbf69708325511071"
+last_updated = "2026-06-12T16:59:54Z"
+last_revision = "5fba0bdc9b058e5454869f6e8720b4f11bd5d91f"
 source_type = "git"
 source = "https://github.com/max-sixty/worktrunk.git"
 
 [tui]
-status_line = ["model-with-reasoning", "current-dir"]
+status_line = [
+    "model-with-reasoning",
+    "current-dir",
+]
 status_line_use_colors = true
 
 [tui.model_availability_nux]
@@ -203,6 +245,15 @@ status_line_use_colors = true
 
 [notice]
 fast_default_opt_out = true
+
+[notice.external_config_migration_prompts]
+home_last_prompted_at = 1779762046
+
+[notice.external_config_migration_prompts.project_last_prompted_at]
+"/Users/dataders/Developer/james-river-gooners" = 1779839064
+
+[notice.external_config_migration_prompts.projects]
+"/Users/dataders/Developer/james-river-gooners" = true
 
 [hooks.state]
 
@@ -223,3 +274,25 @@ trusted_hash = "sha256:00a4e50b8d3d657caa09b33c1b04832b60138a674c388421fd1ccb300
 
 [hooks.state."/Users/dataders/Developer/dotfiles/.codex/hooks.json:stop:0:0"]
 trusted_hash = "sha256:7c5c3e7f0718ef6d5afbe4d5cc2ef408a99c772fe157c043df6d80b24619fcf1"
+
+[hooks.state."worktrunk@worktrunk:hooks/hooks.json:user_prompt_submit:0:0"]
+trusted_hash = "sha256:86a49b4b05a9805452d08caf78b88216621055aebc8a7afccfd55b459939b494"
+
+[hooks.state."worktrunk@worktrunk:hooks/hooks.json:pre_tool_use:0:0"]
+trusted_hash = "sha256:16017ebee7cf0c67c9a73f75514b3d52d1f0c1de443cb36294f20bf715812c73"
+
+[hooks.state."worktrunk@worktrunk:hooks/hooks.json:permission_request:0:0"]
+trusted_hash = "sha256:c2f38a99e16bc21ab2fbdfd0942d961a7293eccfdd26ca8fe1134722486ae46f"
+
+[hooks.state."worktrunk@worktrunk:hooks/hooks.json:stop:0:0"]
+trusted_hash = "sha256:ae39455d097e32699e48441ade7671d9db5b80b17943aa3cc0901386b714a896"
+
+[desktop]
+followUpQueueMode = "steer"
+git-show-sidebar-pr-icons = true
+
+[desktop.open-in-target-preferences]
+global = "cursor"
+
+[desktop.open-in-target-preferences.perPath]
+"/Users/dataders/Developer/fs" = "ghostty"
