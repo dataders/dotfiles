@@ -64,3 +64,4 @@ repo:wizard/wizard_config.toml	home:.dbt/wizard/wizard_config.toml	agents	public
 repo:wizard/providers.json	home:.dbt/wizard/providers.json	agents	public	Wizard model provider catalog
 repo:.codex/rules/default.rules	home:.dbt/wizard/rules/default.rules	agents	public	Shared Codex/Wizard command-approval rules
 repo:AGENTS.md	home:.dbt/wizard/AGENTS.md	agents	public	Shared global agent instructions
+repo:Library/LaunchAgents/com.dataders.moonlander-keylog.plist	home:Library/LaunchAgents/com.dataders.moonlander-keylog.plist	moonlander	public	keylogger launchagent
