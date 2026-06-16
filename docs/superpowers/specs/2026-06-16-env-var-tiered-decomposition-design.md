@@ -69,6 +69,17 @@ This design activates the helper rather than inventing new machinery.
 Secrets always live in `dotfiles_env`. A repo's `.envrc` is a non-secret hook —
 it never contains secret values. No symlinks.
 
+### Where everything lives (repo boundaries)
+- **`dotfiles_env` (private) — all secret values:** the slimmed `secrets.zsh`
+  (global tier), every `projects/*.envrc` (warehouse + per-repo profiles), and
+  the `bigquery-service-key.json` keyfile (relocated here from the public repo
+  during migration).
+- **`dotfiles` (public) — non-secret infrastructure only:** the
+  `source_dotfiles_env` helper (`.config/direnv/direnvrc`, already tracked) and
+  this spec. No credential values.
+- **Individual project repos:** only a non-secret `.envrc` hook
+  (`source_dotfiles_env <name>`), gitignored in OSS repos.
+
 ## Inventory mapping
 
 ### Stays global (`secrets.zsh`, slimmed to only these)
