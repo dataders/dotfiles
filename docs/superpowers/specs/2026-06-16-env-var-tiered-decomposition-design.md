@@ -242,4 +242,8 @@ throwaway work.
 - [ ] Rotate both GitHub PATs (`GITHUB_TOKEN`, the MCP PAT)
 - [ ] Rotate warehouse passwords (Snowflake, Redshift, Synapse secret)
 - [ ] Rotate `MOTHERDUCK_TOKEN`, `DBT_DATABRICKS_TOKEN`, `DBRX_TOKEN`
+- [ ] **Mandatory:** rotate the BigQuery service-account key — its JSON was
+  stored in the **public** `dotfiles` repo, so relocating it does not undo prior
+  exposure; only rotation does. (Git-history scrubbing of the public repo is a
+  separate consideration.)
 - [ ] Phase 2: spike 1Password `op` + direnv (`from_op`) integration
