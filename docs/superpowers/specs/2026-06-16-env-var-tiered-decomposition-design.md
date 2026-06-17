@@ -242,8 +242,10 @@ throwaway work.
 - [ ] Rotate both GitHub PATs (`GITHUB_TOKEN`, the MCP PAT)
 - [ ] Rotate warehouse passwords (Snowflake, Redshift, Synapse secret)
 - [ ] Rotate `MOTHERDUCK_TOKEN`, `DBT_DATABRICKS_TOKEN`, `DBRX_TOKEN`
-- [ ] **Mandatory:** rotate the BigQuery service-account key — its JSON was
-  stored in the **public** `dotfiles` repo, so relocating it does not undo prior
-  exposure; only rotation does. (Git-history scrubbing of the public repo is a
-  separate consideration.)
+- [ ] (Precautionary, not mandatory) rotate the BigQuery service-account key.
+  CORRECTION: investigation during Task 5 showed the public `dotfiles` repo
+  tracked only a **symlink** pointing at the private `dotfiles_env` copy — the
+  actual key JSON (`private_key`) was never committed to the public repo or its
+  history (`git log -S 'private_key'` returns nothing). So there was no public
+  exposure of key material; rotation is optional hygiene, not a breach response.
 - [ ] Phase 2: spike 1Password `op` + direnv (`from_op`) integration
