@@ -1,2 +1,11 @@
 .DS_Store
 __pycache__/
+
+**/.claude/settings.local.json
+
+# direnv per-repo hooks. These call `source_dotfiles_env <name>` to load
+# repo-scoped secrets from ~/Developer/dotfiles_env/projects/*.envrc, so the
+# hook itself is non-secret but should not be committed to OSS repos.
+# Personal repos that DO want to commit it: add `!.envrc` to the repo's local
+# .gitignore, or `git add -f .envrc`.
+.envrc
