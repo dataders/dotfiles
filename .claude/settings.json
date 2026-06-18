@@ -306,6 +306,9 @@
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
   "autoUpdatesChannel": "latest",
+  "worktree": {
+    "bgIsolation": "none"
+  },
   "voice": {
     "enabled": true,
     "mode": "hold"

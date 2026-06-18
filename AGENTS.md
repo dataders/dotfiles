@@ -22,6 +22,15 @@ Bare `pip`, `pip3`, and `python3` invocations are blocked by a PreToolUse hook. 
 - Overlay hooks are explicit only: `.zshrc` may source `dotfiles_env/secrets.zsh` and `dotfiles_env/local.zsh`; `.gitconfig` may include `dotfiles_env/gitconfig.local`; direnv projects may call `source_dotfiles_env`. Do not add profile flags or broad auto-discovery.
 - **Critical symlinks in `~/.dbt/`** point to `~/Developer/dotfiles_env/.dbt/` (profiles.yml, dbt_cloud.yml, mcp.yml, keyfile.json, .user.yml). **Do NOT delete these symlinks.** If you must remove one for testing, restore it immediately when done (e.g. `ln -sf ~/Developer/dotfiles_env/.dbt/dbt_cloud.yml ~/.dbt/dbt_cloud.yml`).
 
+### Serena per-repo config
+
+`.serena/` is globally gitignored. Per-repo `project.yml` + `memories/` live in
+`serena/projects/<repo>/` and are symlinked back via `links.tsv`. Register a new
+repo with `bin/serena-link <repo-path> [--lang <lang>]`, then `./links.sh apply`
+from the primary checkout. dotfiles' own `.serena/project.yml` is tracked in
+place (no symlink). Recovery: if a `memories/` symlink breaks and Serena
+recreates a real dir, remove it before re-running `./links.sh apply`.
+
 ## Primary Work
 - dbt (data build tool) development
 - Multiple dbt installations available:

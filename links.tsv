@@ -65,3 +65,25 @@ repo:wizard/providers.json	home:.dbt/wizard/providers.json	agents	public	Wizard 
 repo:.codex/rules/default.rules	home:.dbt/wizard/rules/default.rules	agents	public	Shared Codex/Wizard command-approval rules
 repo:AGENTS.md	home:.dbt/wizard/AGENTS.md	agents	public	Shared global agent instructions
 repo:Library/LaunchAgents/com.dataders.moonlander-keylog.plist	home:Library/LaunchAgents/com.dataders.moonlander-keylog.plist	moonlander	public	keylogger launchagent
+repo:serena/projects/dbt-agent-skills/project.yml	developer:dbt-agent-skills/.serena/project.yml	agents	public	serena per-repo config
+repo:serena/projects/dbt-agent-skills/memories	developer:dbt-agent-skills/.serena/memories	agents	public	serena per-repo memories
+repo:serena/projects/dbt-clickhouse/project.yml	developer:dbt-clickhouse/.serena/project.yml	agents	public	serena per-repo config
+repo:serena/projects/dbt-clickhouse/memories	developer:dbt-clickhouse/.serena/memories	agents	public	serena per-repo memories
+repo:serena/projects/dbt-duckdb/project.yml	developer:dbt-duckdb/.serena/project.yml	agents	public	serena per-repo config
+repo:serena/projects/dbt-duckdb/memories	developer:dbt-duckdb/.serena/memories	agents	public	serena per-repo memories
+repo:serena/projects/dbt-fusion-clickhouse-demo/project.yml	developer:dbt-fusion-clickhouse-demo/.serena/project.yml	agents	public	serena per-repo config
+repo:serena/projects/dbt-fusion-clickhouse-demo/memories	developer:dbt-fusion-clickhouse-demo/.serena/memories	agents	public	serena per-repo memories
+repo:serena/projects/dbt_aws_cloud_cost/project.yml	developer:dbt_aws_cloud_cost/.serena/project.yml	agents	public	serena per-repo config
+repo:serena/projects/dbt_aws_cloud_cost/memories	developer:dbt_aws_cloud_cost/.serena/memories	agents	public	serena per-repo memories
+repo:serena/projects/duckdb-iceberg/project.yml	developer:duckdb-iceberg/.serena/project.yml	agents	public	serena per-repo config
+repo:serena/projects/duckdb-iceberg/memories	developer:duckdb-iceberg/.serena/memories	agents	public	serena per-repo memories
+repo:serena/projects/fs/project.yml	developer:fs/.serena/project.yml	agents	public	serena per-repo config
+repo:serena/projects/fs/memories	developer:fs/.serena/memories	agents	public	serena per-repo memories
+repo:serena/projects/fusion_issue_analysis/project.yml	developer:fusion_issue_analysis/.serena/project.yml	agents	public	serena per-repo config
+repo:serena/projects/fusion_issue_analysis/memories	developer:fusion_issue_analysis/.serena/memories	agents	public	serena per-repo memories
+repo:serena/projects/hydrate.ai/project.yml	developer:hydrate.ai/.serena/project.yml	agents	public	serena per-repo config
+repo:serena/projects/hydrate.ai/memories	developer:hydrate.ai/.serena/memories	agents	public	serena per-repo memories
+repo:serena/projects/internal-analytics/project.yml	developer:internal-analytics/.serena/project.yml	agents	public	serena per-repo config
+repo:serena/projects/internal-analytics/memories	developer:internal-analytics/.serena/memories	agents	public	serena per-repo memories
+repo:serena/projects/james-river-gooners/project.yml	developer:james-river-gooners/.serena/project.yml	agents	public	serena per-repo config
+repo:serena/projects/james-river-gooners/memories	developer:james-river-gooners/.serena/memories	agents	public	serena per-repo memories
