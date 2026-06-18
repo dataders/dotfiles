@@ -9,3 +9,8 @@ __pycache__/
 # Personal repos that DO want to commit it: add `!.envrc` to the repo's local
 # .gitignore, or `git add -f .envrc`.
 .envrc
+
+# Serena MCP per-repo dirs. The real project.yml + memories/ live in
+# dotfiles/serena/projects/<repo>/ and are symlinked back in (see serena/README.md).
+# cache/ is regenerable. dotfiles' own .serena/* stays tracked (already committed).
+.serena/

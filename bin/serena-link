@@ -1,0 +1,99 @@
+#!/usr/bin/env zsh
+# serena-link — register a repo's Serena per-repo config (.serena/project.yml +
+# memories/) into dotfiles so it is source-controlled centrally and symlinked back.
+#
+# Usage: serena-link <repo-path> [--name <override>] [--lang <language>]
+#
+# After running, apply the new symlinks from the PRIMARY dotfiles checkout:
+#   ./links.sh apply
+set -u
+
+repo_root="${DOTFILES_ROOT:-${0:A:h:h}}"
+# Canonicalize roots so prefix matching survives macOS /var -> /private/var
+# (repo_path is :A-canonicalized below, so the roots must be too).
+developer_root="${DOTFILES_DEVELOPER:-$HOME/Developer}"
+developer_root="${developer_root:A}"
+home_dir="${HOME:A}"
+manifest="${DOTFILES_MANIFEST:-$repo_root/links.tsv}"
+tab=$'\t'
+
+die() { print -r -- "serena-link: $*" >&2; exit 1; }
+
+usage() {
+    cat <<'EOF'
+serena-link — register a repo's Serena per-repo config (.serena/project.yml +
+memories/) into dotfiles so it is source-controlled centrally and symlinked back.
+
+Usage: serena-link <repo-path> [--name <override>] [--lang <language>]
+
+After running, apply from the PRIMARY dotfiles checkout:  ./links.sh apply
+EOF
+}
+
+override_name=""
+lang=""
+repo_path=""
+while (( $# )); do
+    case "$1" in
+        --name) override_name="${2:-}"; shift 2 ;;
+        --lang) lang="${2:-}"; shift 2 ;;
+        -h|--help) usage; exit 0 ;;
+        *) repo_path="$1"; shift ;;
+    esac
+done
+[[ -n "$repo_path" ]] || die "missing <repo-path>"
+
+# refuse to edit a worktree copy of dotfiles (would mutate a throwaway links.tsv)
+case "$repo_root" in
+    */.claude/worktrees/*) die "refusing to run against a worktree checkout: $repo_root (run from the primary dotfiles checkout)" ;;
+esac
+
+repo_path="${repo_path:A}"
+[[ -d "$repo_path" ]] || die "not a directory: $repo_path"
+name="${override_name:-${repo_path:t}}"
+
+dest="$repo_root/serena/projects/$name"
+[[ -e "$dest" ]] && die "serena/projects/$name already exists; pass --name <override>"
+
+# choose links.tsv target prefix
+if [[ "$repo_path" == "$developer_root"/* ]]; then
+    target="developer:${repo_path#$developer_root/}"
+elif [[ "$repo_path" == "$home_dir"/* ]]; then
+    target="home:${repo_path#$home_dir/}"
+else
+    target="abs:$repo_path"
+fi
+
+mkdir -p "$dest/memories"
+
+# project.yml: move an existing real file, else write a minimal stub
+src_yml="$repo_path/.serena/project.yml"
+if [[ -f "$src_yml" && ! -L "$src_yml" ]]; then
+    mv "$src_yml" "$dest/project.yml"
+else
+    : "${lang:=TODO}"
+    cat > "$dest/project.yml" <<EOF
+project_name: "$name"
+languages:
+- $lang
+ignore_all_files_in_gitignore: true
+EOF
+fi
+
+# memories: migrate any files, then remove the real dir so links.sh can symlink it
+src_mem="$repo_path/.serena/memories"
+if [[ -d "$src_mem" && ! -L "$src_mem" ]]; then
+    if [[ -n "$(ls -A "$src_mem" 2>/dev/null)" ]]; then
+        mv "$src_mem"/*(DN) "$dest/memories/"
+    fi
+    rm -rf "$src_mem"
+fi
+
+# append manifest rows
+{
+    print -r -- "repo:serena/projects/$name/project.yml${tab}${target}/.serena/project.yml${tab}agents${tab}public${tab}serena per-repo config"
+    print -r -- "repo:serena/projects/$name/memories${tab}${target}/.serena/memories${tab}agents${tab}public${tab}serena per-repo memories"
+} >> "$manifest"
+
+print -r -- "Registered '$name' -> serena/projects/$name (target $target)."
+print -r -- "Now run from the primary dotfiles checkout:  ./links.sh apply"
