@@ -1,7 +1,7 @@
 model = "gpt-5.5"
 model_reasoning_effort = "xhigh"
 approval_policy = "on-request"
-approvals_reviewer = "user"
+approvals_reviewer = "guardian_subagent"
 sandbox_mode = "workspace-write"
 
 notify = ["/Users/dataders/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
