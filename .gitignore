@@ -5,6 +5,11 @@
 logs/
 .dbt/
 .ssh/known_hosts.old
+.ssh/conductor_config
+
+# Stray dbt-fusion artifacts that land in the repo root when dbt runs here
+/target/
+/metadata/
 
 # Moonlander keylogger (never commit raw keystrokes or stray build bins)
 keylog-*.csv
