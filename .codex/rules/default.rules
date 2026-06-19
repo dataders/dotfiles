@@ -87,6 +87,59 @@ prefix_rule(
 )
 
 prefix_rule(
+    pattern = [
+        [
+            "ls",
+            "cat",
+            "head",
+            "tail",
+            "wc",
+            "nl",
+            "pwd",
+            "date",
+            "stat",
+            "file",
+            "df",
+            "du",
+            "rg",
+            "grep",
+            "awk",
+            "cut",
+            "sort",
+            "uniq",
+            "tr",
+        ],
+    ],
+    decision = "allow",
+    justification = "Read-only shell inspection and text processing are routine.",
+    match = [
+        "rg TODO .",
+        "nl -ba README.md",
+        "df -h",
+    ],
+)
+
+prefix_rule(
+    pattern = [["pgrep", "ps", "lsof"]],
+    decision = "allow",
+    justification = "Read-only process inspection is routine during agent/session debugging.",
+    match = [
+        "pgrep -if codex",
+        "ps -p 123 -o args=",
+        "lsof -a -p 123 -d cwd -Fn",
+    ],
+)
+
+prefix_rule(
+    pattern = ["command", "-v"],
+    decision = "allow",
+    justification = "Checking command availability is routine.",
+    match = [
+        "command -v codex",
+    ],
+)
+
+prefix_rule(
     pattern = [["uv", "uvx"]],
     decision = "allow",
     justification = "Preferred Python tooling in this environment, including uv run.",
@@ -96,6 +149,28 @@ prefix_rule(
         "uv sync",
         "uv run python -m compileall .",
         "uvx ruff check",
+    ],
+)
+
+prefix_rule(
+    pattern = ["cargo", ["check", "test", "build", "fmt", "clippy", "metadata", "nextest"]],
+    decision = "allow",
+    justification = "Common Rust build and test commands are routine in trusted project worktrees.",
+    match = [
+        "cargo test",
+        "cargo check",
+        "cargo fmt --check",
+    ],
+)
+
+prefix_rule(
+    pattern = ["npm", ["ci", "run", "test", "exec", "--version"]],
+    decision = "allow",
+    justification = "Common npm install, script, and test commands are routine in trusted project worktrees.",
+    match = [
+        "npm ci",
+        "npm run build",
+        "npm test",
     ],
 )
 
@@ -271,11 +346,31 @@ prefix_rule(
 )
 
 prefix_rule(
-    pattern = ["npm", "--version"],
+    pattern = ["codex", ["--version", "--help", "doctor"]],
     decision = "allow",
-    justification = "Checking npm version is trusted.",
+    justification = "Codex self-diagnostics are routine when checking local config.",
     match = [
-        "npm --version",
+        "codex --version",
+        "codex doctor --summary",
+    ],
+)
+
+prefix_rule(
+    pattern = ["codex", "features", "list"],
+    decision = "allow",
+    justification = "Reading effective Codex feature flags is routine diagnostics.",
+    match = [
+        "codex features list",
+    ],
+)
+
+prefix_rule(
+    pattern = ["/Applications/Codex.app/Contents/Resources/codex", ["--version", "--help", "doctor"]],
+    decision = "allow",
+    justification = "Codex app-bundled self-diagnostics are routine when checking local config.",
+    match = [
+        "/Applications/Codex.app/Contents/Resources/codex --version",
+        "/Applications/Codex.app/Contents/Resources/codex doctor --summary",
     ],
 )
 
@@ -321,11 +416,22 @@ prefix_rule(
 )
 
 prefix_rule(
-    pattern = ["sh", "links.sh"],
+    pattern = ["./links.sh", ["dry-run", "check", "doctor"]],
     decision = "allow",
-    justification = "Refreshing local dotfile symlinks is routine here.",
+    justification = "Read-only dotfiles symlink checks are routine here.",
     match = [
-        "sh links.sh",
+        "./links.sh dry-run",
+        "./links.sh check",
+        "./links.sh doctor",
+    ],
+)
+
+prefix_rule(
+    pattern = ["sh", "links.sh", ["dry-run", "check", "doctor"]],
+    decision = "allow",
+    justification = "Read-only dotfiles symlink checks are routine here.",
+    match = [
+        "sh links.sh check",
     ],
 )
 
