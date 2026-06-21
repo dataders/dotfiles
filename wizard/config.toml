@@ -65,6 +65,9 @@ args = [
 ]
 startup_timeout_sec = 60
 
+[mcp_servers.serena.tools.write_memory]
+approval_mode = "approve"
+
 [mcp_servers.community-slack]
 command = "/Users/dataders/Developer/dotfiles/mcp/community-slack/run.sh"
 args = []
@@ -75,3 +78,6 @@ args = []
 
 [mcp_servers.strudel]
 command = "strudel-mcp"
+
+[tui]
+pet = "the-stakeholder"
