@@ -150,7 +150,7 @@
     "defaultMode": "auto",
     "disableBypassPermissionsMode": "disable"
   },
-  "model": "sonnet[1m]",
+  "model": "opus",
   "skillOverrides": {
     "superpowers:dispatching-parallel-agents": "off",
     "superpowers:subagent-driven-development": "off",
@@ -208,6 +208,10 @@
       {
         "matcher": "Bash",
         "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/block-open-in-bg.sh"
+          },
           {
             "type": "command",
             "command": "bash ~/.claude/hooks/enforce-uv.sh"
@@ -314,9 +318,11 @@
     "mode": "hold"
   },
   "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
   "theme": "auto",
   "teammateMode": "tmux",
   "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
   "voiceEnabled": true
 }
