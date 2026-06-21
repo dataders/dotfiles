@@ -21,6 +21,10 @@
 	format = ssh
 [gpg "ssh"]
 	allowedSignersFile = /Users/dataders/.ssh/allowed_signers
+[commit]
+	gpgsign = true
+[tag]
+	gpgsign = true
 [diff]
     algorithm = histogram
 	renameLimit = 3000
