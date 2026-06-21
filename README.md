@@ -262,6 +262,7 @@ when deciding whether a config belongs in this public repo or in
 | Git hooks | `.githooks/pre-commit` | repo-local `core.hooksPath` | Blocks likely-sensitive paths and TruffleHog findings in staged diff |
 | Direnv | `.config/direnv/direnvrc` | `~/.config/direnv/direnvrc` | Defines `source_dotfiles_env` for private per-project env overlays |
 | GitHub CLI | `.config/gh/hosts.yml` | `~/.config/gh/hosts.yml` | Auth host config, symlinked through `links.sh` |
+| GitHub notification sweep | `bin/github-notification-sweep`, `Library/LaunchAgents/com.dataders.github-notification-sweep.plist` | `~/Library/LaunchAgents/...` | Local launchd job marks stale CI notifications done when PR merged or head moved |
 | Codex | `.codex/config.toml`, `.codex/AGENTS.md`, `.codex/RTK.md`, `.codex/rules/default.rules` | `~/.codex/...` | Model, sandbox, MCP servers, plugins, rules, trusted projects |
 | Claude | `.claude/CLAUDE.md`, `.claude/settings*.json`, `.claude/hooks/*.sh`, `.claude/RTK.md` | `~/.claude/...` | Shared instructions, hooks, permissions, RTK guidance |
 | Shared AI skills | `.ai/skills/*` | `~/.codex/skills/*`, `~/.claude/skills/*` | `links.sh` replaces old skill dirs and symlinks each skill into both agents |
@@ -408,6 +409,20 @@ cd ~/Developer/dotfiles
 
 Run `./links.sh check` after changing `links.tsv`, shell config, agent config,
 or private symlink wiring.
+
+### GitHub Notification Sweep
+
+`bin/github-notification-sweep` defaults to dry-run. The LaunchAgent runs it
+with `--apply` every 15 minutes.
+
+```zsh
+bin/github-notification-sweep --limit 20
+cd ~/Developer/dotfiles
+./links.sh apply
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.dataders.github-notification-sweep.plist 2>/dev/null || true
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.dataders.github-notification-sweep.plist
+launchctl kickstart -k gui/$(id -u)/com.dataders.github-notification-sweep
+```
 
 ### Prezto
 
