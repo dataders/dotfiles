@@ -96,41 +96,34 @@ url = "https://dbt.runlayer.com/api/v1/proxy/5bcab31b-de80-4be2-a8ea-553d8c365fe
 
 [mcp_servers.serena]
 command = "serena"
-args = [
-    "start-mcp-server",
-    "--context=codex",
-    "--project-from-cwd",
-]
-startup_timeout_sec = 60
+args = ["start-mcp-server", "--context=codex", "--project-from-cwd"]
+startup_timeout_sec = 60.0
 
 [mcp_servers.community-slack]
 command = "/Users/dataders/Developer/dotfiles/mcp/community-slack/run.sh"
-args = []
 
 [mcp_servers.parallel-search]
 command = "/Users/dataders/Developer/dotfiles/mcp/parallel-search/run.sh"
-args = []
 
 [mcp_servers.strudel]
 command = "strudel-mcp"
 
 [mcp_servers.node_repl]
-args = []
 command = "/Applications/Codex.app/Contents/Resources/node_repl"
-startup_timeout_sec = 120
+startup_timeout_sec = 120.0
 
 [mcp_servers.node_repl.env]
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+CODEX_CLI_PATH = "/Applications/Codex.app/Contents/Resources/codex"
+CODEX_HOME = "/Users/dataders/.codex"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
 NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
 NODE_REPL_NODE_MODULE_DIRS = ""
 NODE_REPL_NODE_PATH = "/Applications/Codex.app/Contents/Resources/node"
-NODE_REPL_TRUSTED_CODE_PATHS = "/Users/dataders/.codex"
-CODEX_HOME = "/Users/dataders/.codex"
 NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "4b6bfaf4ed2ce9b5cd68e60a61642eb4927a36306ba8c8993f6058607b3530fb"
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
-NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
-NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
-BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-CODEX_CLI_PATH = "/Applications/Codex.app/Contents/Resources/codex"
+NODE_REPL_TRUSTED_CODE_PATHS = "/Users/dataders/.codex"
 
 [projects."/Users/dataders/Developer"]
 trust_level = "trusted"
@@ -177,6 +170,9 @@ trust_level = "trusted"
 [projects."/Users/dataders/conductor/repos/Quickstart"]
 trust_level = "trusted"
 
+[projects."/Users/dataders/Developer/internal-analytics"]
+trust_level = "trusted"
+
 [plugins."superpowers@openai-curated"]
 enabled = true
 
@@ -207,29 +203,32 @@ enabled = true
 [plugins."browser@openai-bundled"]
 enabled = true
 
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
 [[skills.config]]
 name = "superpowers:using-git-worktrees"
 enabled = false
 
 [marketplaces.openai-bundled]
-last_updated = "2026-06-12T17:42:23Z"
+last_updated = "2026-06-16T01:57:49Z"
 source_type = "local"
 source = "/Users/dataders/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-06-03T18:47:37Z"
+last_updated = "2026-06-15T00:47:56Z"
 source_type = "local"
 source = "/Users/dataders/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
 [marketplaces.claude-plugins-official]
-last_updated = "2026-06-12T19:41:33Z"
-last_revision = "eb1510e138223ac656d9032f6caa625f8b52d207"
+last_updated = "2026-06-21T00:19:51Z"
+last_revision = "57446951ad09cb8d9e7e4820f08dcba34c2d20a2"
 source_type = "git"
 source = "https://github.com/anthropics/claude-plugins-official.git"
 
 [marketplaces.worktrunk]
-last_updated = "2026-06-12T16:59:54Z"
-last_revision = "5fba0bdc9b058e5454869f6e8720b4f11bd5d91f"
+last_updated = "2026-06-21T00:21:02Z"
+last_revision = "9147c0e46d58ddd4dfa99cad1b967ff5f00f0c7a"
 source_type = "git"
 source = "https://github.com/max-sixty/worktrunk.git"
 
@@ -247,10 +246,11 @@ status_line_use_colors = true
 fast_default_opt_out = true
 
 [notice.external_config_migration_prompts]
-home_last_prompted_at = 1779762046
+home_last_prompted_at = 1781535881
 
 [notice.external_config_migration_prompts.project_last_prompted_at]
 "/Users/dataders/Developer/james-river-gooners" = 1779839064
+"/Users/dataders/Developer/internal-analytics" = 1781535881
 
 [notice.external_config_migration_prompts.projects]
 "/Users/dataders/Developer/james-river-gooners" = true

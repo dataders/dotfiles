@@ -104,6 +104,10 @@
       ],
       "region": "us-east-1"
     },
+    "dbt": {
+      "enabled": false,
+      "route": "remote_gateway"
+    },
     "openai": {
       "enabled": false,
       "credential_source": "env_or_auth_file",
