@@ -50,6 +50,10 @@ class LinksScriptTests(unittest.TestCase):
             "repo:workspaces/fs/settings.json\tdeveloper:fs/.vscode/settings.json",
             manifest,
         )
+        self.assertIn(
+            "repo:bin/shadowtraffic-clickhouse\thome:.local/bin/shadowtraffic-clickhouse",
+            manifest,
+        )
 
     def test_dry_run_does_not_create_links(self):
         with tempfile.TemporaryDirectory() as path:
