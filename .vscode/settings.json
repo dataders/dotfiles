@@ -22,7 +22,9 @@
     "cursor.composer.shouldChimeAfterChatFinishes": true,
     "dbt.beta.useQueryCache": true,
     "dbt.environmentVariables": {
-        "DBT_LSP_LAZY_COMPILATION_ENABLED": "1"
+        "DBT_LSP_LAZY_COMPILATION_ENABLED": "1",
+        "DBT_ALLOW_EXPERIMENTAL_ADAPTERS": "1",
+        "DBT_USE_INDEX": "true"
     },
     "dbt.flag.defer": true,
     "diffEditor.ignoreTrimWhitespace": false,
@@ -90,8 +92,8 @@
     },
     "workbench.editor.wrapTabs": true,
     "workbench.iconTheme": "eq-material-theme-icons-light",
-    "workbench.preferredDarkColorTheme": "Rosé Pine Moon",
-    "workbench.preferredLightColorTheme": "Rosé Pine Dawn",
+    "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
+    "workbench.preferredLightColorTheme": "dbt Light",
     "workbench.productIconTheme": "material-product-icons",
     "yaml.format.enable": false,
     "files.autoSaveWhenNoErrors": true,
@@ -101,7 +103,7 @@
     "rust-analyzer.inlayHints.parameterHints.enable": false,
     "rust-analyzer.inlayHints.typeHints.enable": false,
     "editor.minimap.enabled": true,
-    "dbt.dbtPath": "/Users/dataders/.local/bin/dbt",
     "dbt.lineage.defaultDepth": 2,
-    "dbt.ggsql.cliPath": "/Users/dataders/Developer/fs.ggsql-fold-in/target/debug/ggsql"
+    "dbt.ggsql.cliPath": "/Users/dataders/Developer/fs.ggsql-fold-in/target/debug/ggsql",
+    "dbt.dbtPath": "/Users/dataders/Developer/fs.aswanson-catalogs-v2-horizon-unity/target/debug/dbt"
 }
