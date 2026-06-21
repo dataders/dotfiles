@@ -65,9 +65,14 @@ unset _dotfiles_overlay
 alias dbtf=/Users/dataders/.local/bin/dbt
 alias dbt-core=/Users/dataders/Developer/jaffle-sandbox/.venv/bin/dbt
 alias dbtd=/Users/dataders/Developer/fs/target/debug/dbt
+# re-mint the ~60-min Horizon key-pair token for the aws_cloud_cost demo
+alias refresh_token='bash $HOME/Developer/dbt_aws_cloud_cost/scripts/refresh_horizon_token.sh'
 alias dbtmv=/Users/dataders/Developer/fs.clickhouse-clean-materialized-views/target/debug/dbt
 alias dbtr=/Users/dataders/Developer/fs/target/release/dbt
 alias dbtc=compute-dbt
+
+# Reproduce CI's clippy gate locally (fs workspace)
+alias clippy-ci='cargo +1.91 clippy --workspace --no-default-features --tests -- -Dwarnings'
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Modern CLI Tools
