@@ -39,6 +39,18 @@ recreates a real dir, remove it before re-running `./links.sh apply`.
   - `dbtd` / `dbtr` - custom debug/release builds
 - Data warehouses: Snowflake, BigQuery, Redshift, Databricks
 
+## Code Search
+Three tiers, cheapest first — escalate only when the cheaper tool can't express the query:
+- **Text** — `rg` (ripgrep). Literal/regex string matches.
+- **Structural (syntax)** — `ast-grep`. Matches code *shape* within a file without a language server. Cheap, stateless, scriptable; great for sweeps and rewrites.
+- **Semantic (symbols)** — `serena` MCP (LSP-backed). Use when the question is about *meaning across files*: "where is this defined", "who calls/references this", "rename this symbol", file symbol overview. Tools: `find_symbol`, `find_referencing_symbols`, `find_implementations`, `get_symbols_overview`, `rename_symbol`. Serena auto-activates the project for the cwd (`--project-from-cwd`); the dashboard runs at `http://localhost:24282/dashboard/` (next free port if multiple instances: 24283, 24284, …).
+
+Structural / AST search + rewrite with `ast-grep` (binary is `sg`, but invoke as `ast-grep` to avoid the zsh `sg` builtin collision). Prefer it over `rg` when matching on code shape — function signatures, call patterns, macro/attribute usage, struct/enum defs — especially in the Rust `fs` monorepo (`~/Developer/fs`).
+  - Pattern uses `$VAR` for single-node metavars, `$$$` for variadic. Set language explicitly in non-obvious trees: `ast-grep -l rust -p '<pattern>' crates/`.
+  - One-off run (search): `ast-grep -l rust -p 'unwrap()' crates/`
+  - Rewrite preview: `ast-grep -l rust -p '$X.unwrap()' -r '$X.expect("TODO")' --dry-run`
+  - For reusable lint rules, prefer a project `sgconfig.yml` + `rules/` over ad-hoc one-liners.
+
 ## Output Style
 - Respond like smart caveman. Cut all filler, keep technical substance.
   - Drop articles (a, an, the), filler (just, really, basically, actually).
