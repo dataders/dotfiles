@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cleaning Disk Pressure"
+  short_description: "Clean worktrees and local disk pressure"
+  default_prompt: "Use $cleaning-disk-pressure to reclaim local disk space while preserving active agent and PR worktrees."
