@@ -137,7 +137,7 @@ default_max_tool_answer_chars: 150000
 # You can configure this to TIKTOKEN_GPT4O to use a local tiktoken-based estimator for GPT-4o (will download tiktoken
 # data files on first run), or ANTHROPIC_CLAUDE_SONNET_4 which will use the (free of cost) Anthropic API to
 # estimate the token count using the Claude Sonnet 4 tokenizer.
-token_count_estimator: ANTHROPIC_CLAUDE_SONNET_4
+token_count_estimator: TIKTOKEN_GPT4O
 
 # time budget (seconds) per tool call for the retrieval of additional symbol information
 # such as docstrings or parameter information.
@@ -161,11 +161,21 @@ project_serena_folder_location: "$projectDir/.serena"
 
 # the list of registered project paths (updated automatically).
 projects:
+- /Users/dataders/Developer/dbt-agent-skills
+- /Users/dataders/Developer/dbt-clickhouse
+- /Users/dataders/Developer/dbt-duckdb
 - /Users/dataders/Developer/dbt-fusion-clickhouse-demo
+- /Users/dataders/Developer/dbt_aws_cloud_cost
 - /Users/dataders/Developer/dotfiles
 - /Users/dataders/Developer/duckdb-iceberg
 - /Users/dataders/Developer/fs
-- /Users/dataders/Developer/fs.clickhouse-clean-materialized-views
-- /Users/dataders/Developer/fs.codex-spark-catalog-parity
 - /Users/dataders/Developer/fusion_issue_analysis
+- /Users/dataders/Developer/hydrate.ai
+- /Users/dataders/Developer/internal-analytics
 - /Users/dataders/Developer/james-river-gooners
+- /Users/dataders/conductor/workspaces/dotfiles/mumbai
+- /Users/dataders/conductor/workspaces/fusion_issue_analysis/louisville
+- /Users/dataders/conductor/workspaces/james-river-gooners/accra
+- /Users/dataders/conductor/workspaces/james-river-gooners/spokane
+- /Users/dataders/conductor/workspaces/james-river-gooners/surat
+- /Users/dataders/conductor/workspaces/james-river-gooners/wellington
