@@ -1,0 +1,162 @@
+#!/usr/bin/env -S /opt/homebrew/bin/uv run python3
+import argparse
+import json
+import os
+import subprocess
+import sys
+import urllib.parse
+
+
+DEFAULT_GH = "/opt/homebrew/bin/gh" if os.path.exists("/opt/homebrew/bin/gh") else "gh"
+
+
+class GhError(RuntimeError):
+    pass
+
+
+def gh_api(gh, *args, allow_404=False):
+    proc = subprocess.run(
+        [gh, "api", *args],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if proc.returncode == 0:
+        return proc.stdout
+    if allow_404 and "HTTP 404" in proc.stderr:
+        return ""
+    raise GhError(proc.stderr.strip() or f"gh api failed: {' '.join(args)}")
+
+
+def iter_notifications(gh):
+    output = gh_api(
+        gh,
+        "--paginate",
+        "/notifications?all=false&participating=false",
+        "--jq",
+        ".[] | @json",
+    )
+    for line in output.splitlines():
+        line = line.strip()
+        if line:
+            yield json.loads(line)
+
+
+def short_sha(value):
+    if not value:
+        return "unknown"
+    return value[:12]
+
+
+def pr_number(pr_ref):
+    if "number" in pr_ref:
+        return pr_ref["number"]
+    url = pr_ref.get("url", "")
+    if "/pulls/" in url:
+        return url.rsplit("/", 1)[-1]
+    return None
+
+
+def pull_request(gh, repo, number):
+    return json.loads(gh_api(gh, f"/repos/{repo}/pulls/{number}"))
+
+
+def branch_head_sha(gh, repo, branch):
+    quoted = urllib.parse.quote(branch, safe="")
+    output = gh_api(gh, f"/repos/{repo}/branches/{quoted}", allow_404=True)
+    if not output:
+        return None
+    return json.loads(output).get("commit", {}).get("sha")
+
+
+def stale_reason(gh, notification):
+    if notification.get("reason") != "ci_activity":
+        return None
+
+    repo = notification["repository"]["full_name"]
+    subject_url = notification.get("subject", {}).get("url")
+    if not subject_url:
+        return None
+
+    subject = json.loads(gh_api(gh, subject_url))
+    head_sha = subject.get("head_sha") or subject.get("head_commit", {}).get("id")
+    pull_requests = subject.get("pull_requests") or []
+
+    for pr_ref in pull_requests:
+        number = pr_number(pr_ref)
+        if not number:
+            continue
+        pr = pull_request(gh, repo, number)
+        if pr.get("merged"):
+            return f"PR #{number} merged"
+        if pr.get("state") == "closed":
+            return f"PR #{number} closed"
+        current_head = pr.get("head", {}).get("sha")
+        if head_sha and current_head and current_head != head_sha:
+            return f"PR #{number} moved from {short_sha(head_sha)} to {short_sha(current_head)}"
+
+    branch = subject.get("head_branch")
+    current_branch_head = branch_head_sha(gh, repo, branch) if branch and head_sha else None
+    if current_branch_head and current_branch_head != head_sha:
+        return f"branch {branch} moved from {short_sha(head_sha)} to {short_sha(current_branch_head)}"
+
+    return None
+
+
+def mark_done(gh, thread_id):
+    gh_api(gh, "--method", "DELETE", f"/notifications/threads/{thread_id}")
+
+
+def main(argv):
+    parser = argparse.ArgumentParser(
+        description="Archive stale GitHub Actions failure notifications from GitHub Inbox."
+    )
+    parser.add_argument("--apply", action="store_true", help="mark stale notifications done")
+    parser.add_argument("--repo", action="append", help="limit to owner/repo; repeatable")
+    parser.add_argument("--limit", type=int, help="stop after checking this many CI notifications")
+    parser.add_argument("--verbose", action="store_true", help="print kept CI notifications")
+    args = parser.parse_args(argv)
+
+    gh = os.environ.get("GH_NOTIFICATION_SWEEP_GH", DEFAULT_GH)
+    repos = set(args.repo or [])
+    checked = 0
+    stale = 0
+
+    for notification in iter_notifications(gh):
+        if notification.get("reason") != "ci_activity":
+            continue
+        repo = notification["repository"]["full_name"]
+        if repos and repo not in repos:
+            continue
+
+        checked += 1
+        if args.limit and checked > args.limit:
+            break
+
+        try:
+            reason = stale_reason(gh, notification)
+        except GhError as exc:
+            print(f"warning {notification.get('id')} {repo}: {exc}", file=sys.stderr)
+            continue
+
+        if not reason:
+            if args.verbose:
+                print(f"keep {notification.get('id')} {repo}: still current")
+            continue
+
+        stale += 1
+        action = "marked done" if args.apply else "would mark done"
+        title = notification.get("subject", {}).get("title", "")
+        print(f"{action} {notification['id']} {repo}: {reason} - {title}")
+        if args.apply:
+            mark_done(gh, notification["id"])
+
+    if stale == 0:
+        print(f"0 stale CI notifications ({checked} checked)")
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))
