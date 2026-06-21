@@ -65,6 +65,7 @@ repo:wizard/providers.json	home:.dbt/wizard/providers.json	agents	public	Wizard 
 repo:.codex/rules/default.rules	home:.dbt/wizard/rules/default.rules	agents	public	Shared Codex/Wizard command-approval rules
 repo:AGENTS.md	home:.dbt/wizard/AGENTS.md	agents	public	Shared global agent instructions
 repo:Library/LaunchAgents/com.dataders.moonlander-keylog.plist	home:Library/LaunchAgents/com.dataders.moonlander-keylog.plist	moonlander	public	keylogger launchagent
+repo:Library/LaunchAgents/com.dataders.github-notification-sweep.plist	home:Library/LaunchAgents/com.dataders.github-notification-sweep.plist	github	public	GitHub stale CI notification sweeper launchagent
 repo:serena/projects/dbt-agent-skills/project.yml	developer:dbt-agent-skills/.serena/project.yml	agents	public	serena per-repo config
 repo:serena/projects/dbt-agent-skills/memories	developer:dbt-agent-skills/.serena/memories	agents	public	serena per-repo memories
 repo:serena/projects/dbt-clickhouse/project.yml	developer:dbt-clickhouse/.serena/project.yml	agents	public	serena per-repo config
