@@ -67,9 +67,33 @@ def diff_extensions(prefs, extensions, profile_name):
     return missing, untracked
 
 
+def get_pref_path(prefs, pref_path):
+    node = prefs
+    for part in pref_path.split("."):
+        if not isinstance(node, dict) or part not in node:
+            return False, None
+        node = node[part]
+    return True, node
+
+
+def diff_settings(prefs, settings, profile_name):
+    mismatches = []
+    for setting in settings:
+        if profile_name not in setting.get("profiles", []):
+            continue
+        found, actual = get_pref_path(prefs, setting["pref_path"])
+        want = json.dumps(setting["value"])
+        if not found:
+            mismatches.append(f"{setting['name']} (want {want}, got unset)")
+        elif actual != setting["value"]:
+            mismatches.append(f"{setting['name']} (want {want}, got {json.dumps(actual)})")
+    return mismatches
+
+
 def build_report(manifest, chrome_dir):
     profiles = manifest.get("profiles", {})
     extensions = manifest.get("extensions", [])
+    settings = manifest.get("settings", [])
 
     local_state = load_local_state(chrome_dir)
     email_map = email_to_dir(local_state)
@@ -85,8 +109,9 @@ def build_report(manifest, chrome_dir):
 
         prefs = load_preferences(chrome_dir, dirname)
         missing, untracked = diff_extensions(prefs, extensions, name)
+        mismatches = diff_settings(prefs, settings, name)
 
-        if not missing and not untracked:
+        if not missing and not untracked and not mismatches:
             lines.append(f"{name}: in sync")
             continue
 
@@ -98,6 +123,8 @@ def build_report(manifest, chrome_dir):
         if untracked:
             rendered = ", ".join(extension_display_name(prefs, ext_id) for ext_id in untracked)
             lines.append(f"  untracked extensions:  {rendered}")
+        if mismatches:
+            lines.append(f"  setting mismatches:    {', '.join(mismatches)}")
 
     return lines, open_targets
 
