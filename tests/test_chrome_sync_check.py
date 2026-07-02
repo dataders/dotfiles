@@ -266,6 +266,38 @@ class ChromeSyncCheckTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn("personal: in sync", result.stdout)
 
+    def test_multi_profile_report_preserves_manifest_order_and_flags_missing_profile(self):
+        with tempfile.TemporaryDirectory() as p:
+            tmp = pathlib.Path(p)
+            chrome_dir = tmp / "Chrome"
+            chrome_dir.mkdir()
+            self.write_local_state(
+                chrome_dir,
+                {"Default": "personal@example.com", "Profile 1": "work@example.com"},
+            )
+            self.write_preferences(chrome_dir, "Default", {})
+            self.write_preferences(chrome_dir, "Profile 1", {})
+            manifest = self.write_manifest(
+                tmp,
+                '[profiles]\n'
+                'fivetran = "notonthismachine@example.com"\n'
+                'personal = "personal@example.com"\n'
+                'dbtlabs = "work@example.com"\n',
+            )
+
+            result = self.run_check(manifest, chrome_dir)
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            lines = [l for l in result.stdout.splitlines() if l]
+            self.assertEqual(
+                lines,
+                [
+                    "fivetran: profile not found on this machine (email notonthismachine@example.com)",
+                    "personal: in sync",
+                    "dbtlabs: in sync",
+                ],
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
