@@ -1,0 +1,257 @@
+#!/usr/bin/env -S /opt/homebrew/bin/uv run python3
+"""Export selected chrome.storage settings for manifest-tracked extensions.
+
+Only extensions with no usable native export go through this tool (see
+chrome/README.md) -- currently Tab Wrangler (chrome.storage.sync) and
+Reddit Enhancement Suite (chrome.storage.local). Each manifest entry's
+`keys` list is an explicit allowlist: extension storage mixes real settings
+with runtime/telemetry-like data (tab history, learned state, etc.), and
+only allowlisted keys are ever written out.
+
+Read-only: requires Chrome fully quit (detected by trying to flock() the
+LevelDB LOCK file -- confirmed empirically to conflict with Chrome's own
+lock on this machine). Reads chrome.storage state via the `leveldbutil`
+CLI (bundled with the `leveldb` Homebrew formula) rather than a Python
+LevelDB binding -- plyvel does not build against Homebrew's leveldb on
+Apple Silicon without patching its build config.
+
+Writes only to a gitignored staging directory -- never decides public vs.
+private placement, that's a manual step.
+"""
+import argparse
+import fcntl
+import json
+import os
+import pathlib
+import re
+import subprocess
+import sys
+import tomllib
+
+DEFAULT_CHROME_DIR = pathlib.Path.home() / "Library/Application Support/Google/Chrome"
+DEFAULT_MANIFEST = pathlib.Path(__file__).resolve().parent.parent / "chrome" / "profiles.toml"
+DEFAULT_OUT_DIR = (
+    pathlib.Path(__file__).resolve().parent.parent
+    / "chrome" / "extension-settings" / ".staging"
+)
+DEFAULT_LEVELDBUTIL = (
+    "/opt/homebrew/opt/leveldb/bin/leveldbutil"
+    if os.path.exists("/opt/homebrew/opt/leveldb/bin/leveldbutil")
+    else "leveldbutil"
+)
+
+STORAGE_DIRNAMES = {"local": "Local Extension Settings", "sync": "Sync Extension Settings"}
+
+# `leveldbutil dump` output has two different shapes depending on file type:
+#   .log (write-ahead log): batches of ops under a "--- offset N; sequence M"
+#     header, e.g. "  put 'key' 'value'" / "  del 'key'".
+#   .ldb (compacted sstable): one line per entry, e.g.
+#     "'key' @ 50 : val => 'value'" / "'key' @ 51 : del".
+LOG_HEADER_RE = re.compile(r"^--- offset \d+; sequence (\d+)$")
+LOG_PUT_RE = re.compile(r"^  put '(.*)' '(.*)'$")
+LOG_DEL_RE = re.compile(r"^  del '(.*)'$")
+LDB_LINE_RE = re.compile(r"^'(.*)' @ (\d+) : (.*)$")
+
+
+def load_manifest(path):
+    with open(path, "rb") as fh:
+        return tomllib.load(fh)
+
+
+def load_local_state(chrome_dir):
+    path = pathlib.Path(chrome_dir) / "Local State"
+    with open(path, "r", encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def email_to_dir(local_state):
+    info_cache = local_state.get("profile", {}).get("info_cache", {})
+    return {
+        info.get("user_name"): dirname
+        for dirname, info in info_cache.items()
+        if info.get("user_name")
+    }
+
+
+def check_not_locked(storage_dir):
+    # Opens (read/write, no create) purely to test the lock -- never writes
+    # any bytes. Raises OSError if Chrome (or anything else) holds it.
+    lock_path = pathlib.Path(storage_dir) / "LOCK"
+    fd = os.open(lock_path, os.O_RDWR)
+    try:
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        fcntl.flock(fd, fcntl.LOCK_UN)
+    finally:
+        os.close(fd)
+
+
+def parse_log_dump(text):
+    """Returns a list of (sequence, order, op, key, value_text_or_None)."""
+    entries = []
+    seq = None
+    for line in text.splitlines():
+        header = LOG_HEADER_RE.match(line)
+        if header:
+            seq = int(header.group(1))
+            continue
+        put = LOG_PUT_RE.match(line)
+        if put and seq is not None:
+            entries.append((seq, len(entries), "put", put.group(1), put.group(2)))
+            continue
+        delm = LOG_DEL_RE.match(line)
+        if delm and seq is not None:
+            entries.append((seq, len(entries), "del", delm.group(1), None))
+    return entries
+
+
+def parse_ldb_dump(text):
+    """Returns a list of (sequence, order, op, key, value_text_or_None)."""
+    entries = []
+    for line in text.splitlines():
+        m = LDB_LINE_RE.match(line)
+        if not m:
+            continue
+        key, seq, rest = m.group(1), int(m.group(2)), m.group(3)
+        if rest == "del":
+            entries.append((seq, len(entries), "del", key, None))
+        elif rest.startswith("val => '") and rest.endswith("'"):
+            entries.append((seq, len(entries), "put", key, rest[len("val => '"):-1]))
+    return entries
+
+
+def dump_file(leveldbutil, path):
+    proc = subprocess.run(
+        [leveldbutil, "dump", str(path)],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=True,
+    )
+    return proc.stdout
+
+
+def read_storage(leveldbutil, storage_dir):
+    """Merge every .log/.ldb file's dump into the current key -> value-text state.
+
+    Correctness relies on a global sort by LevelDB sequence number across
+    every file (not "ldb before log" or file-order heuristics) -- this is
+    the actual ordering guarantee LevelDB itself relies on, so it holds
+    regardless of how many .log/.ldb files are present.
+    """
+    storage_dir = pathlib.Path(storage_dir)
+    entries = []
+    for path in sorted(storage_dir.glob("*.log")):
+        entries.extend(parse_log_dump(dump_file(leveldbutil, path)))
+    for path in sorted(storage_dir.glob("*.ldb")):
+        entries.extend(parse_ldb_dump(dump_file(leveldbutil, path)))
+
+    entries.sort(key=lambda e: (e[0], e[1]))
+
+    state = {}
+    for _, _, op, key, value in entries:
+        if op == "put":
+            state[key] = value
+        elif op == "del":
+            state.pop(key, None)
+    return state
+
+
+def decode_value(raw):
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError:
+        return {"__raw_text__": raw}
+
+
+def export_extension(leveldbutil, storage_dir, keys):
+    state = read_storage(leveldbutil, storage_dir)
+    return {key: decode_value(state[key]) for key in keys if key in state}
+
+
+def main(argv):
+    parser = argparse.ArgumentParser(
+        description="Export selected chrome.storage settings for manifest-tracked extensions to staged JSON."
+    )
+    parser.add_argument("--extension", action="append", help="limit to extension name; repeatable")
+    parser.add_argument("--profile", action="append", help="limit to profile name; repeatable")
+    args = parser.parse_args(argv)
+
+    manifest_path = os.environ.get("CHROME_EXTENSION_EXPORT_MANIFEST", str(DEFAULT_MANIFEST))
+    chrome_dir = os.environ.get("CHROME_EXTENSION_EXPORT_CHROME_DIR", str(DEFAULT_CHROME_DIR))
+    out_dir = pathlib.Path(os.environ.get("CHROME_EXTENSION_EXPORT_OUT_DIR", str(DEFAULT_OUT_DIR)))
+    leveldbutil = os.environ.get("CHROME_EXTENSION_EXPORT_LEVELDBUTIL", DEFAULT_LEVELDBUTIL)
+
+    try:
+        manifest = load_manifest(manifest_path)
+    except (FileNotFoundError, tomllib.TOMLDecodeError) as exc:
+        print(f"error: could not read manifest {manifest_path}: {exc}", file=sys.stderr)
+        return 1
+
+    try:
+        local_state = load_local_state(chrome_dir)
+    except (FileNotFoundError, json.JSONDecodeError) as exc:
+        print(f"error: could not read chrome state in {chrome_dir}: {exc}", file=sys.stderr)
+        return 1
+
+    email_map = email_to_dir(local_state)
+    profiles = manifest.get("profiles", {})
+    extension_settings = manifest.get("extension_settings", [])
+
+    extension_filter = set(args.extension) if args.extension else None
+    profile_filter = set(args.profile) if args.profile else None
+
+    had_error = False
+
+    for ext in extension_settings:
+        if extension_filter and ext["name"] not in extension_filter:
+            continue
+        storage_dirname = STORAGE_DIRNAMES[ext["storage"]]
+        for profile_name in ext.get("profiles", []):
+            if profile_filter and profile_name not in profile_filter:
+                continue
+
+            email = profiles.get(profile_name)
+            if email is None:
+                print(f"{ext['name']}/{profile_name}: profile not in manifest, skipping")
+                continue
+
+            dirname = email_map.get(email)
+            if dirname is None:
+                print(f"{ext['name']}/{profile_name}: profile not found on this machine, skipping")
+                continue
+
+            storage_dir = pathlib.Path(chrome_dir) / dirname / storage_dirname / ext["id"]
+            if not storage_dir.is_dir():
+                print(f"{ext['name']}/{profile_name}: not installed, skipping")
+                continue
+
+            try:
+                check_not_locked(storage_dir)
+                data = export_extension(leveldbutil, storage_dir, ext["keys"])
+            except OSError as exc:
+                print(
+                    f"error: {ext['name']}/{profile_name}: could not open storage "
+                    f"(is Chrome still running? quit it and retry): {exc}",
+                    file=sys.stderr,
+                )
+                had_error = True
+                continue
+            except subprocess.CalledProcessError as exc:
+                print(
+                    f"error: {ext['name']}/{profile_name}: leveldbutil failed: {exc.stderr}",
+                    file=sys.stderr,
+                )
+                had_error = True
+                continue
+
+            dest_dir = out_dir / profile_name
+            dest_dir.mkdir(parents=True, exist_ok=True)
+            dest = dest_dir / f"{ext['id']}.json"
+            dest.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+            print(f"{ext['name']}/{profile_name}: wrote {dest} ({len(data)} keys)")
+
+    return 1 if had_error else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))
