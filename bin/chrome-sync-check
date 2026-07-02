@@ -46,6 +46,17 @@ def load_preferences(chrome_dir, dirname):
         return {}
 
 
+def load_secure_preferences(chrome_dir, dirname):
+    # The installed-extensions list lives here, not in Preferences, on
+    # current Chrome versions (tamper-protection moved it at some point).
+    path = pathlib.Path(chrome_dir) / dirname / "Secure Preferences"
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            return json.load(fh)
+    except FileNotFoundError:
+        return {}
+
+
 def installed_extensions(prefs):
     return set(prefs.get("extensions", {}).get("settings", {}).keys())
 
@@ -108,7 +119,8 @@ def build_report(manifest, chrome_dir):
             continue
 
         prefs = load_preferences(chrome_dir, dirname)
-        missing, untracked = diff_extensions(prefs, extensions, name)
+        secure_prefs = load_secure_preferences(chrome_dir, dirname)
+        missing, untracked = diff_extensions(secure_prefs, extensions, name)
         mismatches = diff_settings(prefs, settings, name)
 
         if not missing and not untracked and not mismatches:
@@ -121,7 +133,7 @@ def build_report(manifest, chrome_dir):
             lines.append(f"  missing extensions:    {rendered}")
             open_targets.extend((dirname, ext) for ext in missing)
         if untracked:
-            rendered = ", ".join(extension_display_name(prefs, ext_id) for ext_id in untracked)
+            rendered = ", ".join(extension_display_name(secure_prefs, ext_id) for ext_id in untracked)
             lines.append(f"  untracked extensions:  {rendered}")
         if mismatches:
             lines.append(f"  setting mismatches:    {', '.join(mismatches)}")

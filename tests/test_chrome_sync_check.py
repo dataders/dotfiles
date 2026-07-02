@@ -24,6 +24,11 @@ class ChromeSyncCheckTests(unittest.TestCase):
         profile_dir.mkdir(parents=True, exist_ok=True)
         (profile_dir / "Preferences").write_text(json.dumps(prefs))
 
+    def write_secure_preferences(self, chrome_dir, dirname, prefs):
+        profile_dir = chrome_dir / dirname
+        profile_dir.mkdir(parents=True, exist_ok=True)
+        (profile_dir / "Secure Preferences").write_text(json.dumps(prefs))
+
     def write_manifest(self, root, text):
         manifest_path = root / "profiles.toml"
         manifest_path.write_text(text)
@@ -92,7 +97,7 @@ class ChromeSyncCheckTests(unittest.TestCase):
             chrome_dir = tmp / "Chrome"
             chrome_dir.mkdir()
             self.write_local_state(chrome_dir, {"Default": "me@example.com"})
-            self.write_preferences(chrome_dir, "Default", {"extensions": {"settings": {}}})
+            self.write_secure_preferences(chrome_dir, "Default", {"extensions": {"settings": {}}})
             manifest = self.write_manifest(
                 tmp,
                 '[profiles]\n'
@@ -118,7 +123,7 @@ class ChromeSyncCheckTests(unittest.TestCase):
             chrome_dir = tmp / "Chrome"
             chrome_dir.mkdir()
             self.write_local_state(chrome_dir, {"Default": "me@example.com"})
-            self.write_preferences(
+            self.write_secure_preferences(
                 chrome_dir,
                 "Default",
                 {"extensions": {"settings": {"cjpalhdlnbpafiamejdnhcphjbkeiagm": {}}}},
@@ -144,7 +149,7 @@ class ChromeSyncCheckTests(unittest.TestCase):
             chrome_dir = tmp / "Chrome"
             chrome_dir.mkdir()
             self.write_local_state(chrome_dir, {"Default": "me@example.com"})
-            self.write_preferences(
+            self.write_secure_preferences(
                 chrome_dir,
                 "Default",
                 {
@@ -173,7 +178,7 @@ class ChromeSyncCheckTests(unittest.TestCase):
             chrome_dir = tmp / "Chrome"
             chrome_dir.mkdir()
             self.write_local_state(chrome_dir, {"Default": "me@example.com"})
-            self.write_preferences(
+            self.write_secure_preferences(
                 chrome_dir,
                 "Default",
                 {"extensions": {"settings": {"abcabcabcabcabcabcabcabcabcabca": {}}}},
@@ -304,7 +309,7 @@ class ChromeSyncCheckTests(unittest.TestCase):
             chrome_dir = tmp / "Chrome"
             chrome_dir.mkdir()
             self.write_local_state(chrome_dir, {"Default": "me@example.com"})
-            self.write_preferences(chrome_dir, "Default", {"extensions": {"settings": {}}})
+            self.write_secure_preferences(chrome_dir, "Default", {"extensions": {"settings": {}}})
             manifest = self.write_manifest(
                 tmp,
                 '[profiles]\n'
@@ -339,7 +344,7 @@ class ChromeSyncCheckTests(unittest.TestCase):
             chrome_dir = tmp / "Chrome"
             chrome_dir.mkdir()
             self.write_local_state(chrome_dir, {"Default": "me@example.com"})
-            self.write_preferences(chrome_dir, "Default", {"extensions": {"settings": {}}})
+            self.write_secure_preferences(chrome_dir, "Default", {"extensions": {"settings": {}}})
             manifest = self.write_manifest(
                 tmp,
                 '[profiles]\n'
