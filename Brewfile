@@ -72,6 +72,8 @@ brew "graphviz"
 brew "htop"
 # Git-compatible distributed version control system
 brew "jj"
+# Fast key-value storage library
+brew "leveldb"
 # Generic machine emulator and virtualizer
 brew "qemu"
 # Additional guest agents for Lima
