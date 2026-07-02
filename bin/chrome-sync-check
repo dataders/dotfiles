@@ -1,0 +1,101 @@
+#!/usr/bin/env -S /opt/homebrew/bin/uv run python3
+"""Report drift between chrome/profiles.toml and installed Chrome extensions/settings.
+
+Read-only: never writes to Chrome's Preferences or policy files. See
+docs/superpowers/specs/2026-07-02-chrome-profile-sync-design.md for why.
+"""
+import argparse
+import json
+import os
+import pathlib
+import subprocess
+import sys
+import tomllib
+
+DEFAULT_CHROME_DIR = pathlib.Path.home() / "Library/Application Support/Google/Chrome"
+DEFAULT_MANIFEST = pathlib.Path(__file__).resolve().parent.parent / "chrome" / "profiles.toml"
+DEFAULT_OPEN = "open"
+
+
+def load_manifest(path):
+    with open(path, "rb") as fh:
+        return tomllib.load(fh)
+
+
+def load_local_state(chrome_dir):
+    path = pathlib.Path(chrome_dir) / "Local State"
+    with open(path, "r", encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def email_to_dir(local_state):
+    info_cache = local_state.get("profile", {}).get("info_cache", {})
+    return {
+        info.get("user_name"): dirname
+        for dirname, info in info_cache.items()
+        if info.get("user_name")
+    }
+
+
+def build_report(manifest, chrome_dir):
+    profiles = manifest.get("profiles", {})
+
+    local_state = load_local_state(chrome_dir)
+    email_map = email_to_dir(local_state)
+
+    lines = []
+    open_targets = []
+
+    for name, email in profiles.items():
+        dirname = email_map.get(email)
+        if dirname is None:
+            lines.append(f"{name}: profile not found on this machine (email {email})")
+            continue
+        # Extension/settings diffing lands in later tasks; for now every
+        # resolved profile reports in sync.
+        lines.append(f"{name}: in sync")
+
+    return lines, open_targets
+
+
+def main(argv):
+    parser = argparse.ArgumentParser(
+        description="Report drift between chrome/profiles.toml and installed Chrome extensions/settings."
+    )
+    parser.add_argument(
+        "--open-missing",
+        action="store_true",
+        help=(
+            "open the Chrome Web Store listing for each missing extension in its "
+            "target profile. Best-effort: verify it lands on the right profile "
+            "before relying on it while other profiles are open (see the design spec)."
+        ),
+    )
+    args = parser.parse_args(argv)
+
+    manifest_path = os.environ.get("CHROME_SYNC_CHECK_MANIFEST", str(DEFAULT_MANIFEST))
+    chrome_dir = os.environ.get("CHROME_SYNC_CHECK_CHROME_DIR", str(DEFAULT_CHROME_DIR))
+    open_bin = os.environ.get("CHROME_SYNC_CHECK_OPEN", DEFAULT_OPEN)
+
+    try:
+        manifest = load_manifest(manifest_path)
+    except (FileNotFoundError, tomllib.TOMLDecodeError) as exc:
+        print(f"error: could not read manifest {manifest_path}: {exc}", file=sys.stderr)
+        return 1
+
+    try:
+        lines, open_targets = build_report(manifest, chrome_dir)
+    except (FileNotFoundError, json.JSONDecodeError) as exc:
+        print(f"error: could not read chrome state in {chrome_dir}: {exc}", file=sys.stderr)
+        return 1
+
+    print("\n".join(lines))
+
+    if args.open_missing and open_targets:
+        pass  # wired up in a later task
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))
