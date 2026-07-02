@@ -103,12 +103,18 @@ belong in the same file.
    PEP 723 metadata:
 
    ```python
-   #!/usr/bin/env -S uv run --script
+   #!/usr/bin/env -S /opt/homebrew/bin/uv run --script
    # /// script
    # requires-python = ">=3.12"
    # dependencies = ["plyvel"]
    # ///
    ```
+
+   The absolute `/opt/homebrew/bin/uv` path matches the sibling scripts'
+   convention (`bin/chrome-sync-check`, `bin/github-notification-sweep`) —
+   only the `python3` → `--script` invocation shape changes, so this script
+   still resolves `uv` the same way regardless of what's on `PATH` for
+   whatever invokes it.
 
    **Needs verification during implementation:** confirm `uv run --script`
    actually resolves and builds `plyvel` correctly via this shebang
@@ -145,10 +151,14 @@ belong in the same file.
      `{"__raw_base64__": base64.b64encode(value).decode()}` so nothing is
      silently lost or corrupted by an unexpected internal format.
 4. **Output — staging, not the committed path:** writes pretty-printed,
-   key-sorted JSON to
-   `chrome/extension-settings/.staging/<profile>/<id>.json` — a **gitignored**
-   directory, never the final committed location. The script never decides
-   public vs. private; that's a human judgment call (§4).
+   key-sorted JSON to `chrome/extension-settings/.staging/<profile>/<id>.json`.
+   This directory does not exist yet and is **not** currently covered by any
+   `.gitignore` rule — implementation must add the line
+   `chrome/extension-settings/.staging/` to the repo's root `.gitignore`
+   (not a nested `chrome/.gitignore`, so the rule applies regardless of
+   which directory `git add` is run from) as an explicit task, not an
+   assumed precondition. The script never decides public vs. private;
+   that's a human judgment call (§4).
 5. **Optional filters:** `--extension NAME` and `--profile NAME` to
    re-export a subset (e.g. after changing just Dark Reader's rules),
    mirroring the `--repo` filter style in `bin/github-notification-sweep`.
@@ -171,17 +181,28 @@ extensions list.
 
 Because `dotfiles` is public and we don't know a given extension's storage
 contents until we look, promotion out of the gitignored staging directory
-is **always a manual human step**, never automated by the script:
+is **always a manual human step**, never automated by the script. Triage is
+per-profile-*and*-per-extension, not per-extension alone: the same
+extension's storage can plausibly differ in sensitivity across profiles
+(e.g. 1Password's local state referencing a work vs. personal vault), so a
+file being safe in `personal/` doesn't clear the same extension's file in
+`dbtlabs/`.
 
 1. Run `bin/chrome-extension-settings-export`.
 2. Open each `chrome/extension-settings/.staging/<profile>/<id>.json` and
    look for anything that resembles a session token, device identifier, or
    other account-adjacent secret (most likely candidate: 1Password).
-3. Move the file to either:
+3. **If `chrome/extension-settings/<profile>/<id>.json` already exists**
+   (a re-export), diff the staged copy against the previously-committed
+   public version *before* overwriting it — a later export surfacing
+   something newly sensitive must not silently clobber a file already
+   known to be safe without a fresh look. Don't just inspect the staged
+   copy in isolation on re-export.
+4. Move the file to either:
    - `chrome/extension-settings/<profile>/<id>.json` (public dotfiles), or
    - `~/Developer/dotfiles_env/chrome/extension-settings/<profile>/<id>.json`
      (private) if anything looks sensitive.
-4. Commit from whichever repo it landed in.
+5. Commit from whichever repo it landed in.
 
 This workflow is documented in `chrome/README.md`, not enforced by the
 script — the script's only responsibility is producing a safe-to-inspect
@@ -192,7 +213,8 @@ staging copy.
 ```
 dotfiles/chrome/profiles.toml                          # extended with [[extension_settings]]
 dotfiles/bin/chrome-extension-settings-export           # new script
-dotfiles/chrome/extension-settings/.staging/            # gitignored scratch output
+dotfiles/.gitignore                                     # + chrome/extension-settings/.staging/
+dotfiles/chrome/extension-settings/.staging/            # scratch output, ignored per the line above
 dotfiles/chrome/extension-settings/<profile>/<id>.json  # promoted, public-safe exports (once triaged)
 dotfiles/Brewfile                                       # + leveldb
 ```
@@ -227,3 +249,21 @@ dotfiles/Brewfile                                       # + leveldb
   this is a point-in-time backup tool, not a sync-check.
 - **No scheduled/automatic runs.** Manual, run when the user wants a fresh
   backup before a settings change or a machine migration.
+
+## Resolved during spec review
+
+- The ".staging is gitignored" claim was asserted without an actual
+  `.gitignore` entry existing — now an explicit implementation task (§2
+  step 4, §File layout): add `chrome/extension-settings/.staging/` to the
+  **root** `.gitignore`, not a nested one, so it applies regardless of
+  which directory `git add` runs from.
+- The new script's shebang dropped the absolute `/opt/homebrew/bin/uv`
+  path used by sibling scripts — restored for consistency (§2 step 1); only
+  the `python3` → `--script` invocation shape actually needed to change.
+- Re-promoting a re-export could silently overwrite an already-safe public
+  file with a newly-sensitive one — §4 now requires diffing staged output
+  against any existing committed version before overwriting, not just
+  inspecting the staged copy in isolation.
+- Triage is per-profile-*and*-per-extension, not per-extension alone, since
+  the same extension's storage can differ in sensitivity across profiles
+  (now stated explicitly in §4).
