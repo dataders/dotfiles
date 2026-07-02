@@ -14,3 +14,6 @@ logs/
 # Moonlander keylogger (never commit raw keystrokes or stray build bins)
 keylog-*.csv
 moonlander/keymaps/
+
+# Chrome extension-settings export staging area (never commit unreviewed)
+chrome/extension-settings/.staging/
