@@ -105,23 +105,65 @@ convention). Read-only.
      `pref_path` and compare against `value`. Report mismatches. A path that
      doesn't exist in `Preferences` is reported as "unset" (not the same as
      "wrong value" — Chrome may not write a key until first touched).
-4. Print a per-profile report (missing extensions / untracked extensions /
-   setting mismatches). No output implies fully in sync.
+4. Print a per-profile report to stdout, plain text, grouped by profile name
+   in manifest order, in this shape:
+
+   ```
+   personal (swanson.anders@gmail.com):
+     missing extensions:    uBlock Origin (cjpalhdlnbpafiamejdnhcphjbkeiagm)
+     untracked extensions:  Grammarly (kbfnbcaeplbcioakkpcpgfkobkghlhen)
+     setting mismatches:    Always show bookmarks bar (want true, got false)
+   ```
+
+   A profile with nothing to report prints `<name>: in sync`. Exit code 0
+   always for the check-only path (this is a report, not a CI gate); a
+   non-zero exit is reserved for hard failures (e.g. `Local State` missing
+   or unparseable — see Recovery below).
+5. **Comparison semantics for settings:** compare the value at `pref_path`
+   to the manifest's `value` with strict type-and-value equality (Python
+   `==` after JSON-decoding both sides — so `true`/`1`/`"true"` are *not*
+   treated as equivalent). A path that doesn't exist in `Preferences` is
+   reported as "unset", distinct from "wrong value".
+
+**Needs verification during implementation** (stated here as working
+assumptions, not confirmed facts): the exact `extensions.settings` key
+shape in `Preferences` (ID → dict with an `install_time`/`state`-style
+schema) should be checked against the actual installed Chrome version
+before the check logic is finalized, the same way the tamper-protection
+claim above already flags Chrome's preference handling as version-sensitive.
 
 ### 3. Install helper (`--open-missing` flag on the same script)
 
-For every missing extension found in step 3, run:
+For every missing extension found in step 3, open the Web Store listing in
+the *correct* profile's window so the user just clicks "Add to Chrome".
 
-```sh
-open -a "Google Chrome" --args --profile-directory="<resolved dir>" \
-  "https://chromewebstore.google.com/detail/<id>"
-```
+**Needs verification during implementation:** the naive approach —
+`open -a "Google Chrome" --args --profile-directory="<dir>" "<url>"` — is
+**known to be unreliable when Chrome is already running**: it typically just
+focuses/reuses the existing window and ignores both `--profile-directory`
+and the URL, per multiple independently-reported cases. Since the user
+routinely has all three profiles open, this is the common case, not an edge
+case. The implementation must test, in order of preference:
 
-This opens the Web Store listing in the *correct* profile's window, one tab
-per missing extension, so the user just clicks "Add to Chrome". No install
-automation beyond that — Chrome does not allow scripted, non-policy
-extension installation, and forcing it through policy is the exact risk
-ruled out in Background.
+1. `open -n -a "Google Chrome" --args --profile-directory="<dir>" "<url>"`
+   (`-n` forces a new instance) — verify this actually lands on the intended
+   profile rather than the last-focused one.
+2. Invoking the Chrome binary directly
+   (`/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --profile-directory="<dir>" "<url>"`)
+   as a fallback if `-n` proves unreliable.
+
+If neither reliably targets the right profile while other profiles are
+open, the fallback behavior is to print the URL and profile name instead of
+attempting to open it, and let the user open it manually — this degrades
+`--open-missing` to a slightly more convenient version of the plain report,
+which is still strictly better than a broken/misleading auto-open. This
+must be manually verified against the installed Chrome version before
+`--open-missing` ships; the check-only path (§2) has no such dependency and
+can ship independently.
+
+No install automation beyond opening the listing — Chrome does not allow
+scripted, non-policy extension installation, and forcing it through policy
+is the exact risk ruled out in Background.
 
 Settings mismatches are **reported only**, with the setting's human name
 (from `name`) — no auto-open, since there's no single deep-link URL pattern
@@ -140,9 +182,15 @@ other `bin/` scripts (`bin/github-notification-sweep`, `bin/moonlander-keylog`).
 
 ## Recovery / failure modes
 
-- **Chrome closed vs. open:** reading `Preferences` while Chrome is running
-  is safe (no lock contention for reads); no special handling needed since
-  this is read-only.
+- **Chrome closed vs. open, for the check path (§2):** reading `Preferences`
+  while Chrome is running is safe (no lock contention for reads); no special
+  handling needed since this is read-only. This does **not** extend to the
+  install helper (§3) — see its own verification requirement above, since
+  launching/focusing Chrome while it's already running is exactly where the
+  naive approach breaks.
+- **`Local State` missing or unparseable:** hard failure — without it no
+  profile can be resolved at all. Print a clear error and exit non-zero
+  (the one case where this tool exits non-zero; see §2 step 4).
 - **Manifest references a profile not on this machine:** reported as a
   warning per profile, not a hard failure — keeps the manifest portable
   across machines (e.g. a future work laptop) even if not every profile
@@ -150,6 +198,16 @@ other `bin/` scripts (`bin/github-notification-sweep`, `bin/moonlander-keylog`).
 - **`pref_path` typo or Chrome version changes the key:** shows up as a
   perpetual "unset" mismatch for that setting; no crash. Discovered
   empirically same as initial setup.
+
+## Resolved during spec review
+
+- The `open -a "Google Chrome" --args --profile-directory=...` command as
+  originally drafted is **not** reliable when Chrome is already running (the
+  common case here) — flagged above as a verify-during-implementation item
+  with `-n` and direct-binary fallbacks, rather than left as an assumed fact.
+- Report output format and settings-comparison semantics were unspecified;
+  now pinned down in §2 to avoid two implementers converging on different
+  shapes.
 
 ## Scope / non-goals (YAGNI)
 
