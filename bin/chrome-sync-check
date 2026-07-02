@@ -37,8 +37,39 @@ def email_to_dir(local_state):
     }
 
 
+def load_preferences(chrome_dir, dirname):
+    path = pathlib.Path(chrome_dir) / dirname / "Preferences"
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            return json.load(fh)
+    except FileNotFoundError:
+        return {}
+
+
+def installed_extensions(prefs):
+    return set(prefs.get("extensions", {}).get("settings", {}).keys())
+
+
+def extension_display_name(prefs, ext_id):
+    entry = prefs.get("extensions", {}).get("settings", {}).get(ext_id, {})
+    name = entry.get("manifest", {}).get("name")
+    if name and not name.startswith("__MSG_"):
+        return f"{name} ({ext_id})"
+    return ext_id
+
+
+def diff_extensions(prefs, extensions, profile_name):
+    installed = installed_extensions(prefs)
+    scoped = [ext for ext in extensions if profile_name in ext.get("profiles", [])]
+    missing = [ext for ext in scoped if ext["id"] not in installed]
+    tracked_ids = {ext["id"] for ext in scoped}
+    untracked = sorted(installed - tracked_ids)
+    return missing, untracked
+
+
 def build_report(manifest, chrome_dir):
     profiles = manifest.get("profiles", {})
+    extensions = manifest.get("extensions", [])
 
     local_state = load_local_state(chrome_dir)
     email_map = email_to_dir(local_state)
@@ -51,9 +82,22 @@ def build_report(manifest, chrome_dir):
         if dirname is None:
             lines.append(f"{name}: profile not found on this machine (email {email})")
             continue
-        # Extension/settings diffing lands in later tasks; for now every
-        # resolved profile reports in sync.
-        lines.append(f"{name}: in sync")
+
+        prefs = load_preferences(chrome_dir, dirname)
+        missing, untracked = diff_extensions(prefs, extensions, name)
+
+        if not missing and not untracked:
+            lines.append(f"{name}: in sync")
+            continue
+
+        lines.append(f"{name} ({email}):")
+        if missing:
+            rendered = ", ".join(f"{ext['name']} ({ext['id']})" for ext in missing)
+            lines.append(f"  missing extensions:    {rendered}")
+            open_targets.extend((dirname, ext) for ext in missing)
+        if untracked:
+            rendered = ", ".join(extension_display_name(prefs, ext_id) for ext_id in untracked)
+            lines.append(f"  untracked extensions:  {rendered}")
 
     return lines, open_targets
 

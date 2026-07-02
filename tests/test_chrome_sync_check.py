@@ -86,6 +86,107 @@ class ChromeSyncCheckTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual(result.stdout.strip(), "")
 
+    def test_missing_extension_is_reported(self):
+        with tempfile.TemporaryDirectory() as p:
+            tmp = pathlib.Path(p)
+            chrome_dir = tmp / "Chrome"
+            chrome_dir.mkdir()
+            self.write_local_state(chrome_dir, {"Default": "me@example.com"})
+            self.write_preferences(chrome_dir, "Default", {"extensions": {"settings": {}}})
+            manifest = self.write_manifest(
+                tmp,
+                '[profiles]\n'
+                'personal = "me@example.com"\n\n'
+                '[[extensions]]\n'
+                'name = "uBlock Origin"\n'
+                'id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"\n'
+                'profiles = ["personal"]\n',
+            )
+
+            result = self.run_check(manifest, chrome_dir)
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("personal (me@example.com):", result.stdout)
+            self.assertIn(
+                "missing extensions:    uBlock Origin (cjpalhdlnbpafiamejdnhcphjbkeiagm)",
+                result.stdout,
+            )
+
+    def test_installed_extension_is_in_sync(self):
+        with tempfile.TemporaryDirectory() as p:
+            tmp = pathlib.Path(p)
+            chrome_dir = tmp / "Chrome"
+            chrome_dir.mkdir()
+            self.write_local_state(chrome_dir, {"Default": "me@example.com"})
+            self.write_preferences(
+                chrome_dir,
+                "Default",
+                {"extensions": {"settings": {"cjpalhdlnbpafiamejdnhcphjbkeiagm": {}}}},
+            )
+            manifest = self.write_manifest(
+                tmp,
+                '[profiles]\n'
+                'personal = "me@example.com"\n\n'
+                '[[extensions]]\n'
+                'name = "uBlock Origin"\n'
+                'id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"\n'
+                'profiles = ["personal"]\n',
+            )
+
+            result = self.run_check(manifest, chrome_dir)
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("personal: in sync", result.stdout)
+
+    def test_untracked_extension_uses_manifest_name_when_available(self):
+        with tempfile.TemporaryDirectory() as p:
+            tmp = pathlib.Path(p)
+            chrome_dir = tmp / "Chrome"
+            chrome_dir.mkdir()
+            self.write_local_state(chrome_dir, {"Default": "me@example.com"})
+            self.write_preferences(
+                chrome_dir,
+                "Default",
+                {
+                    "extensions": {
+                        "settings": {
+                            "abcabcabcabcabcabcabcabcabcabca": {
+                                "manifest": {"name": "Grammarly"}
+                            }
+                        }
+                    }
+                },
+            )
+            manifest = self.write_manifest(tmp, '[profiles]\npersonal = "me@example.com"\n')
+
+            result = self.run_check(manifest, chrome_dir)
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn(
+                "untracked extensions:  Grammarly (abcabcabcabcabcabcabcabcabcabca)",
+                result.stdout,
+            )
+
+    def test_untracked_extension_falls_back_to_id_without_manifest_name(self):
+        with tempfile.TemporaryDirectory() as p:
+            tmp = pathlib.Path(p)
+            chrome_dir = tmp / "Chrome"
+            chrome_dir.mkdir()
+            self.write_local_state(chrome_dir, {"Default": "me@example.com"})
+            self.write_preferences(
+                chrome_dir,
+                "Default",
+                {"extensions": {"settings": {"abcabcabcabcabcabcabcabcabcabca": {}}}},
+            )
+            manifest = self.write_manifest(tmp, '[profiles]\npersonal = "me@example.com"\n')
+
+            result = self.run_check(manifest, chrome_dir)
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn(
+                "untracked extensions:  abcabcabcabcabcabcabcabcabcabca", result.stdout
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
