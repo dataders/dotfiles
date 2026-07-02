@@ -1,8 +1,9 @@
 #!/usr/bin/env -S /opt/homebrew/bin/uv run python3
 """Report drift between chrome/profiles.toml and installed Chrome extensions/settings.
 
-Read-only: never writes to Chrome's Preferences or policy files. See
-docs/superpowers/specs/2026-07-02-chrome-profile-sync-design.md for why.
+Read-only: never writes to Chrome's Preferences or policy files -- this
+machine's Chrome policy is Jamf-managed, and Preferences/Secure Preferences
+have tamper protection against direct edits. See chrome/README.md.
 """
 import argparse
 import json
