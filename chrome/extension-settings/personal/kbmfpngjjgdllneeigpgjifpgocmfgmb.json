@@ -1,0 +1,35 @@
+{
+  "RESoptions.hover": {
+    "instances": {
+      "value": [
+        [
+          "accountSwitcher",
+          true
+        ],
+        [
+          "messageMenu",
+          true
+        ],
+        [
+          "subredditInfo",
+          true
+        ],
+        [
+          "userInfo",
+          true
+        ]
+      ]
+    }
+  },
+  "RESoptions.notifications": {
+    "notificationTypes": {
+      "value": [
+        [
+          "profileRedirect-fromLandingPage",
+          true,
+          false
+        ]
+      ]
+    }
+  }
+}

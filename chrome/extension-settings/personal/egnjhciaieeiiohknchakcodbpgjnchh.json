@@ -1,0 +1,22 @@
+{
+  "debounceOnActivated": true,
+  "filterAudio": false,
+  "lockedIds": [],
+  "lockedWindowIds": [],
+  "maxTabs": "20",
+  "minTabs": 8,
+  "minutesInactive": "8",
+  "paused": true,
+  "purgeClosedTabs": true,
+  "showBadgeCount": false,
+  "version": 3.2,
+  "whitelist": [
+    "chrome://*",
+    "npr.org",
+    "play.spotify.com",
+    "outlook.office.com",
+    "regex101.com",
+    "localhost",
+    "portal.azure.com"
+  ]
+}
