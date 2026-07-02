@@ -179,6 +179,87 @@ class ChromeExtensionSettingsExportTests(unittest.TestCase):
             # whitelist was put then deleted in the same file -- excluded.
             self.assertEqual(data, {"maxTabs": 8})
 
+    def test_value_containing_quote_space_quote_does_not_corrupt_key(self):
+        with tempfile.TemporaryDirectory() as p:
+            tmp = pathlib.Path(p)
+            chrome_dir = tmp / "Chrome"
+            chrome_dir.mkdir()
+            out_dir = tmp / "out"
+            self.write_local_state(chrome_dir, {"Default": "me@example.com"})
+            fake = self.fake_leveldbutil(tmp)
+
+            storage_dir = (
+                chrome_dir / "Default" / "Sync Extension Settings"
+                / "egnjhciaieeiiohknchakcodbpgjnchh"
+            )
+            # The value text itself contains a literal "' '" sequence -- a
+            # greedy key regex would previously absorb part of this into the
+            # key instead of the value.
+            self.write_storage_file(
+                storage_dir,
+                "000001.log",
+                "--- offset 0; sequence 1\n"
+                "  put 'whitelist' '[\"a\", \"b\", \"weird' 'quoted.com\"]'\n",
+            )
+            manifest = self.write_manifest(
+                tmp,
+                '[profiles]\n'
+                'personal = "me@example.com"\n\n'
+                '[[extension_settings]]\n'
+                'name = "Tab Wrangler"\n'
+                'id = "egnjhciaieeiiohknchakcodbpgjnchh"\n'
+                'storage = "sync"\n'
+                'keys = ["whitelist"]\n'
+                'profiles = ["personal"]\n',
+            )
+
+            result = self.run_export(manifest, chrome_dir, out_dir, leveldbutil=fake)
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            dest = out_dir / "personal" / "egnjhciaieeiiohknchakcodbpgjnchh.json"
+            data = json.loads(dest.read_text())
+            self.assertEqual(data, {"whitelist": ["a", "b", "weird' 'quoted.com"]})
+
+    def test_unparsed_dump_line_is_warned_not_silently_dropped(self):
+        with tempfile.TemporaryDirectory() as p:
+            tmp = pathlib.Path(p)
+            chrome_dir = tmp / "Chrome"
+            chrome_dir.mkdir()
+            out_dir = tmp / "out"
+            self.write_local_state(chrome_dir, {"Default": "me@example.com"})
+            fake = self.fake_leveldbutil(tmp)
+
+            storage_dir = (
+                chrome_dir / "Default" / "Sync Extension Settings"
+                / "egnjhciaieeiiohknchakcodbpgjnchh"
+            )
+            self.write_storage_file(
+                storage_dir,
+                "000001.log",
+                "--- offset 0; sequence 1\n"
+                "  put 'maxTabs' '8'\n"
+                "this line matches no known format\n",
+            )
+            manifest = self.write_manifest(
+                tmp,
+                '[profiles]\n'
+                'personal = "me@example.com"\n\n'
+                '[[extension_settings]]\n'
+                'name = "Tab Wrangler"\n'
+                'id = "egnjhciaieeiiohknchakcodbpgjnchh"\n'
+                'storage = "sync"\n'
+                'keys = ["maxTabs"]\n'
+                'profiles = ["personal"]\n',
+            )
+
+            result = self.run_export(manifest, chrome_dir, out_dir, leveldbutil=fake)
+
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("did not match the expected format", result.stderr)
+            # Still writes what it could parse -- a warning, not a hard abort.
+            dest = out_dir / "personal" / "egnjhciaieeiiohknchakcodbpgjnchh.json"
+            self.assertEqual(json.loads(dest.read_text()), {"maxTabs": 8})
+
     def test_merges_ldb_and_log_by_global_sequence(self):
         with tempfile.TemporaryDirectory() as p:
             tmp = pathlib.Path(p)

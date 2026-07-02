@@ -48,9 +48,12 @@ STORAGE_DIRNAMES = {"local": "Local Extension Settings", "sync": "Sync Extension
 #   .ldb (compacted sstable): one line per entry, e.g.
 #     "'key' @ 50 : val => 'value'" / "'key' @ 51 : del".
 LOG_HEADER_RE = re.compile(r"^--- offset \d+; sequence (\d+)$")
-LOG_PUT_RE = re.compile(r"^  put '(.*)' '(.*)'$")
+# Key capture is non-greedy: chrome.storage keys are simple identifiers that
+# never contain a literal "' '", but values (JSON text) sometimes do -- a
+# greedy key capture would absorb part of such a value into the key instead.
+LOG_PUT_RE = re.compile(r"^  put '(.*?)' '(.*)'$")
 LOG_DEL_RE = re.compile(r"^  del '(.*)'$")
-LDB_LINE_RE = re.compile(r"^'(.*)' @ (\d+) : (.*)$")
+LDB_LINE_RE = re.compile(r"^'(.*?)' @ (\d+) : (.*)$")
 
 
 def load_manifest(path):
@@ -86,10 +89,14 @@ def check_not_locked(storage_dir):
 
 
 def parse_log_dump(text):
-    """Returns a list of (sequence, order, op, key, value_text_or_None)."""
+    """Returns (entries, unparsed_lines). entries: list of
+    (sequence, order, op, key, value_text_or_None)."""
     entries = []
+    unparsed = []
     seq = None
     for line in text.splitlines():
+        if not line:
+            continue
         header = LOG_HEADER_RE.match(line)
         if header:
             seq = int(header.group(1))
@@ -101,22 +108,31 @@ def parse_log_dump(text):
         delm = LOG_DEL_RE.match(line)
         if delm and seq is not None:
             entries.append((seq, len(entries), "del", delm.group(1), None))
-    return entries
+            continue
+        unparsed.append(line)
+    return entries, unparsed
 
 
 def parse_ldb_dump(text):
-    """Returns a list of (sequence, order, op, key, value_text_or_None)."""
+    """Returns (entries, unparsed_lines). entries: list of
+    (sequence, order, op, key, value_text_or_None)."""
     entries = []
+    unparsed = []
     for line in text.splitlines():
+        if not line:
+            continue
         m = LDB_LINE_RE.match(line)
         if not m:
+            unparsed.append(line)
             continue
         key, seq, rest = m.group(1), int(m.group(2)), m.group(3)
         if rest == "del":
             entries.append((seq, len(entries), "del", key, None))
         elif rest.startswith("val => '") and rest.endswith("'"):
             entries.append((seq, len(entries), "put", key, rest[len("val => '"):-1]))
-    return entries
+        else:
+            unparsed.append(line)
+    return entries, unparsed
 
 
 def dump_file(leveldbutil, path):
@@ -137,13 +153,24 @@ def read_storage(leveldbutil, storage_dir):
     every file (not "ldb before log" or file-order heuristics) -- this is
     the actual ordering guarantee LevelDB itself relies on, so it holds
     regardless of how many .log/.ldb files are present.
+
+    Returns (state, unparsed_lines) -- any dump line that didn't match the
+    expected format is skipped rather than crashing (leveldbutil's escaping
+    of unusual bytes isn't fully characterized), but is surfaced in
+    unparsed_lines so a silently-dropped/corrupted entry doesn't look
+    identical to "key never set."
     """
     storage_dir = pathlib.Path(storage_dir)
     entries = []
+    unparsed = []
     for path in sorted(storage_dir.glob("*.log")):
-        entries.extend(parse_log_dump(dump_file(leveldbutil, path)))
+        file_entries, file_unparsed = parse_log_dump(dump_file(leveldbutil, path))
+        entries.extend(file_entries)
+        unparsed.extend(file_unparsed)
     for path in sorted(storage_dir.glob("*.ldb")):
-        entries.extend(parse_ldb_dump(dump_file(leveldbutil, path)))
+        file_entries, file_unparsed = parse_ldb_dump(dump_file(leveldbutil, path))
+        entries.extend(file_entries)
+        unparsed.extend(file_unparsed)
 
     entries.sort(key=lambda e: (e[0], e[1]))
 
@@ -153,7 +180,7 @@ def read_storage(leveldbutil, storage_dir):
             state[key] = value
         elif op == "del":
             state.pop(key, None)
-    return state
+    return state, unparsed
 
 
 def decode_value(raw):
@@ -164,8 +191,9 @@ def decode_value(raw):
 
 
 def export_extension(leveldbutil, storage_dir, keys):
-    state = read_storage(leveldbutil, storage_dir)
-    return {key: decode_value(state[key]) for key in keys if key in state}
+    state, unparsed = read_storage(leveldbutil, storage_dir)
+    data = {key: decode_value(state[key]) for key in keys if key in state}
+    return data, unparsed
 
 
 def main(argv):
@@ -227,7 +255,7 @@ def main(argv):
 
             try:
                 check_not_locked(storage_dir)
-                data = export_extension(leveldbutil, storage_dir, ext["keys"])
+                data, unparsed = export_extension(leveldbutil, storage_dir, ext["keys"])
             except OSError as exc:
                 print(
                     f"error: {ext['name']}/{profile_name}: could not open storage "
@@ -243,6 +271,15 @@ def main(argv):
                 )
                 had_error = True
                 continue
+
+            if unparsed:
+                print(
+                    f"warning: {ext['name']}/{profile_name}: {len(unparsed)} dump "
+                    f"line(s) did not match the expected format and were skipped "
+                    f"-- exported data may be incomplete",
+                    file=sys.stderr,
+                )
+                had_error = True
 
             dest_dir = out_dir / profile_name
             dest_dir.mkdir(parents=True, exist_ok=True)
