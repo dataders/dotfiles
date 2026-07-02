@@ -6,9 +6,6 @@ profiles on this Mac — personal (`swanson.anders@gmail.com`), dbt Labs
 (`anders.swanson@fivetran.com`) — using `profiles.toml` as the single
 source of truth.
 
-Full design rationale, schema, and script behavior:
-[`docs/superpowers/specs/2026-07-02-chrome-profile-sync-design.md`](../docs/superpowers/specs/2026-07-02-chrome-profile-sync-design.md).
-
 ## Why this works the way it does
 
 This Mac can't safely have Chrome state *written* to it outside of one

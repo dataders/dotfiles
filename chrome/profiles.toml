@@ -2,9 +2,8 @@
 # profiles. bin/chrome-sync-check reads this file read-only and never
 # writes to it or to Chrome's own state.
 #
-# See chrome/README.md and
-# docs/superpowers/specs/2026-07-02-chrome-profile-sync-design.md for the
-# full design and why this can't just be a synced Preferences file.
+# See chrome/README.md for the full design and why this can't just be a
+# synced Preferences file.
 
 [profiles]
 personal = "swanson.anders@gmail.com"
