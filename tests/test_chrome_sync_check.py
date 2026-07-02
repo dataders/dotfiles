@@ -1,0 +1,91 @@
+import json
+import os
+import pathlib
+import subprocess
+import tempfile
+import unittest
+
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+SCRIPT = ROOT / "bin" / "chrome-sync-check"
+
+
+class ChromeSyncCheckTests(unittest.TestCase):
+    def write_local_state(self, chrome_dir, profile_emails):
+        """profile_emails: dict of {dirname: email}"""
+        info_cache = {
+            dirname: {"user_name": email} for dirname, email in profile_emails.items()
+        }
+        (chrome_dir / "Local State").write_text(
+            json.dumps({"profile": {"info_cache": info_cache}})
+        )
+
+    def write_preferences(self, chrome_dir, dirname, prefs):
+        profile_dir = chrome_dir / dirname
+        profile_dir.mkdir(parents=True, exist_ok=True)
+        (profile_dir / "Preferences").write_text(json.dumps(prefs))
+
+    def write_manifest(self, root, text):
+        manifest_path = root / "profiles.toml"
+        manifest_path.write_text(text)
+        return manifest_path
+
+    def run_check(self, manifest_path, chrome_dir, *extra, open_bin=None):
+        env = os.environ.copy()
+        env.update(
+            {
+                "CHROME_SYNC_CHECK_MANIFEST": str(manifest_path),
+                "CHROME_SYNC_CHECK_CHROME_DIR": str(chrome_dir),
+            }
+        )
+        if open_bin is not None:
+            env["CHROME_SYNC_CHECK_OPEN"] = str(open_bin)
+        return subprocess.run(
+            [str(SCRIPT), *extra],
+            cwd=ROOT,
+            env=env,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+
+    def test_missing_manifest_is_a_hard_failure(self):
+        with tempfile.TemporaryDirectory() as p:
+            tmp = pathlib.Path(p)
+            chrome_dir = tmp / "Chrome"
+            chrome_dir.mkdir()
+            self.write_local_state(chrome_dir, {})
+
+            result = self.run_check(tmp / "does-not-exist.toml", chrome_dir)
+
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("manifest", result.stderr.lower())
+
+    def test_missing_local_state_is_a_hard_failure(self):
+        with tempfile.TemporaryDirectory() as p:
+            tmp = pathlib.Path(p)
+            chrome_dir = tmp / "Chrome"
+            chrome_dir.mkdir()
+            manifest = self.write_manifest(tmp, "[profiles]\n")
+
+            result = self.run_check(manifest, chrome_dir)
+
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("chrome state", result.stderr.lower())
+
+    def test_empty_manifest_profiles_exits_clean(self):
+        with tempfile.TemporaryDirectory() as p:
+            tmp = pathlib.Path(p)
+            chrome_dir = tmp / "Chrome"
+            chrome_dir.mkdir()
+            self.write_local_state(chrome_dir, {})
+            manifest = self.write_manifest(tmp, "[profiles]\n")
+
+            result = self.run_check(manifest, chrome_dir)
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(result.stdout.strip(), "")
+
+
+if __name__ == "__main__":
+    unittest.main()
