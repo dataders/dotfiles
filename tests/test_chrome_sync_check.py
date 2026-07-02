@@ -187,6 +187,85 @@ class ChromeSyncCheckTests(unittest.TestCase):
                 "untracked extensions:  abcabcabcabcabcabcabcabcabcabca", result.stdout
             )
 
+    def test_unset_setting_is_reported(self):
+        with tempfile.TemporaryDirectory() as p:
+            tmp = pathlib.Path(p)
+            chrome_dir = tmp / "Chrome"
+            chrome_dir.mkdir()
+            self.write_local_state(chrome_dir, {"Default": "me@example.com"})
+            self.write_preferences(chrome_dir, "Default", {})
+            manifest = self.write_manifest(
+                tmp,
+                '[profiles]\n'
+                'personal = "me@example.com"\n\n'
+                '[[settings]]\n'
+                'name = "Always show bookmarks bar"\n'
+                'pref_path = "bookmark_bar.show_on_all_tabs"\n'
+                'value = true\n'
+                'profiles = ["personal"]\n',
+            )
+
+            result = self.run_check(manifest, chrome_dir)
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn(
+                "setting mismatches:    Always show bookmarks bar (want true, got unset)",
+                result.stdout,
+            )
+
+    def test_wrong_value_setting_is_reported(self):
+        with tempfile.TemporaryDirectory() as p:
+            tmp = pathlib.Path(p)
+            chrome_dir = tmp / "Chrome"
+            chrome_dir.mkdir()
+            self.write_local_state(chrome_dir, {"Default": "me@example.com"})
+            self.write_preferences(
+                chrome_dir, "Default", {"bookmark_bar": {"show_on_all_tabs": False}}
+            )
+            manifest = self.write_manifest(
+                tmp,
+                '[profiles]\n'
+                'personal = "me@example.com"\n\n'
+                '[[settings]]\n'
+                'name = "Always show bookmarks bar"\n'
+                'pref_path = "bookmark_bar.show_on_all_tabs"\n'
+                'value = true\n'
+                'profiles = ["personal"]\n',
+            )
+
+            result = self.run_check(manifest, chrome_dir)
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn(
+                "setting mismatches:    Always show bookmarks bar (want true, got false)",
+                result.stdout,
+            )
+
+    def test_matching_setting_is_in_sync(self):
+        with tempfile.TemporaryDirectory() as p:
+            tmp = pathlib.Path(p)
+            chrome_dir = tmp / "Chrome"
+            chrome_dir.mkdir()
+            self.write_local_state(chrome_dir, {"Default": "me@example.com"})
+            self.write_preferences(
+                chrome_dir, "Default", {"bookmark_bar": {"show_on_all_tabs": True}}
+            )
+            manifest = self.write_manifest(
+                tmp,
+                '[profiles]\n'
+                'personal = "me@example.com"\n\n'
+                '[[settings]]\n'
+                'name = "Always show bookmarks bar"\n'
+                'pref_path = "bookmark_bar.show_on_all_tabs"\n'
+                'value = true\n'
+                'profiles = ["personal"]\n',
+            )
+
+            result = self.run_check(manifest, chrome_dir)
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("personal: in sync", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()
