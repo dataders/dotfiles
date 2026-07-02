@@ -42,8 +42,8 @@ user a shortcut for the one action that still requires a manual click
 2. **`bin/chrome-sync-check`** — resolves each manifest profile to its
    actual Chrome profile directory via `Local State`, then reads each
    profile's `Preferences` JSON (read-only) to report missing/untracked
-   extensions and setting mismatches. No output for a profile means it's
-   fully in sync.
+   extensions and setting mismatches. Every profile prints a line: either
+   `<name>: in sync` or a breakdown of what's missing/untracked/mismatched.
 3. **`bin/chrome-sync-check --open-missing`** — same check, plus opens the
    Chrome Web Store listing for any missing extension in the right
    profile's window, so installing it is a single click. This only covers
