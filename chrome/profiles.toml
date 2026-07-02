@@ -1,0 +1,25 @@
+# Source of truth for keeping extensions/settings consistent across Chrome
+# profiles. bin/chrome-sync-check reads this file read-only and never
+# writes to it or to Chrome's own state.
+#
+# See chrome/README.md and
+# docs/superpowers/specs/2026-07-02-chrome-profile-sync-design.md for the
+# full design and why this can't just be a synced Preferences file.
+
+[profiles]
+personal = "swanson.anders@gmail.com"
+dbtlabs  = "anders.swanson@dbtlabs.com"
+fivetran = "anders.swanson@fivetran.com"
+
+# Add entries as you decide what should be synced, e.g.:
+#
+# [[extensions]]
+# name = "uBlock Origin"
+# id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"
+# profiles = ["personal", "dbtlabs", "fivetran"]
+#
+# [[settings]]
+# name = "Always show bookmarks bar"
+# pref_path = "bookmark_bar.show_on_all_tabs"
+# value = true
+# profiles = ["personal", "dbtlabs", "fivetran"]
