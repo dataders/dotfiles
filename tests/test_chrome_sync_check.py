@@ -298,6 +298,70 @@ class ChromeSyncCheckTests(unittest.TestCase):
                 ],
             )
 
+    def test_open_missing_invokes_open_binary_per_missing_extension(self):
+        with tempfile.TemporaryDirectory() as p:
+            tmp = pathlib.Path(p)
+            chrome_dir = tmp / "Chrome"
+            chrome_dir.mkdir()
+            self.write_local_state(chrome_dir, {"Default": "me@example.com"})
+            self.write_preferences(chrome_dir, "Default", {"extensions": {"settings": {}}})
+            manifest = self.write_manifest(
+                tmp,
+                '[profiles]\n'
+                'personal = "me@example.com"\n\n'
+                '[[extensions]]\n'
+                'name = "uBlock Origin"\n'
+                'id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"\n'
+                'profiles = ["personal"]\n',
+            )
+
+            fake_open = tmp / "fake-open"
+            log = tmp / "open.log"
+            fake_open.write_text(
+                "#!/usr/bin/env bash\n"
+                'printf "%s\\n" "$*" >> "' + str(log) + '"\n'
+            )
+            fake_open.chmod(0o755)
+
+            result = self.run_check(manifest, chrome_dir, "--open-missing", open_bin=fake_open)
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            logged = log.read_text()
+            self.assertIn("-n -a Google Chrome --args --profile-directory=Default", logged)
+            self.assertIn(
+                "https://chromewebstore.google.com/detail/cjpalhdlnbpafiamejdnhcphjbkeiagm",
+                logged,
+            )
+
+    def test_no_open_missing_flag_does_not_invoke_open_binary(self):
+        with tempfile.TemporaryDirectory() as p:
+            tmp = pathlib.Path(p)
+            chrome_dir = tmp / "Chrome"
+            chrome_dir.mkdir()
+            self.write_local_state(chrome_dir, {"Default": "me@example.com"})
+            self.write_preferences(chrome_dir, "Default", {"extensions": {"settings": {}}})
+            manifest = self.write_manifest(
+                tmp,
+                '[profiles]\n'
+                'personal = "me@example.com"\n\n'
+                '[[extensions]]\n'
+                'name = "uBlock Origin"\n'
+                'id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"\n'
+                'profiles = ["personal"]\n',
+            )
+            fake_open = tmp / "fake-open"
+            log = tmp / "open.log"
+            fake_open.write_text(
+                "#!/usr/bin/env bash\n"
+                'printf "%s\\n" "$*" >> "' + str(log) + '"\n'
+            )
+            fake_open.chmod(0o755)
+
+            result = self.run_check(manifest, chrome_dir, open_bin=fake_open)
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertFalse(log.exists())
+
 
 if __name__ == "__main__":
     unittest.main()

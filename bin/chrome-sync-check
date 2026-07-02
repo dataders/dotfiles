@@ -129,6 +129,18 @@ def build_report(manifest, chrome_dir):
     return lines, open_targets
 
 
+def open_missing(open_targets, open_bin):
+    for dirname, ext in open_targets:
+        # URL pattern is unverified (see design spec §3) — the /detail/<id>
+        # path has historically worked without needing the slugged name,
+        # but confirm it resolves before relying on it.
+        url = f"https://chromewebstore.google.com/detail/{ext['id']}"
+        subprocess.run(
+            [open_bin, "-n", "-a", "Google Chrome", "--args", f"--profile-directory={dirname}", url],
+            check=False,
+        )
+
+
 def main(argv):
     parser = argparse.ArgumentParser(
         description="Report drift between chrome/profiles.toml and installed Chrome extensions/settings."
@@ -163,7 +175,7 @@ def main(argv):
     print("\n".join(lines))
 
     if args.open_missing and open_targets:
-        pass  # wired up in a later task
+        open_missing(open_targets, open_bin)
 
     return 0
 
