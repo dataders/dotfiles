@@ -70,12 +70,19 @@ Structural / AST search + rewrite with `ast-grep` (binary is `sg`, but invoke as
 ## Agent Teams
 
 ### Orchestration (always)
-Spawn parallel teammates with native tools in this exact order:
-1. `TeamCreate` — creates the team and its task list
-2. `TaskCreate` — creates tasks under the team (after TeamCreate)
-3. `Agent` tool with `team_name` and `name` parameters — spawns the teammate
+Every session has a single implicit team — there is no team to create. Spawn
+parallel teammates with native tools in this order:
+1. `TaskCreate` — seed the shared task list
+2. `Agent` tool with a `name` parameter — spawns the teammate into the implicit team
 
-Use `SendMessage` to communicate with teammates and `TaskUpdate` to track progress.
+Never use inline execution or bare `Agent(run_in_background=true)` for
+implementation work; always route through this native orchestration.
+
+Use `SendMessage` (by teammate id or name) to communicate and `TaskUpdate` to
+track progress.
+
+Note: `TeamCreate` / `TeamDelete` / `TeamList` were removed in CLI 2.1.179, and
+the `Agent` tool's `team_name` parameter is deprecated and ignored.
 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set in `~/.claude/settings.json`.
 The `superpowers:dispatching-parallel-agents` skill is disabled in settings.json.
 
