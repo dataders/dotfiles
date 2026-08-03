@@ -19,8 +19,16 @@ class ChromeProfilesManifestTests(unittest.TestCase):
                 "fivetran": "anders.swanson@fivetran.com",
             },
         )
-        # Empty until the user opts specific extensions/settings in.
-        self.assertEqual(manifest.get("extensions", []), [])
+        tracked_names = {ext["name"] for ext in manifest["extensions"]}
+        self.assertEqual(
+            tracked_names,
+            {
+                "uBlock Origin Lite", "Dark Reader", "1Password",
+                "1Password Nightly", "Privacy Badger",
+                "Reddit Enhancement Suite", "Tab Wrangler",
+            },
+        )
+        # No Chrome-level settings tracked yet.
         self.assertEqual(manifest.get("settings", []), [])
 
 
