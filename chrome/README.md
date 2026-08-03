@@ -44,11 +44,17 @@ user a shortcut for the one action that still requires a manual click
    missing/untracked extensions and setting mismatches. Every profile
    prints a line: either `<name>: in sync` or a breakdown of what's
    missing/untracked/mismatched.
-3. **`bin/chrome-sync-check --open-missing`** — same check, plus opens the
-   Chrome Web Store listing for any missing extension in the right
-   profile's window, so installing it is a single click. This only covers
-   extensions; setting mismatches are reported, not auto-fixed, since there's
-   no reliable deep link into `chrome://settings` for an arbitrary toggle.
+3. **`bin/chrome-sync-check --open-missing`** — same check, plus tries to
+   open the Chrome Web Store listing for each missing extension in the
+   right profile's window. **Confirmed unreliable in practice**, not just
+   theoretically: in a real run with all 3 profile windows already open, 4
+   of 5 tabs landed in the correct (fivetran) window, but the 5th (meant
+   for dbtlabs) didn't show up there at all. Treat this as a
+   best-effort nudge, not something to trust blindly — always check which
+   window a tab actually landed in, and open the URL manually in the right
+   profile if it's missing. Setting mismatches are reported, not
+   auto-fixed regardless, since there's no reliable deep link into
+   `chrome://settings` for an arbitrary toggle.
 
 The manifest is the only thing you hand-edit day to day — add an extension
 or setting once, then run the check script against all three profiles.
