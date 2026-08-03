@@ -10,12 +10,46 @@ personal = "swanson.anders@gmail.com"
 dbtlabs  = "anders.swanson@dbtlabs.com"
 fivetran = "anders.swanson@fivetran.com"
 
-# Add entries as you decide what should be synced, e.g.:
-#
-# [[extensions]]
-# name = "uBlock Origin"
-# id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"
-# profiles = ["personal", "dbtlabs", "fivetran"]
+# Extensions tracked for install-presence across all 3 profiles. 1Password
+# is split into two entries because personal actually runs the regular
+# build while dbtlabs/fivetran run the Nightly build -- these are genuinely
+# different extension IDs, not the same extension installed inconsistently.
+[[extensions]]
+name = "uBlock Origin Lite"
+id = "ddkjiahejlhfcafbddmgiahcphecmpfh"
+profiles = ["personal", "dbtlabs", "fivetran"]
+
+[[extensions]]
+name = "Dark Reader"
+id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"
+profiles = ["personal", "dbtlabs", "fivetran"]
+
+[[extensions]]
+name = "1Password"
+id = "aeblfdkhhhdcdjpifhhbdiojplfjncoa"
+profiles = ["personal"]
+
+[[extensions]]
+name = "1Password Nightly"
+id = "gejiddohjgogedgjnonbofjigllpkmbf"
+profiles = ["dbtlabs", "fivetran"]
+
+[[extensions]]
+name = "Privacy Badger"
+id = "pkehgijcmpdhfbdbbnkijodmdjhbjlgp"
+profiles = ["personal", "dbtlabs", "fivetran"]
+
+[[extensions]]
+name = "Reddit Enhancement Suite"
+id = "kbmfpngjjgdllneeigpgjifpgocmfgmb"
+profiles = ["personal", "dbtlabs", "fivetran"]
+
+[[extensions]]
+name = "Tab Wrangler"
+id = "egnjhciaieeiiohknchakcodbpgjnchh"
+profiles = ["personal", "dbtlabs", "fivetran"]
+
+# Add entries as you decide what else should be synced, e.g.:
 #
 # [[settings]]
 # name = "Always show bookmarks bar"
