@@ -1,0 +1,12 @@
+shadowtraffic_clickhouse:
+  target: local
+  outputs:
+    local:
+      type: clickhouse
+      host: localhost
+      port: 18123
+      user: shadow
+      password: shadow
+      schema: shadowtraffic
+      secure: false
+      threads: 4

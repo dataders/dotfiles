@@ -150,7 +150,7 @@
     "defaultMode": "auto",
     "disableBypassPermissionsMode": "disable"
   },
-  "model": "opus",
+  "model": "opus[1m]",
   "skillOverrides": {
     "superpowers:dispatching-parallel-agents": "off",
     "superpowers:subagent-driven-development": "off",
@@ -164,6 +164,10 @@
           {
             "type": "command",
             "command": "printf '\\033]777;notify;Claude Code;Needs your input\\007'"
+          },
+          {
+            "type": "command",
+            "command": "afplay /Users/dataders/Downloads/dcc_chat_message.mp3"
           }
         ]
       }
@@ -253,6 +257,10 @@
             "type": "command",
             "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' idle",
             "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "afplay /Users/dataders/Downloads/dcc_chat_message.mp3"
           }
         ]
       }
@@ -282,6 +290,9 @@
       }
     ]
   },
+  "worktree": {
+    "bgIsolation": "none"
+  },
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh",
@@ -310,9 +321,6 @@
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
   "autoUpdatesChannel": "latest",
-  "worktree": {
-    "bgIsolation": "none"
-  },
   "voice": {
     "enabled": true,
     "mode": "hold"

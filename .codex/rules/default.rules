@@ -465,3 +465,15 @@ prefix_rule(
     decision = "allow",
     justification = "Clearing dbt build artifacts is routine (specific override of the general rm -rf forbid).",
 )
+prefix_rule(pattern=["git", "branch", "--show-current"], decision="allow")
+prefix_rule(pattern=["git", "fetch", "origin", "pull/4468/head:pr-4468"], decision="allow")
+prefix_rule(pattern=["git", "add", "models/marts/vortex/_vortex__models.yml", "models/marts/snowplow/core/_core_models.yml"], decision="allow")
+prefix_rule(pattern=["gh", "pr", "checks"], decision="allow")
+prefix_rule(pattern=["ruby", "-ryaml", "-rjson", "-rnet/http", "-ruri", "-e"], decision="allow")
+prefix_rule(pattern=["gh", "pr"], decision="allow")
+prefix_rule(pattern=["gh", "api", "repos/dbt-labs/fs/contents/fs/sa/crates/dbt-cloud-config/src/resolve.rs?ref=defer-explicit-project-link", "-H", "Accept: application/vnd.github.raw"], decision="allow")
+prefix_rule(pattern=["printf", "\\n--- metricflow ---\\n"], decision="allow")
+prefix_rule(pattern=["gh", "api", "repos/dbt-labs/fs/contents/crates/sdf-features/src/download_manifest.rs?ref=defer-explicit-project-link", "-H", "Accept: application/vnd.github.raw"], decision="allow")
+prefix_rule(pattern=["nl", "-ba"], decision="allow")
+prefix_rule(pattern=["npm", "install"], decision="allow")
+prefix_rule(pattern=["npm", "run", "dev"], decision="allow")

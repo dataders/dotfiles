@@ -1,0 +1,33 @@
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    environment:
+      CLICKHOUSE_DB: shadowtraffic
+      CLICKHOUSE_USER: shadow
+      CLICKHOUSE_PASSWORD: shadow
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "1"
+    ports:
+      - "${SHADOWTRAFFIC_CLICKHOUSE_HTTP_PORT:-18123}:8123"
+      - "${SHADOWTRAFFIC_CLICKHOUSE_NATIVE_PORT:-19000}:9000"
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+      - ./init:/docker-entrypoint-initdb.d:ro
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+  shadowtraffic:
+    image: shadowtraffic/shadowtraffic:latest
+    depends_on:
+      - clickhouse
+    env_file:
+      - path: ${SHADOWTRAFFIC_LICENSE_ENV:-/Users/dataders/Developer/dotfiles_env/shadowtraffic/license.env}
+        required: false
+    volumes:
+      - ./shadowtraffic/config.json:/home/config.json:ro
+    command:
+      - --config
+      - /home/config.json
+
+volumes:
+  clickhouse-data:

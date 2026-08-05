@@ -7,9 +7,7 @@ worktree-path = "{{ repo_path }}/../{{ repo }}.{{ branch | sanitize }}"
 tab = "[ -n \"$CMUX_SURFACE_ID\" ] && cmux rename-tab \"{{ repo }} · {{ branch }}\" 2>/dev/null || true"
 
 [projects."github.com/dbt-labs/fs"]
-# Copy target/ (via reflink on APFS) when creating new worktrees
-# This gives new worktrees a warm build cache without duplicating disk space
-# NOTE: requires fs/.worktreeinclude (gitignored, not in dotfiles) — create manually on new machines:
-#   echo -e "target/\nlib/\n.claude/\n.agents/" > ~/Developer/fs/.worktreeinclude
-post-start.copy = "wt step copy-ignored"
+# Copy ignored warm-cache paths, then hydrate local bootstrap files that fs
+# worktrees need before direnv/Conductor setup can run cleanly.
+post-start.copy = "wt step copy-ignored; copy_status=$?; install -d .config .conductor; cp -a {{ primary_worktree_path }}/.envrc .envrc 2>/dev/null || true; cp -a {{ primary_worktree_path }}/.worktreeinclude .worktreeinclude 2>/dev/null || true; cp -a {{ primary_worktree_path }}/.config/wt.toml .config/wt.toml 2>/dev/null || true; cp -a {{ primary_worktree_path }}/.conductor/settings.local.toml .conductor/settings.local.toml 2>/dev/null || true; exit $copy_status"
 post-start.cargo-profile = "rustup override set beta"

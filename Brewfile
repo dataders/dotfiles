@@ -3,9 +3,9 @@ tap "dbt-labs/dbt-cli"
 tap "hamed-elfayome/claude-usage"
 tap "homebrew/core"
 tap "manaflow-ai/cmux"
-tap "microsoft/mssql-release"
+tap "microsoft/mssql-release", "https://github.com/Microsoft/homebrew-mssql-release"
 tap "osx-cross/arm", trusted: true
-tap "osx-cross/avr"
+tap "osx-cross/avr", trusted: true
 tap "qmk/qmk", trusted: true
 tap "supabase/tap"
 # Run your GitHub Actions locally
@@ -14,7 +14,7 @@ brew "act"
 brew "apache-arrow-adbc"
 # Record and share terminal sessions
 brew "asciinema"
-# Structural / AST-based code search and rewrite (sg / ast-grep)
+# Code searching, linting, rewriting
 brew "ast-grep"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
@@ -33,7 +33,7 @@ brew "colima"
 # Load/unload environment variables based on $PWD
 brew "direnv"
 # Pack, ship and run any application as a lightweight container
-brew "docker", link: false
+brew "docker"
 # Docker CLI plugin for extended build capabilities with BuildKit
 brew "docker-buildx"
 # Isolated development environments using Docker
@@ -58,6 +58,8 @@ brew "git"
 brew "git-delta"
 # Quickly rewrite git repository history
 brew "git-filter-repo"
+# Compute various size metrics for a Git repository
+brew "git-sizer"
 # Render markdown on the CLI
 brew "glow"
 # Open source programming language to build simple/reliable/efficient software
@@ -72,7 +74,9 @@ brew "graphviz"
 brew "htop"
 # Git-compatible distributed version control system
 brew "jj"
-# Fast key-value storage library
+# Handy way to save and run project-specific commands
+brew "just"
+# Key-value storage library with ordered mapping
 brew "leveldb"
 # Generic machine emulator and virtualizer
 brew "qemu"
@@ -92,6 +96,8 @@ brew "openjdk@21"
 brew "pipx"
 # Package compiler and linker metadata toolkit
 brew "pkgconf"
+# PDF rendering library (based on the xpdf-3.0 code base)
+brew "poppler"
 # Protocol buffers (Google's data interchange format)
 brew "protobuf"
 # Interpreted, interactive, object-oriented programming language
@@ -140,12 +146,15 @@ brew "yt-dlp"
 brew "zoxide"
 # Feature-rich syntax highlighting for Zsh
 brew "zsh-fast-syntax-highlighting"
+# Quantum Mechanical Keyboard (QMK) Firmware
+brew "qmk/qmk/qmk", trusted: true
 # Supabase CLI
 brew "supabase/tap/supabase", trusted: true
 # Command-line interface for 1Password
 cask "1password-cli"
-# Local-first dashboard for AI coding agent token usage (Claude Code, Codex, Wizard)
+# Browse, search and analyse your past AI coding sessions
 cask "agentsview"
+cask "claude-usage-tracker"
 # Ghostty-based terminal with vertical tabs and notifications for AI coding agents
 cask "cmux"
 # OpenAI's coding agent that runs in your terminal
@@ -163,46 +172,11 @@ cask "ngrok"
 cask "quarto"
 # View output from scripts in the menu bar
 cask "xbar"
-vscode "anthropic.claude-code"
-vscode "anysphere.cursorpyright"
-vscode "anysphere.remote-ssh"
-vscode "bastienboutonnet.vscode-dbt"
-vscode "bierner.markdown-preview-github-styles"
-vscode "bierner.markdown-yaml-preamble"
-vscode "bungcip.better-toml"
-vscode "catppuccin.catppuccin-vsc"
-vscode "dakara.transformer"
-vscode "darkriszty.markdown-table-prettify"
-vscode "dataders.clickhouse-theme"
 vscode "dataface.dataface"
-vscode "davidanson.vscode-markdownlint"
 vscode "dbtlabsinc.dbt"
-vscode "eamodio.gitlens"
-vscode "esbenp.prettier-vscode"
 vscode "ggsql.ggsql"
-vscode "github.github-vscode-theme"
-vscode "lucien-martijn.parquet-visualizer"
-vscode "mechatroner.rainbow-csv"
-vscode "mike-lischke.vscode-antlr4"
-vscode "ms-python.black-formatter"
-vscode "ms-python.debugpy"
-vscode "ms-python.python"
-vscode "ms-python.vscode-pylance"
-vscode "ms-toolsai.jupyter"
-vscode "ms-toolsai.jupyter-renderers"
-vscode "ms-toolsai.vscode-jupyter-cell-tags"
-vscode "ms-toolsai.vscode-jupyter-slideshow"
-vscode "mvllow.rose-pine"
-vscode "pkief.material-product-icons"
-vscode "redhat.vscode-yaml"
-vscode "richie5um2.vscode-sort-json"
-vscode "rust-lang.rust-analyzer"
+vscode "github.copilot-chat"
 vscode "samuelcolvin.jinjahtml"
-vscode "takumii.markdowntable"
-vscode "teabyii.ayu"
-vscode "visualstudioexptteam.intellicode-api-usage-examples"
-vscode "visualstudioexptteam.vscodeintellicode"
-vscode "yzhang.markdown-all-in-one"
 go "github.com/rhysd/actionlint/cmd/actionlint"
 cargo "cargo-hakari"
 cargo "cargo-insta"
@@ -214,13 +188,14 @@ cargo "mdcat-ng"
 cargo "taplo-cli"
 uv "claude-code-transcripts"
 uv "cocoindex-code[full]"
-uv "dataface[chat,mcp,server]", with: ["dbt-snowflake"]
+uv "dataface[lsp,snowflake]", with: ["d3-formatfile:///Users/dataders/Developer/dataface/libs/d3-format", "markdown-svgfile:///Users/dataders/Developer/dataface/libs/markdown-svg"], source: "file:///Users/dataders/Developer/dataface/dataface"
 uv "dbc"
-uv "dbt-autofix"
+uv "dbt-autofix", source: "file:///Users/dataders/Developer/dbt-autofix"
 uv "dbt-mcp"
 uv "harlequin", with: ["duckdb==1.4.4"]
 uv "openai-whisper"
 uv "serena-agent"
+uv "shellcheck-py"
 uv "sqlfluff"
 uv "wtg-cli"
 npm "@williamzujkowski/strudel-mcp-server"

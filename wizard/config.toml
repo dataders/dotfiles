@@ -8,7 +8,6 @@ trust_level = "trusted"
 
 [mcp_servers.github]
 url = "https://dbt.runlayer.com/api/v1/proxy/7e8a07e2-98ed-4c76-8edb-d8a68b55bccc/mcp"
-bearer_token_env_var = "GITHUB_PAT_MCP"
 
 [mcp_servers.github.tools.add_comment_to_pending_review]
 approval_mode = "approve"
