@@ -1,0 +1,113 @@
+{
+  "generators": [
+    {
+      "connection": "clickhouse",
+      "url": "http://clickhouse:8123/",
+      "method": "POST",
+      "queryParams": {
+        "user": "shadow",
+        "password": "shadow",
+        "query": "INSERT INTO shadowtraffic.events (event_id, customer_id, event_time, event_type, sku, amount, quantity, channel, region, source) FORMAT JSONEachRow"
+      },
+      "localConfigs": {
+        "throttleMs": 100
+      },
+      "data": {
+        "event_id": {
+          "_gen": "uuid"
+        },
+        "customer_id": {
+          "_gen": "uuid"
+        },
+        "event_time": {
+          "_gen": "formatDateTime",
+          "ms": {
+            "_gen": "now"
+          },
+          "format": "yyyy-MM-dd HH:mm:ss.SSS"
+        },
+        "event_type": {
+          "_gen": "weightedOneOf",
+          "choices": [
+            {
+              "weight": 45,
+              "value": "page_view"
+            },
+            {
+              "weight": 25,
+              "value": "add_to_cart"
+            },
+            {
+              "weight": 20,
+              "value": "purchase"
+            },
+            {
+              "weight": 10,
+              "value": "refund"
+            }
+          ]
+        },
+        "sku": {
+          "_gen": "oneOf",
+          "choices": [
+            "sku-lake-001",
+            "sku-fusion-002",
+            "sku-click-003",
+            "sku-dbt-004"
+          ]
+        },
+        "amount": {
+          "_gen": "uniformDistribution",
+          "bounds": [
+            5,
+            250
+          ],
+          "decimals": 2
+        },
+        "quantity": {
+          "_gen": "oneOf",
+          "choices": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "channel": {
+          "_gen": "weightedOneOf",
+          "choices": [
+            {
+              "weight": 50,
+              "value": "web"
+            },
+            {
+              "weight": 35,
+              "value": "mobile"
+            },
+            {
+              "weight": 15,
+              "value": "partner"
+            }
+          ]
+        },
+        "region": {
+          "_gen": "oneOf",
+          "choices": [
+            "na",
+            "emea",
+            "apac"
+          ]
+        },
+        "source": "shadowtraffic"
+      }
+    }
+  ],
+  "connections": {
+    "clickhouse": {
+      "kind": "webhook",
+      "connectionConfigs": {
+        "maxRequests": 0
+      }
+    }
+  }
+}

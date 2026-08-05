@@ -1,0 +1,8 @@
+name: shadowtraffic_clickhouse
+version: 1.0.0
+config-version: 2
+
+profile: shadowtraffic_clickhouse
+
+model-paths:
+  - models

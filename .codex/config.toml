@@ -1,5 +1,5 @@
-model = "gpt-5.5"
-model_reasoning_effort = "xhigh"
+model = "gpt-5.6-sol"
+model_reasoning_effort = "medium"
 approval_policy = "on-request"
 approvals_reviewer = "guardian_subagent"
 sandbox_mode = "workspace-write"
@@ -16,6 +16,9 @@ inherit = "core"
 [shell_environment_policy.set]
 UV_CACHE_DIR = "/tmp/uv-cache"
 CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "028a14b6eaa6d98dac2aae00764345ab9f244801ed8493d42b9af3be5575006e,f204d340535055781952b10ed396de20b842f00a19e430852f7e121ad1ce91f6"
+NODE_REPL_TRUSTED_CODE_PATHS = "/Users/dataders/.codex"
 
 [features]
 hooks = true
@@ -109,21 +112,31 @@ command = "/Users/dataders/Developer/dotfiles/mcp/parallel-search/run.sh"
 command = "strudel-mcp"
 
 [mcp_servers.node_repl]
-command = "/Applications/Codex.app/Contents/Resources/node_repl"
-startup_timeout_sec = 120.0
+args = []
+command = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
+startup_timeout_sec = 120
 
 [mcp_servers.node_repl.env]
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
-BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-CODEX_CLI_PATH = "/Applications/Codex.app/Contents/Resources/codex"
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = "/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/Users/dataders/.codex"
 CODEX_HOME = "/Users/dataders/.codex"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "028a14b6eaa6d98dac2aae00764345ab9f244801ed8493d42b9af3be5575006e,f204d340535055781952b10ed396de20b842f00a19e430852f7e121ad1ce91f6"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
 NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
-NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
-NODE_REPL_NODE_MODULE_DIRS = ""
-NODE_REPL_NODE_PATH = "/Applications/Codex.app/Contents/Resources/node"
-NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "4b6bfaf4ed2ce9b5cd68e60a61642eb4927a36306ba8c8993f6058607b3530fb"
-NODE_REPL_TRUSTED_CODE_PATHS = "/Users/dataders/.codex"
+NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = "Control desktop apps on macOS through Computer Use."
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.727.51351"
+SKY_CUA_SERVICE_PATH = "/Users/dataders/.codex/computer-use/Codex Computer Use.app"
+CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
+
+[mcp_servers.computer-use]
+command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"
+args = ["mcp"]
+cwd = "."
+enabled = false
 
 [projects."/Users/dataders/Developer"]
 trust_level = "trusted"
@@ -173,6 +186,24 @@ trust_level = "trusted"
 [projects."/Users/dataders/Developer/internal-analytics"]
 trust_level = "trusted"
 
+[projects."/Users/dataders/Developer/great_expectations"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/irc_duckdb_bench"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/jaffle-shop"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/dbt-core"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/dataface"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/adu_adoration"]
+trust_level = "trusted"
+
 [plugins."superpowers@openai-curated"]
 enabled = true
 
@@ -197,13 +228,22 @@ enabled = true
 [plugins."worktrunk@worktrunk"]
 enabled = true
 
-[plugins."sites@openai-bundled"]
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
 enabled = true
 
 [plugins."browser@openai-bundled"]
 enabled = true
 
-[plugins."pdf@openai-primary-runtime"]
+[plugins."sites@openai-bundled"]
+enabled = true
+
+[plugins."computer-use@openai-bundled"]
 enabled = true
 
 [[skills.config]]
@@ -211,24 +251,24 @@ name = "superpowers:using-git-worktrees"
 enabled = false
 
 [marketplaces.openai-bundled]
-last_updated = "2026-06-16T01:57:49Z"
+last_updated = "2026-08-05T01:32:40Z"
 source_type = "local"
 source = "/Users/dataders/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-06-15T00:47:56Z"
+last_updated = "2026-08-02T19:48:17Z"
 source_type = "local"
 source = "/Users/dataders/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
 [marketplaces.claude-plugins-official]
-last_updated = "2026-06-21T00:19:51Z"
-last_revision = "57446951ad09cb8d9e7e4820f08dcba34c2d20a2"
+last_updated = "2026-08-05T01:32:36Z"
+last_revision = "60f5e338b2aa4a757b115a3bbea635d6727ea530"
 source_type = "git"
 source = "https://github.com/anthropics/claude-plugins-official.git"
 
 [marketplaces.worktrunk]
-last_updated = "2026-06-21T00:21:02Z"
-last_revision = "9147c0e46d58ddd4dfa99cad1b967ff5f00f0c7a"
+last_updated = "2026-08-03T21:08:51Z"
+last_revision = "286004f1ebe5f6563c772be24987394144a29215"
 source_type = "git"
 source = "https://github.com/max-sixty/worktrunk.git"
 
@@ -241,6 +281,7 @@ status_line_use_colors = true
 
 [tui.model_availability_nux]
 "gpt-5.5" = 4
+"gpt-5.6-sol" = 3
 
 [notice]
 fast_default_opt_out = true
@@ -287,9 +328,21 @@ trusted_hash = "sha256:c2f38a99e16bc21ab2fbdfd0942d961a7293eccfdd26ca8fe11347224
 [hooks.state."worktrunk@worktrunk:hooks/hooks.json:stop:0:0"]
 trusted_hash = "sha256:ae39455d097e32699e48441ade7671d9db5b80b17943aa3cc0901386b714a896"
 
+[hooks.state."worktrunk@worktrunk:plugin.json#hooks[0]:permission_request:0:0"]
+trusted_hash = "sha256:b5f6112154fd814298da679652ea096e11434b7f2876d471eb00c790a68045d0"
+
+[hooks.state."worktrunk@worktrunk:plugin.json#hooks[0]:user_prompt_submit:0:0"]
+trusted_hash = "sha256:e2ffec558188fd0988ad51768594f675801fd2a1ba2895b5df2aca2650d70c2a"
+
+[hooks.state."worktrunk@worktrunk:plugin.json#hooks[0]:stop:0:0"]
+trusted_hash = "sha256:350c210fba4996f546f4d0483fc29286d73880ca5ef01fda3583ea2ce676945d"
+
 [desktop]
 followUpQueueMode = "steer"
 git-show-sidebar-pr-icons = true
+dock-icon-preference = "app-default"
+conversationDetailMode = "STEPS_COMMANDS"
+keepRemoteControlAwakeWhilePluggedIn = true
 
 [desktop.open-in-target-preferences]
 global = "cursor"

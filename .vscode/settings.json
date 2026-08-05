@@ -105,5 +105,6 @@
     "editor.minimap.enabled": true,
     "dbt.lineage.defaultDepth": 2,
     "dbt.ggsql.cliPath": "/Users/dataders/Developer/fs.ggsql-fold-in/target/debug/ggsql",
-    "dbt.dbtPath": "/Users/dataders/Developer/fs.aswanson-catalogs-v2-horizon-unity/target/debug/dbt"
+    "dbt.dbtPath": "/Users/dataders/Developer/fs/target/dbt-debug.pr",
+    "dataface.cli.path": "/Users/dataders/.local/bin/dft"
 }

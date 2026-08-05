@@ -161,21 +161,31 @@ project_serena_folder_location: "$projectDir/.serena"
 
 # the list of registered project paths (updated automatically).
 projects:
+- /Users/dataders/Developer/adu_adoration
+- /Users/dataders/Developer/dataface
 - /Users/dataders/Developer/dbt-agent-skills
 - /Users/dataders/Developer/dbt-clickhouse
+- /Users/dataders/Developer/dbt-core
+- /Users/dataders/Developer/dbt-data-reliability
 - /Users/dataders/Developer/dbt-duckdb
 - /Users/dataders/Developer/dbt-fusion-clickhouse-demo
 - /Users/dataders/Developer/dbt_aws_cloud_cost
+- /Users/dataders/Developer/docs.getdbt.com
 - /Users/dataders/Developer/dotfiles
+- /Users/dataders/Developer/duckdb
 - /Users/dataders/Developer/duckdb-iceberg
 - /Users/dataders/Developer/fs
 - /Users/dataders/Developer/fusion_issue_analysis
+- /Users/dataders/Developer/great_expectations
 - /Users/dataders/Developer/hydrate.ai
 - /Users/dataders/Developer/internal-analytics
+- /Users/dataders/Developer/irc_duckdb_bench
+- /Users/dataders/Developer/jaffle-sandbox
 - /Users/dataders/Developer/james-river-gooners
-- /Users/dataders/conductor/workspaces/dotfiles/mumbai
-- /Users/dataders/conductor/workspaces/fusion_issue_analysis/louisville
-- /Users/dataders/conductor/workspaces/james-river-gooners/accra
-- /Users/dataders/conductor/workspaces/james-river-gooners/spokane
-- /Users/dataders/conductor/workspaces/james-river-gooners/surat
-- /Users/dataders/conductor/workspaces/james-river-gooners/wellington
+- /Users/dataders/Developer/quack
+- /Users/dataders/conductor/workspaces/fs/jerusalem
+- /Users/dataders/conductor/workspaces/fs/medan
+- /Users/dataders/conductor/workspaces/fusion_issue_analysis-v1/seville
+- /Users/dataders/conductor/workspaces/fusion_issue_analysis/vancouver
+- /Users/dataders/conductor/workspaces/internal-analytics-v1/vienna
+- /Users/dataders/conductor/workspaces/james-river-gooners/new-york
