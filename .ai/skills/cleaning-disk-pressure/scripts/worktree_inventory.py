@@ -1,6 +1,8 @@
 import argparse
 import os
 import subprocess
+import sys
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 
@@ -14,8 +16,13 @@ SKIP_DIRS = {
 }
 
 
-def run(args):
-    return subprocess.run(args, text=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+def run(args, timeout=None):
+    try:
+        return subprocess.run(
+            args, text=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=timeout
+        )
+    except subprocess.TimeoutExpired:
+        return None
 
 
 def parse_worktrees(text):
@@ -45,41 +52,53 @@ def is_relative_to(path, parent):
         return False
 
 
-def discover_repos(root, max_depth):
+def discover_repos(roots, max_depth):
     repos = {}
-    for dirpath, dirnames, filenames in os.walk(root):
-        path = Path(dirpath)
-        depth = len(path.relative_to(root).parts)
-        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
-        if depth > max_depth:
-            dirnames[:] = []
+    for root in roots:
+        if not root.exists():
             continue
-        if ".git" in dirnames or ".git" in filenames:
-            common = run(
-                [
-                    "git",
-                    "-C",
-                    str(path),
-                    "rev-parse",
-                    "--path-format=absolute",
-                    "--git-common-dir",
-                ]
-            )
-            top = run(["git", "-C", str(path), "rev-parse", "--show-toplevel"])
-            if common.returncode == 0 and top.returncode == 0:
-                repos.setdefault(common.stdout.strip(), top.stdout.strip())
+        for dirpath, dirnames, filenames in os.walk(root):
+            path = Path(dirpath)
+            depth = len(path.relative_to(root).parts)
+            dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
+            if depth > max_depth:
+                dirnames[:] = []
+                continue
+            if ".git" in dirnames or ".git" in filenames:
+                common = run(
+                    [
+                        "git",
+                        "-C",
+                        str(path),
+                        "rev-parse",
+                        "--path-format=absolute",
+                        "--git-common-dir",
+                    ],
+                    timeout=10,
+                )
+                top = run(["git", "-C", str(path), "rev-parse", "--show-toplevel"], timeout=10)
+                if common and top and common.returncode == 0 and top.returncode == 0:
+                    repos.setdefault(common.stdout.strip(), top.stdout.strip())
     return repos
 
 
-def size_of(path):
-    result = run(["du", "-sh", str(path)])
+def under_any_root(path_str, roots):
+    return any(path_str.startswith(str(root)) for root in roots)
+
+
+def size_of(path, timeout):
+    result = run(["du", "-sh", str(path)], timeout=timeout)
+    if result is None:
+        return f"timeout>{timeout}s"
     if result.returncode != 0:
         return "unknown"
     return result.stdout.split()[0]
 
 
-def status_of(path):
-    result = run(["git", "-C", str(path), "status", "--porcelain"])
+def status_of(path, timeout):
+    result = run(["git", "-C", str(path), "status", "--porcelain"], timeout=timeout)
+    if result is None:
+        return f"timeout>{timeout}s"
     if result.returncode != 0:
         return "missing"
     lines = result.stdout.splitlines()
@@ -107,46 +126,65 @@ def protection_reasons(record, protect_paths, protect_heads, protect_branches):
     return ",".join(reasons) if reasons else "-"
 
 
+def compute_row(repo_label, record, protect_paths, protect_heads, protect_branches, du_timeout):
+    path = Path(record.get("worktree", ""))
+    branch = record.get("branch", "").removeprefix("refs/heads/")
+    head = record.get("HEAD", "")
+    exists = path.exists()
+    size = size_of(path, du_timeout) if exists else "missing"
+    status = status_of(path, du_timeout) if exists else "missing"
+    return "\t".join(
+        [
+            repo_label,
+            str(path),
+            size,
+            status,
+            head[:12],
+            branch or "-",
+            protection_reasons(record, protect_paths, protect_heads, protect_branches),
+        ]
+    )
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Inventory local git worktrees by size, status, and protection reason.")
-    parser.add_argument("--root", default="/Users/dataders/Developer")
+    parser = argparse.ArgumentParser(
+        description="Inventory local git worktrees by size, status, and protection reason."
+    )
+    parser.add_argument("--root", action="append", default=[])
     parser.add_argument("--max-depth", type=int, default=4)
     parser.add_argument("--protect-path", action="append", default=[])
     parser.add_argument("--protect-head", action="append", default=[])
     parser.add_argument("--protect-branch", action="append", default=[])
+    parser.add_argument("--workers", type=int, default=8, help="parallel du/status lookups per repo")
+    parser.add_argument("--du-timeout", type=int, default=20, help="seconds before a single du/status call is abandoned")
     args = parser.parse_args()
 
-    root = Path(args.root).expanduser().resolve()
+    roots = [Path(p).expanduser().resolve() for p in (args.root or ["/Users/dataders/Developer"])]
     protect_paths = [Path(p).expanduser().resolve() for p in args.protect_path]
-    repos = discover_repos(root, args.max_depth)
+    protect_heads = set(args.protect_head)
+    protect_branches = set(args.protect_branch)
+    repos = discover_repos(roots, args.max_depth)
 
-    print("repo\tpath\tsize\tstatus\thead\tbranch\treasons")
+    print("repo\tpath\tsize\tstatus\thead\tbranch\treasons", flush=True)
     for _, sample in sorted(repos.items()):
-        result = run(["git", "-C", sample, "worktree", "list", "--porcelain"])
-        if result.returncode != 0:
+        result = run(["git", "-C", sample, "worktree", "list", "--porcelain"], timeout=10)
+        if result is None or result.returncode != 0:
             continue
-        records = [r for r in parse_worktrees(result.stdout) if r.get("worktree", "").startswith(str(root))]
+        records = [
+            r for r in parse_worktrees(result.stdout) if under_any_root(r.get("worktree", ""), roots)
+        ]
         if len(records) <= 1:
             continue
-        repo_label = sample
-        for record in records:
-            path = Path(record.get("worktree", ""))
-            branch = record.get("branch", "").removeprefix("refs/heads/")
-            head = record.get("HEAD", "")
-            exists = path.exists()
-            print(
-                "\t".join(
-                    [
-                        repo_label,
-                        str(path),
-                        size_of(path) if exists else "missing",
-                        status_of(path) if exists else "missing",
-                        head[:12],
-                        branch or "-",
-                        protection_reasons(record, protect_paths, set(args.protect_head), set(args.protect_branch)),
-                    ]
+
+        with ThreadPoolExecutor(max_workers=args.workers) as pool:
+            futures = [
+                pool.submit(
+                    compute_row, sample, record, protect_paths, protect_heads, protect_branches, args.du_timeout
                 )
-            )
+                for record in records
+            ]
+            for future in futures:
+                print(future.result(), flush=True)
 
 
 if __name__ == "__main__":
