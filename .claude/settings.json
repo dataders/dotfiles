@@ -174,7 +174,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' blocked",
+            "command": "bash -c '[ -f ~/.claude/hooks/herdr-agent-state.sh ] && bash ~/.claude/hooks/herdr-agent-state.sh blocked || true'",
             "timeout": 10
           }
         ]
@@ -186,7 +186,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' working",
+            "command": "bash -c '[ -f ~/.claude/hooks/herdr-agent-state.sh ] && bash ~/.claude/hooks/herdr-agent-state.sh working || true'",
             "timeout": 10
           }
         ]
@@ -198,7 +198,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' working",
+            "command": "bash -c '[ -f ~/.claude/hooks/herdr-agent-state.sh ] && bash ~/.claude/hooks/herdr-agent-state.sh working || true'",
             "timeout": 10
           }
         ]
@@ -227,7 +227,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' working",
+            "command": "bash -c '[ -f ~/.claude/hooks/herdr-agent-state.sh ] && bash ~/.claude/hooks/herdr-agent-state.sh working || true'",
             "timeout": 10
           }
         ]
@@ -239,7 +239,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' release",
+            "command": "bash -c '[ -f ~/.claude/hooks/herdr-agent-state.sh ] && bash ~/.claude/hooks/herdr-agent-state.sh release || true'",
             "timeout": 10
           }
         ]
@@ -251,7 +251,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' idle",
+            "command": "bash -c '[ -f ~/.claude/hooks/herdr-agent-state.sh ] && bash ~/.claude/hooks/herdr-agent-state.sh idle || true'",
             "timeout": 10
           }
         ]
@@ -263,7 +263,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' working",
+            "command": "bash -c '[ -f ~/.claude/hooks/herdr-agent-state.sh ] && bash ~/.claude/hooks/herdr-agent-state.sh working || true'",
             "timeout": 10
           }
         ]
@@ -275,7 +275,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash '/Users/dataders/.claude/hooks/herdr-agent-state.sh' working",
+            "command": "bash -c '[ -f ~/.claude/hooks/herdr-agent-state.sh ] && bash ~/.claude/hooks/herdr-agent-state.sh working || true'",
             "timeout": 10
           }
         ]
@@ -290,7 +290,7 @@
   "enabledPlugins": {
     "codex@openai-codex": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
-    "superpowers@superpowers-marketplace": true,
+    "superpowers@superpowers-marketplace": false,
     "worktrunk@worktrunk": true
   },
   "extraKnownMarketplaces": {
