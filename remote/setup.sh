@@ -27,10 +27,10 @@ echo "--- Installing Starship..."
 ssh "$HOST" 'command -v starship >/dev/null 2>&1 || curl -sS https://starship.rs/install.sh | sh -s -- -y'
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 3. Install cargo tools (bat, eza)
+# 3. Install cargo tools (bat, eza, worktrunk)
 # ─────────────────────────────────────────────────────────────────────────────
-echo "--- Installing bat and eza via cargo..."
-ssh "$HOST" 'source ~/.cargo/env 2>/dev/null && { command -v bat >/dev/null 2>&1 || cargo install bat; } && { command -v eza >/dev/null 2>&1 || cargo install eza; }'
+echo "--- Installing bat, eza, and worktrunk via cargo..."
+ssh "$HOST" 'source ~/.cargo/env 2>/dev/null && { command -v bat >/dev/null 2>&1 || cargo install bat; } && { command -v eza >/dev/null 2>&1 || cargo install eza; } && { command -v wt >/dev/null 2>&1 || cargo install worktrunk; }'
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 4. Install zoxide
