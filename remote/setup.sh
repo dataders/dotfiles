@@ -87,7 +87,8 @@ if [[ -d "$CLAUDE_DIR" ]]; then
     for f in settings.json settings.local.json CLAUDE.md statusline.sh; do
         [[ -f "${CLAUDE_DIR}/$f" ]] && scp "${CLAUDE_DIR}/$f" "${HOST}:~/.claude/$f"
     done
-    ssh "$HOST" 'chmod +x ~/.claude/statusline.sh 2>/dev/null; true'
+    [[ -d "${CLAUDE_DIR}/hooks" ]] && scp -r "${CLAUDE_DIR}/hooks" "${HOST}:~/.claude/"
+    ssh "$HOST" 'chmod +x ~/.claude/statusline.sh ~/.claude/hooks/*.sh 2>/dev/null; true'
 else
     echo "--- Skipping Claude Code settings (${CLAUDE_DIR} not found)"
 fi
