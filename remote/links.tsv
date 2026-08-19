@@ -1,5 +1,6 @@
 # source	target	group	visibility	note
 repo:remote/.zshrc	home:.zshrc	shell	public	Linux-adapted interactive zsh config
+repo:remote/.bashrc	home:.bashrc	shell	public	Execs into zsh on interactive login (workaround for boxes that reset the account's shell to /bin/bash on every login)
 repo:remote/bin/xdg-open	home:.local/bin/xdg-open	shell	public	Forwards browser-open requests to url-open-relay on the SSH client machine
 repo:remote/.zpreztorc	home:.zpreztorc	shell	public	Linux-adapted Prezto module config
 repo:remote/.zshenv	home:.zshenv	shell	public	Linux-adapted non-interactive zsh env bridge
