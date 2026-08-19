@@ -109,13 +109,16 @@ infocmp -x xterm-ghostty 2>/dev/null | ssh "$HOST" 'tic -x - 2>/dev/null' || ech
 # 12. Set default shell to zsh
 # ─────────────────────────────────────────────────────────────────────────────
 echo "--- Setting default shell to zsh..."
-ssh "$HOST" 'if [[ "$(getent passwd $(whoami) | cut -d: -f7)" != *zsh ]]; then sudo chsh -s $(which zsh) $(whoami); fi'
+ssh -t "$HOST" 'if [[ "$(getent passwd $(whoami) | cut -d: -f7)" != *zsh ]]; then sudo chsh -s $(which zsh) $(whoami); fi' \
+    || echo "    chsh needs an interactive password prompt — this may not have applied. Verify below and run 'sudo chsh -s \$(which zsh) \$(whoami)' on ${HOST} yourself if needed."
 
 echo ""
 echo "==> Done! SSH into ${HOST} to verify:"
 echo "    ssh ${HOST}"
 echo ""
-echo "    Expected: Starship prompt with ❯"
+echo "    Expected: Starship prompt with ❯ (not a plain \$ bash prompt — if you"
+echo "    see one, the chsh step above didn't take; run the fallback command"
+echo "    it printed, then start a fresh SSH session)"
 echo "    Try: ls, cat somefile, tmux, claude --version, codex --version"
 echo ""
 echo "    lucid needs a one-time Runlayer login: run 'claude' and follow the"
