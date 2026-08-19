@@ -24,8 +24,12 @@ alias ls='eza --icons --group-directories-first'
 alias ll='eza -la --icons --group-directories-first --git'
 alias tree='eza --tree --icons'
 
-# Source secrets (env vars for warehouses, API keys, etc.)
-[[ -f ~/secrets.zsh ]] && source ~/secrets.zsh
+# Private/local overlays from dotfiles_env (not committed to public dotfiles repo)
+for f in \
+  "$HOME/Developer/dotfiles_env/secrets.zsh" \
+  "$HOME/Developer/dotfiles_env/local.zsh"; do
+  [[ -f "$f" ]] && source "$f"
+done
 
 # Starship prompt
 eval "$(starship init zsh)"
