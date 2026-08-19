@@ -7,7 +7,6 @@ repo:remote/.zshenv	home:.zshenv	shell	public	Linux-adapted non-interactive zsh 
 repo:.zprofile	home:.zprofile	shell	public	login shell env and PATH
 repo:.zlogin	home:.zlogin	shell	public	zsh login hook
 repo:.zlogout	home:.zlogout	shell	public	zsh logout hook
-repo:remote/.gitconfig	home:.gitconfig	git	public	Linux-adapted Git defaults (no macOS signing key)
 repo:.gitignore_global	home:.gitignore_global	git	public	global Git ignore file
 repo:.tmux.conf	home:.tmux.conf	terminal	public	tmux config
 repo:.config/starship.toml	home:.config/starship.toml	shell	public	Starship prompt config

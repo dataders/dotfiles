@@ -2,13 +2,13 @@
 [user]
 	name = Anders Swanson
 	email = anders.swanson@dbtlabs.com
-	signingkey = /Users/dataders/.ssh/id_ed25519.pub
+	signingkey = ~/.ssh/id_ed25519.pub
 [core]
 	editor = vim
 	symlink = true
 	symlinks = true
-	pager = delta
-	excludesfile = /Users/dataders/.gitignore_global
+	pager = command -v delta >/dev/null 2>&1 && delta || bat --paging=always
+	excludesfile = ~/.gitignore_global
 [pull]
 	ff = only
 [init]
@@ -20,7 +20,7 @@
 [gpg]
 	format = ssh
 [gpg "ssh"]
-	allowedSignersFile = /Users/dataders/.ssh/allowed_signers
+	allowedSignersFile = ~/.ssh/allowed_signers
 [commit]
 	gpgsign = true
 [tag]
@@ -39,11 +39,11 @@
 	line-numbers = true
 [merge]
 	conflictstyle = zdiff3
-[credential "https://github.com"]
-	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
-[credential "https://gist.github.com"]
-	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
 [include]
 	path = ~/Developer/dotfiles_env/gitconfig.local
+[credential "https://github.com"]
+	helper = 
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !gh auth git-credential
