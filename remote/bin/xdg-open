@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# xdg-open shim for headless remote dev boxes (peach01, nectarine01, ...).
+#
+# CLIs doing browser-based OAuth (databricks auth login, gh auth login, gcloud
+# auth login, ...) shell out to xdg-open with no display to open. This forwards
+# the URL to a relay listening on 127.0.0.1 on the machine you SSH in from,
+# reached via the RemoteForward tunnel configured in that machine's
+# ~/.ssh/config (see remote/README section on browser-open forwarding).
+set -euo pipefail
+
+RELAY_PORT="${REMOTE_OPEN_RELAY_PORT:-17761}"
+url="${1:?Usage: xdg-open <url>}"
+
+if curl -fsS --max-time 2 -G "http://127.0.0.1:${RELAY_PORT}/open" --data-urlencode "url=${url}" >/dev/null 2>&1; then
+  exit 0
+fi
+
+echo "xdg-open: couldn't reach the browser relay on 127.0.0.1:${RELAY_PORT}." >&2
+echo "  Check that your local ~/.ssh/config has 'RemoteForward ${RELAY_PORT} 127.0.0.1:${RELAY_PORT}' for this host," >&2
+echo "  and that url-open-relay is running on your Mac." >&2
+echo "Open this URL yourself: ${url}" >&2
+exit 1
