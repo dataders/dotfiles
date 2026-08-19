@@ -12,6 +12,16 @@ fi
 [[ -d "$HOME/.cargo/bin" ]] && export PATH="$HOME/.cargo/bin:$PATH"
 [[ -d "$HOME/.npm-global/bin" ]] && export PATH="$HOME/.npm-global/bin:$PATH"
 
+# Browser-based OAuth (databricks auth login, gh auth login, gcloud auth
+# login, ...) forwards to url-open-relay on the SSH client machine — see
+# ~/.local/bin/xdg-open (repo:remote/bin/xdg-open) and its RemoteForward tunnel
+export BROWSER=xdg-open
+
+# Headless boxes have no D-Bus secret service, so `databricks auth login`
+# can't reach an OS keyring — fall back to storing the OAuth token in
+# ~/.databrickscfg (already private, symlinked through dotfiles_env)
+export DATABRICKS_AUTH_STORAGE=plaintext
+
 # Completions
 autoload -U +X bashcompinit && bashcompinit
 
@@ -44,3 +54,22 @@ elif [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
   source /usr/share/doc/fzf/examples/key-bindings.zsh
   [[ -f /usr/share/doc/fzf/examples/completion.zsh ]] && source /usr/share/doc/fzf/examples/completion.zsh
 fi
+
+# forgit (fzf-powered git commands) — git-cloned here since there's no writable
+# Homebrew Cellar on this box (see remote/setup.sh)
+[[ -f "$HOME/.local/share/zsh-plugins/forgit/forgit.plugin.zsh" ]] && \
+  source "$HOME/.local/share/zsh-plugins/forgit/forgit.plugin.zsh"
+
+# fzf-tab (same git-clone reasoning as forgit above)
+[[ -f "$HOME/.local/share/zsh-plugins/fzf-tab/fzf-tab.plugin.zsh" ]] && \
+  source "$HOME/.local/share/zsh-plugins/fzf-tab/fzf-tab.plugin.zsh"
+# fzf-tab zstyle config — shared with .zshrc via .config/zsh/fzf-tab.zsh
+# (edit that file, not here, so both stay in sync)
+[[ -f "$HOME/Developer/dotfiles/.config/zsh/fzf-tab.zsh" ]] && \
+  source "$HOME/Developer/dotfiles/.config/zsh/fzf-tab.zsh"
+
+# fast-syntax-highlighting — must be sourced last so it can wrap all ZLE widgets
+# (same git-clone reasoning as forgit above)
+[[ -f "$HOME/.local/share/zsh-plugins/fast-syntax-highlighting/F-Sy-H.plugin.zsh" ]] && \
+  source "$HOME/.local/share/zsh-plugins/fast-syntax-highlighting/F-Sy-H.plugin.zsh"
+alias source='noglob source'

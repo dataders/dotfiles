@@ -50,6 +50,17 @@ echo "--- Installing zoxide..."
 ssh "$HOST" 'command -v zoxide >/dev/null 2>&1 || { [[ -f ~/.local/bin/zoxide ]] || curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh; }'
 
 # ─────────────────────────────────────────────────────────────────────────────
+# 4b. Clone zsh plugins that don't have a writable Homebrew Cellar to live in
+#     here (forgit, fzf-tab, fast-syntax-highlighting). remote/.zshrc sources
+#     these directly; keep the plugin dir names in sync with that file.
+# ─────────────────────────────────────────────────────────────────────────────
+echo "--- Cloning zsh plugins (forgit, fzf-tab, fast-syntax-highlighting)..."
+ssh "$HOST" 'mkdir -p ~/.local/share/zsh-plugins'
+ssh "$HOST" '[[ -d ~/.local/share/zsh-plugins/forgit ]] || git clone --depth 1 https://github.com/wfxr/forgit.git ~/.local/share/zsh-plugins/forgit'
+ssh "$HOST" '[[ -d ~/.local/share/zsh-plugins/fzf-tab ]] || git clone --depth 1 https://github.com/Aloxaf/fzf-tab.git ~/.local/share/zsh-plugins/fzf-tab'
+ssh "$HOST" '[[ -d ~/.local/share/zsh-plugins/fast-syntax-highlighting ]] || git clone --depth 1 https://github.com/z-shell/F-Sy-H.git ~/.local/share/zsh-plugins/fast-syntax-highlighting'
+
+# ─────────────────────────────────────────────────────────────────────────────
 # 5. Clone Prezto + contrib
 # ─────────────────────────────────────────────────────────────────────────────
 echo "--- Setting up Prezto..."
