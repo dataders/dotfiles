@@ -355,6 +355,54 @@ Use hooks for secrets, work-only local settings, and machine-specific tweaks.
 Do not use broad auto-discovery or profile flags; hooks should stay named and
 debuggable.
 
+## Remote Hosts
+
+`remote/` bootstraps and maintains this same setup on a remote Linux box (SSH
+key auth, e.g. `peach01`).
+
+```
+remote/setup.sh     bootstrap a brand-new host: packages, Prezto, Starship,
+                     rustup/cargo tools, zoxide, Claude/Codex CLIs, then
+                     hands off to sync-env.sh
+remote/sync-env.sh   refresh an already-bootstrapped host: git pull dotfiles,
+                     rsync dotfiles_env, re-apply remote/links.tsv
+remote/links.tsv     curated symlink manifest for remote hosts (see below)
+remote/.zshrc, .zpreztorc, .zshenv, .gitconfig, .codex-config.toml
+                     Linux-adapted overrides for files that are macOS-specific
+                     in the main repo (Homebrew paths, GPG signing key,
+                     Computer Use app paths, ...)
+```
+
+Bootstrap a new host:
+
+```zsh
+remote/setup.sh peach01
+```
+
+Refresh an already-bootstrapped host any time `dotfiles` or `dotfiles_env`
+changes:
+
+```zsh
+remote/sync-env.sh peach01
+```
+
+`remote/links.tsv` is a separate, smaller manifest passed to `links.sh` via
+`DOTFILES_MANIFEST` — it reuses the same `links.sh apply/check/dry-run`
+engine as the main manifest, but only lists what's actually portable to a
+headless Linux box: the `remote/`-adapted shell/git/codex configs, plain
+public dotfiles (tmux, starship, `.zprofile`, ...), private warehouse/dbt
+credentials from `dotfiles_env`, and the portable subset of Claude/Codex
+agent config (hooks, `RTK.md`, settings). It deliberately excludes anything
+macOS-only (editor `app:` configs, Karabiner, LaunchAgents) and anything
+that mixes secrets with local session state (`~/.claude.json`, the GitHub
+CLI auth token) — those stay machine-specific, not synced.
+
+Verify a host's managed links:
+
+```zsh
+ssh peach01 'cd ~/Developer/dotfiles && DOTFILES_MANIFEST=remote/links.tsv ./links.sh check'
+```
+
 ## Security
 
 Secrets belong in `~/Developer/dotfiles_env`, not this repo. The sensitive dbt,

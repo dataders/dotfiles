@@ -1,0 +1,37 @@
+# source	target	group	visibility	note
+repo:remote/.zshrc	home:.zshrc	shell	public	Linux-adapted interactive zsh config
+repo:remote/.zpreztorc	home:.zpreztorc	shell	public	Linux-adapted Prezto module config
+repo:remote/.zshenv	home:.zshenv	shell	public	Linux-adapted non-interactive zsh env bridge
+repo:.zprofile	home:.zprofile	shell	public	login shell env and PATH
+repo:.zlogin	home:.zlogin	shell	public	zsh login hook
+repo:.zlogout	home:.zlogout	shell	public	zsh logout hook
+repo:remote/.gitconfig	home:.gitconfig	git	public	Linux-adapted Git defaults (no macOS signing key)
+repo:.gitignore_global	home:.gitignore_global	git	public	global Git ignore file
+repo:.tmux.conf	home:.tmux.conf	terminal	public	tmux config
+repo:.config/starship.toml	home:.config/starship.toml	shell	public	Starship prompt config
+repo:.aws/config	home:.aws/config	warehouse	private	AWS config symlinked through dotfiles_env
+repo:.databrickscfg	home:.databrickscfg	warehouse	private	Databricks config symlinked through dotfiles_env
+repo:odbc.ini	home:.odbc.ini	warehouse	public	User ODBC DSN config
+repo:.snowflake/connections.toml	home:.snowflake/connections.toml	warehouse	private	Snowflake config symlinked through dotfiles_env
+env:credentials/fusion.env.json	home:credentials/fusion.env.json	dbt	private	Fusion credentials JSON
+env:.dbt/profiles.yml	home:.dbt/profiles.yml	dbt	private	dbt profiles
+env:.dbt/dbt_cloud.yml	home:.dbt/dbt_cloud.yml	dbt	private	dbt Cloud config
+env:.dbt/mcp.yml	home:.dbt/mcp.yml	dbt	private	dbt MCP config
+env:.dbt/keyfile.json	home:.dbt/keyfile.json	dbt	private	dbt keyfile
+env:.dbt/.user.yml	home:.dbt/.user.yml	dbt	private	dbt user state
+repo:.claude/hooks/enforce-uv.sh	home:.claude/hooks/enforce-uv.sh	agents	public	Claude uv enforcement hook
+repo:.claude/hooks/rtk-rewrite.sh	home:.claude/hooks/rtk-rewrite.sh	agents	public	Claude RTK rewrite hook
+repo:.claude/hooks/session-monitor.sh	home:.claude/hooks/session-monitor.sh	agents	public	Claude session monitor hook
+repo:.claude/hooks/block-open-in-bg.sh	home:.claude/hooks/block-open-in-bg.sh	agents	public	Claude block GUI open in background sessions hook
+repo:.claude/RTK.md	home:.claude/RTK.md	agents	public	Claude RTK guidance
+repo:.claude/settings.json	home:.claude/settings.json	agents	public	Claude shared settings
+repo:.claude/settings.local.json	home:.claude/settings.local.json	agents	public	Claude local settings tracked here
+repo:.claude/statusline.sh	home:.claude/statusline.sh	agents	public	Claude statusline
+repo:.claude/CLAUDE.md	home:.claude/CLAUDE.md	agents	public	Claude global instructions
+repo:.claude/mcp.json	home:.claude/mcp.json	agents	public	Claude MCP server definitions (unused placeholder)
+repo:remote/.codex-config.toml	home:.codex/config.toml	agents	public	Linux-adapted Codex config (no macOS-only paths)
+repo:.codex/hooks.json	home:.codex/hooks.json	agents	public	Codex hooks config
+repo:.codex/AGENTS.md	home:.codex/AGENTS.md	agents	public	Codex global instructions
+repo:.codex/RTK.md	home:.codex/RTK.md	agents	public	Codex RTK guidance
+repo:.codex/rules/default.rules	home:.codex/rules/default.rules	agents	public	Codex command approval rules
+repo:.serena/serena_config.yml	home:.serena/serena_config.yml	agents	public	Serena MCP global config
