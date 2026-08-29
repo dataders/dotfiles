@@ -1,0 +1,19 @@
+{
+  "toolDescriptionMode": "compact",
+  "inlineToolDisplay": "rich",
+  "asyncByDefault": false,
+  "defaultSubagentContext": "fresh",
+  "fleetView": true,
+  "fleetViewPlacement": "belowEditor",
+  "asyncWidget": true,
+  "waitTool": { "enabled": true, "defaultTimeoutMs": 120000 },
+  "globalConcurrencyLimit": 4,
+  "maxActiveAsyncRunsPerSession": 4,
+  "maxSubagentSpawnsPerSession": 32,
+  "maxSubagentSpawnsPerRun": 12,
+  "maxSubagentDepth": 1,
+  "scheduledRuns": { "enabled": false, "maxPending": 10, "storeRoot": "~/.local/share/pi-subagents/schedules" },
+  "parallel": { "maxTasks": 8, "concurrency": 4 },
+  "defaultSessionDir": "~/.pi/agent/sessions/subagent/",
+  "resultScanLogging": "activity"
+}

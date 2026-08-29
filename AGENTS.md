@@ -66,6 +66,7 @@ Structural / AST search + rewrite with `ast-grep` (binary is `sg`, but invoke as
 - Do not use conda or miniforge; use `uv` and project virtual environments
 - Use direnv for project-specific environment variables
 - Do not use `superpowers:using-git-worktrees`; use the `worktrunk` skill and `wt` for worktree workflows
+- In Pi, never use pi-subagents managed `worktree` or `isolation: worktree`; create lanes with `wt`, then pass the resolved worktree path as subagent `cwd`.
 - Use relevant repo-backed skills from `.ai/skills`. If a task matches a skill name or description, open its `SKILL.md` first and follow it.
 
 ## Agent Teams

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://pi.dev/schemas/settings.json",
+  "theme": "github-dark",
+  "defaultThinkingLevel": "high",
+  "hideThinkingBlock": false,
+  "showCacheMissNotices": true,
+  "externalEditor": "code --wait",
+  "defaultProjectTrust": "ask",
+  "collapseChangelog": true,
+  "enableInstallTelemetry": false,
+  "doubleEscapeAction": "tree",
+  "treeFilterMode": "user-only",
+  "editorPaddingX": 1,
+  "autocompleteMaxVisible": 10,
+  "tuiMode": "fullscreen",
+  "fullscreenExitOutput": "resume-hint",
+  "fullscreenScrollbar": "auto",
+  "steeringMode": "all",
+  "followUpMode": "one-at-a-time",
+  "terminal": {
+    "showImages": true,
+    "imageWidthCells": 72,
+    "hyperlinks": "auto",
+    "images": "auto",
+    "trueColor": "auto"
+  },
+  "images": {
+    "autoResize": true,
+    "blockImages": false
+  },
+  "markdown": {
+    "codeBlockIndent": "  ",
+    "mermaid": "streaming"
+  },
+  "retry": {
+    "enabled": true,
+    "maxRetries": 3,
+    "baseDelayMs": 2000,
+    "provider": {
+      "maxRetries": 0,
+      "maxRetryDelayMs": 60000
+    }
+  },
+  "enableSkillCommands": true,
+  "subagents": {
+    "projectRootResolution": "git-root"
+  },
+  "packages": [
+    "npm:@dreki-gg/pi-lsp",
+    "npm:pi-permission-system@0.8.0",
+    "npm:pi-subagents@0.59.0"
+  ],
+  "lastChangelogVersion": "0.84.4"
+}

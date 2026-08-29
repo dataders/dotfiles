@@ -265,7 +265,8 @@ when deciding whether a config belongs in this public repo or in
 | GitHub notification sweep | `bin/github-notification-sweep`, `Library/LaunchAgents/com.dataders.github-notification-sweep.plist` | `~/Library/LaunchAgents/...` | Local launchd job marks stale CI notifications done when PR merged or head moved |
 | Codex | `.codex/config.toml`, `.codex/AGENTS.md`, `.codex/RTK.md`, `.codex/rules/default.rules` | `~/.codex/...` | Model, sandbox, MCP servers, plugins, rules, trusted projects |
 | Claude | `.claude/CLAUDE.md`, `.claude/settings*.json`, `.claude/hooks/*.sh`, `.claude/RTK.md` | `~/.claude/...` | Shared instructions, hooks, permissions, RTK guidance |
-| Shared AI skills | `.ai/skills/*` | `~/.codex/skills/*`, `~/.claude/skills/*` | `links.sh` replaces old skill dirs and symlinks each skill into both agents |
+| Pi | `.pi/settings.json`, `AGENTS.md`, `.pi/themes/*`, `.pi/extensions/*`, `.pi/prompts/*` | `~/.pi/agent/...` | TUI, permissions, Worktrunk-native subagents, notifications, prompts, keybindings, theme, and LSP defaults; auth and sessions stay local |
+| Shared AI skills | `.ai/skills/*` | `~/.codex/skills/*`, `~/.claude/skills/*`, `~/.pi/agent/skills/*` | `links.sh` replaces old skill dirs and symlinks each skill into all agents |
 | dbt | `~/Developer/dotfiles_env/.dbt/*` | `~/.dbt/*` | Private profiles, Cloud config, MCP config, keyfile, user state |
 | dbt CLIs | `.zshrc` aliases | shell aliases | `dbtf`, `dbt-core`, `dbtd`, `dbtr`, `dbtc` route to Cloud/core/debug/release helpers |
 | Database drivers | `odbcinst.ini`, `odbc.ini`, `freetds.conf` | `/opt/homebrew/etc/...` and `~/.odbc.ini` | ODBC, FreeTDS, and user DSN config |
