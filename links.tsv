@@ -44,6 +44,20 @@ repo:.codex/hooks.json	home:.codex/hooks.json	agents	public	Codex hooks config
 repo:.codex/AGENTS.md	home:.codex/AGENTS.md	agents	public	Codex global instructions
 repo:.codex/RTK.md	home:.codex/RTK.md	agents	public	Codex RTK guidance
 repo:.codex/rules/default.rules	home:.codex/rules/default.rules	agents	public	Codex command approval rules
+repo:.pi/settings.json	home:.pi/agent/settings.json	agents	public	Pi shared settings and package manifest
+repo:AGENTS.md	home:.pi/agent/AGENTS.md	agents	public	Shared global agent and Worktrunk instructions for Pi
+repo:.pi/keybindings.json	home:.pi/agent/keybindings.json	agents	public	Pi Ghostty and session workflow keybindings
+repo:.pi/pi-permissions.jsonc	home:.pi/agent/pi-permissions.jsonc	agents	public	Pi deterministic tool and shell permission policy
+repo:.pi/themes/github-dark.json	home:.pi/agent/themes/github-dark.json	agents	public	Pi theme matching GitHub Dark terminal palette
+repo:.pi/extensions/lsp/config.json	home:.pi/agent/extensions/lsp/config.json	agents	public	Pi LSP global defaults
+repo:.pi/extensions/pi-permission-system/config.json	home:.pi/agent/extensions/pi-permission-system/config.json	agents	public	Pi permission extension settings
+repo:.pi/extensions/subagent/config.json	home:.pi/agent/extensions/subagent/config.json	agents	public	Pi subagent concurrency and safety settings
+repo:.pi/extensions/home-notifications.ts	home:.pi/agent/extensions/home-notifications.ts	agents	public	Pi cmux and macOS completion notifications
+repo:.pi/prompts/review.md	home:.pi/agent/prompts/review.md	agents	public	Pi read-only review workflow
+repo:.pi/prompts/research.md	home:.pi/agent/prompts/research.md	agents	public	Pi source-checked research workflow
+repo:.pi/prompts/handoff.md	home:.pi/agent/prompts/handoff.md	agents	public	Pi session handoff workflow
+repo:.pi/prompts/diagnose.md	home:.pi/agent/prompts/diagnose.md	agents	public	Pi read-only diagnosis workflow
+repo:.pi/prompts/wt-task.md	home:.pi/agent/prompts/wt-task.md	agents	public	Pi Worktrunk-native delegated task workflow
 repo:.aws/config	home:.aws/config	warehouse	private	AWS config symlinked through dotfiles_env
 repo:.databrickscfg	home:.databrickscfg	warehouse	private	Databricks config symlinked through dotfiles_env
 repo:odbc.ini	home:.odbc.ini	warehouse	public	User ODBC DSN config

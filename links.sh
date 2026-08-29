@@ -68,7 +68,7 @@ safe_remove_existing_skill_dir() {
     [[ -e "$target" && ! -L "$target" ]] || return 0
 
     case "$target" in
-        "$home_root/.codex/skills/"*|"$home_root/.claude/skills/"*)
+        "$home_root/.codex/skills/"*|"$home_root/.claude/skills/"*|"$home_root/.pi/agent/skills/"*)
             rm -rf "$target"
             ;;
         *)
@@ -163,9 +163,11 @@ process_shared_skills() {
         if [[ "$mode" == "dry-run" ]]; then
             log "DRY-RUN mkdir -p $home_root/.codex/skills"
             log "DRY-RUN mkdir -p $home_root/.claude/skills"
+            log "DRY-RUN mkdir -p $home_root/.pi/agent/skills"
         else
             mkdir -p "$home_root/.codex/skills"
             mkdir -p "$home_root/.claude/skills"
+            mkdir -p "$home_root/.pi/agent/skills"
         fi
     fi
 
@@ -174,6 +176,7 @@ process_shared_skills() {
         skill_name="${skill_dir:t}"
         link_item "$skill_dir" "$home_root/.codex/skills/$skill_name" agents public "shared Codex skill"
         link_item "$skill_dir" "$home_root/.claude/skills/$skill_name" agents public "shared Claude skill"
+        link_item "$skill_dir" "$home_root/.pi/agent/skills/$skill_name" agents public "shared Pi skill"
     done
 }
 

@@ -1,0 +1,11 @@
+{
+  "tui.editor.historyPrevious": "ctrl+up",
+  "tui.editor.historyNext": "ctrl+down",
+  "tui.editor.deleteWordBackward": ["ctrl+w", "alt+backspace"],
+  "tui.input.newLine": ["shift+enter", "ctrl+j"],
+  "app.session.new": "super+n",
+  "app.session.resume": "super+r",
+  "app.session.tree": "super+t",
+  "app.session.fork": "super+shift+f",
+  "app.model.select": ["ctrl+l", "super+l"]
+}

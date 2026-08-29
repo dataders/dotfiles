@@ -1,0 +1,28 @@
+{
+  "defaultPolicy": { "tools": "ask", "bash": "ask", "mcp": "ask", "skills": "allow", "special": "ask" },
+  "tools": {
+    "*": "ask",
+    "read": "allow", "grep": "allow", "find": "allow", "ls": "allow",
+    "edit": "allow", "write": "allow", "lsp": "allow",
+    "subagent": "allow", "subagent_wait": "allow", "subagent_supervisor": "allow"
+  },
+  "bash": {
+    "*": "ask",
+    "ls*": "allow", "cat*": "allow", "head*": "allow", "tail*": "allow",
+    "wc*": "allow", "nl*": "allow", "pwd*": "allow", "date*": "allow",
+    "stat*": "allow", "file*": "allow", "df*": "allow", "du*": "allow",
+    "rg*": "allow", "grep*": "allow", "command -v*": "allow",
+    "git status*": "allow", "git log*": "allow", "git diff*": "allow",
+    "git show*": "allow", "git rev-parse*": "allow", "git ls-files*": "allow",
+    "git ls-tree*": "allow", "git cat-file*": "allow",
+    "wt list*": "allow", "wt status*": "allow",
+    "cargo check*": "allow", "cargo test*": "allow", "cargo fmt --check*": "allow", "cargo clippy*": "allow",
+    "uv run*": "allow", "uvx *": "allow", "npm run*": "allow", "npm test*": "allow",
+    "sudo*": "deny", "doas*": "deny", "pip *": "deny", "pip3 *": "deny", "python3 *": "deny",
+    "rm -rf *": "deny", "rm -fr *": "deny", "git reset --hard*": "deny",
+    "git push --force*": "deny", "git push -f *": "deny", "git push --mirror*": "deny"
+  },
+  "mcp": { "*": "ask" },
+  "skills": { "*": "allow" },
+  "special": { "doom_loop": "deny", "external_directory": "ask" }
+}
