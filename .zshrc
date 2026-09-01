@@ -126,7 +126,7 @@ function yy() {
 alias -g -- '--help=--help | bat -plhelp'
 
 # Colored manpages via bat
-export MANPAGER="sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat -plman -ppager'"
+export MANPAGER="sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat --language=man --plain --paging=always'"
 
 # Auto-snapshot Brewfile after mutating brew operations
 brew() {
