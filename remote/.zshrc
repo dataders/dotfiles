@@ -47,6 +47,9 @@ eval "$(starship init zsh)"
 # Zoxide (smarter cd)
 eval "$(zoxide init zsh)"
 
+# direnv (per-repo .envrc -> source_dotfiles_env overlays)
+command -v direnv >/dev/null && eval "$(direnv hook zsh)"
+
 # fzf (--zsh requires 0.48+; fall back to key-bindings/completion scripts)
 if fzf --zsh &>/dev/null; then
   source <(fzf --zsh)
