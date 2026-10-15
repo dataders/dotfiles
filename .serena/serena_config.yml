@@ -161,17 +161,23 @@ project_serena_folder_location: "$projectDir/.serena"
 
 # the list of registered project paths (updated automatically).
 projects:
+- /Users/dataders/.codex/memories
+- /Users/dataders/.codex/worktrees/charts-adapter-unique-id/dataface
+- /Users/dataders/Developer/Jaffle-Games
 - /Users/dataders/Developer/adu_adoration
 - /Users/dataders/Developer/dataders
 - /Users/dataders/Developer/dataface
-- /Users/dataders/Developer/dataface.claude-task-fix-dft-dct-docs-anchors
+- /Users/dataders/Developer/dbt-adapters
 - /Users/dataders/Developer/dbt-agent-skills
-- /Users/dataders/Developer/dbt-clickhouse
+- /Users/dataders/Developer/dbt-charts
 - /Users/dataders/Developer/dbt-core
 - /Users/dataders/Developer/dbt-duckdb
 - /Users/dataders/Developer/dbt-expectations
 - /Users/dataders/Developer/dbt-fusion-clickhouse-demo
+- /Users/dataders/Developer/dbt-mcp
+- /Users/dataders/Developer/dbt-project-evaluator
 - /Users/dataders/Developer/dbt_aws_cloud_cost
+- /Users/dataders/Developer/docs-internal
 - /Users/dataders/Developer/docs.getdbt.com
 - /Users/dataders/Developer/dotfiles
 - /Users/dataders/Developer/duckdb
@@ -183,3 +189,8 @@ projects:
 - /Users/dataders/Developer/internal-analytics
 - /Users/dataders/Developer/james-river-gooners
 - /Users/dataders/Developer/quack
+- /Users/dataders/Developer/quantified_carl
+- /Users/dataders/dbt-wizard/workspaces/internal-analytics-48bd39/calm-panda
+- /Users/dataders/dbt-wizard/workspaces/internal-analytics-48bd39/gentle-dolphin
+- /Users/dataders/dbt-wizard/workspaces/internal-analytics-48bd39/merry-crane
+- /Users/dataders/dbt-wizard/workspaces/internal-analytics-48bd39/wild-badger
