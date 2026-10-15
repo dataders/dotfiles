@@ -1,0 +1,13 @@
+{
+  "dbt": {
+    "lsp": {
+      "maxErrorReporting": 100,
+      "linter": {
+        "enabled": false
+      },
+      "formatter": {
+        "enabled": false
+      }
+    }
+  }
+}
