@@ -1,5 +1,6 @@
 # source	target	group	visibility	note
 repo:.zshrc	home:.zshrc	shell	public	interactive zsh config
+repo:.ssh/config	home:.ssh/config	ssh	public	SSH client config (hosts, forwards, ControlMaster)
 repo:.zprofile	home:.zprofile	shell	public	login shell env and PATH
 repo:.zshenv	home:.zshenv	shell	public	non-interactive zsh env bridge
 repo:.zlogin	home:.zlogin	shell	public	zsh login hook
