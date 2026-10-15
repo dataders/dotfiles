@@ -150,7 +150,6 @@
     "defaultMode": "auto",
     "disableBypassPermissionsMode": "disable"
   },
-  "model": "opus",
   "skillOverrides": {
     "superpowers:dispatching-parallel-agents": "off",
     "superpowers:subagent-driven-development": "off",
@@ -282,6 +281,9 @@
       }
     ]
   },
+  "worktree": {
+    "bgIsolation": "none"
+  },
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh",
@@ -310,9 +312,7 @@
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
   "autoUpdatesChannel": "latest",
-  "worktree": {
-    "bgIsolation": "none"
-  },
+  "tui": "fullscreen",
   "voice": {
     "enabled": true,
     "mode": "hold"

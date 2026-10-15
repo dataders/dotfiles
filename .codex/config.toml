@@ -1,10 +1,11 @@
-model = "gpt-5.6-sol"
+model = "gpt-6-astra"
 model_reasoning_effort = "high"
 approval_policy = "on-request"
 approvals_reviewer = "guardian_subagent"
 sandbox_mode = "workspace-write"
 
 notify = ["/Users/dataders/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
+service_tier = "default"
 
 [shell_environment_policy]
 inherit = "core"
@@ -118,14 +119,15 @@ NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin
 NODE_REPL_TRUSTED_CODE_PATHS = "/Users/dataders/.codex:/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
 CODEX_HOME = "/Users/dataders/.codex"
 BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
-NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
-NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
-NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = "Control desktop apps on macOS through Computer Use."
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.814.41407"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/dataders/.codex/plugins/cache/openai-bundled/browser/26.814.41407/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+BROWSER_USE_CODEX_APP_VERSION = "26.924.22138"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/dataders/.codex/plugins/cache/openai-bundled/browser/26.924.22138/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
 SKY_CUA_SERVICE_PATH = "/Users/dataders/.codex/computer-use/Codex Computer Use.app"
-CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
+CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex"
 
 [mcp_servers.computer-use]
 command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"
@@ -184,6 +186,24 @@ trust_level = "trusted"
 [projects."/Users/dataders/Developer/adu_adoration"]
 trust_level = "trusted"
 
+[projects."/Users/dataders/Developer/great_expectations"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/dbt-core"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/dataface"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/dbt-project-evaluator"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/dbt-mcp"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/quantified_carl"]
+trust_level = "trusted"
+
 [plugins."superpowers@openai-curated"]
 enabled = true
 
@@ -206,9 +226,6 @@ enabled = true
 enabled = true
 
 [plugins."worktrunk@worktrunk"]
-enabled = true
-
-[plugins."sites@openai-bundled"]
 enabled = true
 
 [plugins."browser@openai-bundled"]
@@ -235,29 +252,30 @@ enabled = true
 [plugins."codex-app-tools@openai-bundled"]
 enabled = true
 
+[plugins."unified-computer-use@openai-bundled"]
+enabled = true
+
 [[skills.config]]
 name = "superpowers:using-git-worktrees"
 enabled = false
 
 [marketplaces.openai-bundled]
-last_updated = "2026-08-18T15:10:33Z"
 source_type = "local"
 source = "/Users/dataders/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-08-19T00:47:55Z"
 source_type = "local"
 source = "/Users/dataders/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
 [marketplaces.claude-plugins-official]
-last_updated = "2026-08-18T17:40:43Z"
-last_revision = "c90c75e06d59787f12aa288f77e2a6b6e9349d1c"
+last_updated = "2026-08-22T15:41:55Z"
+last_revision = "340e33aef211d95769d252324854497af871dafe"
 source_type = "git"
 source = "https://github.com/anthropics/claude-plugins-official.git"
 
 [marketplaces.worktrunk]
-last_updated = "2026-08-17T22:11:51Z"
-last_revision = "d73ce691581467332d6afd1ed29e3a5f0f438b9b"
+last_updated = "2026-08-20T23:47:28Z"
+last_revision = "9c37aae5b9af7e5a38306479b2453c919ea7b99c"
 source_type = "git"
 source = "https://github.com/max-sixty/worktrunk.git"
 
@@ -316,16 +334,30 @@ trusted_hash = "sha256:c2f38a99e16bc21ab2fbdfd0942d961a7293eccfdd26ca8fe11347224
 [hooks.state."worktrunk@worktrunk:hooks/hooks.json:stop:0:0"]
 trusted_hash = "sha256:ae39455d097e32699e48441ade7671d9db5b80b17943aa3cc0901386b714a896"
 
+[hooks.state."worktrunk@worktrunk:plugin.json#hooks[0]:permission_request:0:0"]
+trusted_hash = "sha256:b5f6112154fd814298da679652ea096e11434b7f2876d471eb00c790a68045d0"
+
+[hooks.state."worktrunk@worktrunk:plugin.json#hooks[0]:session_end:0:0"]
+trusted_hash = "sha256:09b9fff83447c926af5f61010bc3dd3c8f2e6194c7c06b08f8acbf808a51710d"
+
+[hooks.state."worktrunk@worktrunk:plugin.json#hooks[0]:user_prompt_submit:0:0"]
+trusted_hash = "sha256:e2ffec558188fd0988ad51768594f675801fd2a1ba2895b5df2aca2650d70c2a"
+
+[hooks.state."worktrunk@worktrunk:plugin.json#hooks[0]:stop:0:0"]
+trusted_hash = "sha256:350c210fba4996f546f4d0483fc29286d73880ca5ef01fda3583ea2ce676945d"
+
 [desktop]
 followUpQueueMode = "steer"
 git-show-sidebar-pr-icons = true
-conversationDetailMode = "STEPS_PROSE"
+conversationDetailMode = "STEPS_COMMANDS"
 open-link-in-target-preference = "external-browser"
 preventSleepWhileRunning = true
 show-context-window-usage = false
+toys-confetti-enabled = true
+keepRemoteControlAwakeWhilePluggedIn = false
 
 [desktop.open-in-target-preferences]
-global = "cursor"
+global = "zed"
 
 [desktop.open-in-target-preferences.perPath]
 "/Users/dataders/Developer/fs" = "ghostty"
