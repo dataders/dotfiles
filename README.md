@@ -363,7 +363,8 @@ key auth, e.g. `peach01`).
 
 ```
 remote/setup.sh     bootstrap a brand-new host: packages, Prezto, Starship,
-                     rustup/cargo tools, zoxide, Claude/Codex CLIs, then
+                     rustup/cargo tools, zoxide, Claude/Codex/Pi CLIs and Pi
+                     Web UI, then
                      hands off to sync-env.sh
 remote/sync-env.sh   refresh an already-bootstrapped host: git pull dotfiles,
                      rsync dotfiles_env, re-apply remote/links.tsv
@@ -390,7 +391,8 @@ remote/sync-env.sh peach01
 `remote/links.tsv` is a separate, smaller manifest passed to `links.sh` via
 `DOTFILES_MANIFEST` — it reuses the same `links.sh apply/check/dry-run`
 engine as the main manifest, but only lists what's actually portable to a
-headless Linux box: the `remote/`-adapted shell/git/codex configs, plain
+headless Linux box: the `remote/`-adapted shell/git/codex configs, portable Pi
+config, plain
 public dotfiles (tmux, starship, `.zprofile`, ...), private warehouse/dbt
 credentials from `dotfiles_env`, and the portable subset of Claude/Codex
 agent config (hooks, `RTK.md`, settings). It deliberately excludes anything
@@ -403,6 +405,12 @@ Verify a host's managed links:
 ```zsh
 ssh peach01 'cd ~/Developer/dotfiles && DOTFILES_MANIFEST=remote/links.tsv ./links.sh check'
 ```
+
+Pi can either run persistently on the host (`ssh peach01`, then `tmux new -As
+pi`) or keep running locally while its tools target a configured SSH host
+(`/ssh peach01:/home/anders/Developer/<repo>`). `pi-webui` binds only to
+`127.0.0.1:8809`; reach it through an SSH forward or private tailnet proxy.
+Never publish that control surface directly to the internet.
 
 ## Security
 
