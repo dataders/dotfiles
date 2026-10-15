@@ -10,6 +10,13 @@ case $- in
   *) return ;;
 esac
 
+# Preserve commands passed through `bash -c` (including Codex's SSH websocket
+# bootstrap). Replacing that shell with zsh would discard the command and make
+# zsh consume the websocket handshake from stdin.
+if [[ -n "${BASH_EXECUTION_STRING:-}" ]]; then
+  return
+fi
+
 if [[ -z "$ZSH_VERSION" ]] && command -v zsh >/dev/null 2>&1; then
   exec zsh -l
 fi

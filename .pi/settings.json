@@ -46,6 +46,7 @@
     "projectRootResolution": "git-root"
   },
   "packages": [
+    "npm:@balaenis/pi-remote@0.2.0",
     "npm:@dreki-gg/pi-lsp",
     "npm:pi-permission-system@0.8.0",
     "npm:pi-subagents@0.59.0"

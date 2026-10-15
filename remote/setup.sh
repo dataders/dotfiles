@@ -14,10 +14,11 @@ REMOTE_DIR="$(cd "$(dirname "$0")" && pwd)"
 echo "==> Setting up shell environment on ${HOST}"
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 1. Install system packages (zsh, tmux, jq)
+# 1. Install system packages (including Pi remote-search dependencies)
 # ─────────────────────────────────────────────────────────────────────────────
 echo "--- Installing system packages..."
-ssh "$HOST" 'sudo apt-get install -y -qq zsh tmux jq 2>/dev/null || echo "apt install failed — some packages may already be present"'
+ssh "$HOST" 'sudo apt-get install -y -qq zsh tmux jq ripgrep fd-find 2>/dev/null || echo "apt install failed — some packages may already be present"'
+ssh "$HOST" 'mkdir -p ~/.local/bin; command -v fd >/dev/null 2>&1 || { FDFIND=$(command -v fdfind 2>/dev/null || true); [[ -z "$FDFIND" ]] || ln -sfn "$FDFIND" ~/.local/bin/fd; }'
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1b. Install fzf + Node.js/npm without sudo (user-local, so a host without
@@ -95,10 +96,15 @@ echo "--- Configuring npm prefix..."
 ssh "$HOST" 'bash -lc "npm config get prefix | grep -q npm-global || npm config set prefix ~/.npm-global"'
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 9. Install Codex CLI (needs the npm prefix set above)
+# 9. Install Codex, Pi, and Pi Web UI (need the npm prefix set above)
 # ─────────────────────────────────────────────────────────────────────────────
 echo "--- Installing Codex CLI..."
 ssh "$HOST" 'bash -lc "command -v codex >/dev/null 2>&1 || npm install -g @openai/codex"'
+echo "--- Installing Pi Coding Agent and private phone Web UI..."
+ssh "$HOST" 'bash -lc "command -v pi >/dev/null 2>&1 || npm install -g @earendil-works/pi-coding-agent"'
+ssh "$HOST" 'bash -lc "command -v pi-webui >/dev/null 2>&1 || npm install -g @hyperdreamer/pi-webui@1.18.3 --allow-scripts=node-pty"'
+ssh "$HOST" 'zsh -lic "pi-webui install --host 127.0.0.1 --port 8809"'
+ssh "$HOST" 'chmod go-w ~/.pi-webui ~/.config/pi-webui; systemctl --user restart pi-webui-sessiond.service pi-webui.service'
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 10. Register portable MCP servers with Claude Code (github, lucid)
@@ -130,7 +136,7 @@ echo ""
 echo "    Expected: Starship prompt with ❯ (not a plain \$ bash prompt — if you"
 echo "    see one, the chsh step above didn't take; run the fallback command"
 echo "    it printed, then start a fresh SSH session)"
-echo "    Try: ls, cat somefile, tmux, claude --version, codex --version"
+echo "    Try: ls, cat somefile, tmux, claude --version, codex --version, pi --version"
 echo ""
 echo "    lucid needs a one-time Runlayer login: run 'claude' and follow the"
 echo "    MCP auth prompt, or use Runlayer via Okta to authorize the connector."
