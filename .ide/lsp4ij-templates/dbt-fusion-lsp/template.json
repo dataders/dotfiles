@@ -1,0 +1,31 @@
+{
+  "id": "dbt-fusion-lsp",
+  "name": "dbt Fusion LSP",
+  "programArgs": {
+    "default": "/Users/dataders/Developer/fs/.claude/worktrees/mega-merge/target/debug/dbt lsp --project-dir $PROJECT_DIR$"
+  },
+  "expandConfiguration": true,
+  "fileTypeMappings": [
+    {
+      "fileType": {
+        "name": "SQL",
+        "patterns": ["*.sql"]
+      },
+      "languageId": "sql"
+    },
+    {
+      "fileType": {
+        "name": "YAML",
+        "patterns": ["*.yml", "*.yaml"]
+      },
+      "languageId": "yaml"
+    },
+    {
+      "fileType": {
+        "name": "Markdown",
+        "patterns": ["*.md"]
+      },
+      "languageId": "markdown"
+    }
+  ]
+}
