@@ -3,9 +3,9 @@ tap "dbt-labs/dbt-cli"
 tap "hamed-elfayome/claude-usage"
 tap "homebrew/core"
 tap "manaflow-ai/cmux"
-tap "microsoft/mssql-release"
+tap "microsoft/mssql-release", "https://github.com/Microsoft/homebrew-mssql-release"
 tap "osx-cross/arm", trusted: true
-tap "osx-cross/avr"
+tap "osx-cross/avr", trusted: true
 tap "qmk/qmk", trusted: true
 tap "supabase/tap"
 # Run your GitHub Actions locally
@@ -14,8 +14,10 @@ brew "act"
 brew "apache-arrow-adbc"
 # Record and share terminal sessions
 brew "asciinema"
-# Structural / AST-based code search and rewrite (sg / ast-grep)
+# Code searching, linting, rewriting
 brew "ast-grep"
+# AWS SDK for C++
+brew "aws-sdk-cpp"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
 # Vector graphics library with cross-device output support
@@ -30,6 +32,8 @@ brew "changie"
 brew "cmake"
 # Container runtimes on MacOS (and Linux) with minimal setup
 brew "colima"
+# Roaring bitmaps in C (and C++)
+brew "croaring"
 # Load/unload environment variables based on $PWD
 brew "direnv"
 # Pack, ship and run any application as a lightweight container
@@ -58,6 +62,10 @@ brew "git"
 brew "git-delta"
 # Quickly rewrite git repository history
 brew "git-filter-repo"
+# Compute various size metrics for a Git repository
+brew "git-sizer"
+# Audit git repos for secrets
+brew "gitleaks"
 # Render markdown on the CLI
 brew "glow"
 # Open source programming language to build simple/reliable/efficient software
@@ -72,16 +80,22 @@ brew "graphviz"
 brew "htop"
 # Git-compatible distributed version control system
 brew "jj"
-# Fast key-value storage library
+# Handy way to save and run project-specific commands
+brew "just"
+# Key-value storage library with ordered mapping
 brew "leveldb"
 # Generic machine emulator and virtualizer
 brew "qemu"
 # Additional guest agents for Lima
 brew "lima-additional-guestagents"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "neovim"
 # Small build system for use with gyp or CMake
 brew "ninja"
 # Open-source, cross-platform JavaScript runtime environment
 brew "node"
+# Manage multiple Node.js versions
+brew "nvm"
 # Development kit for the Java programming language
 brew "openjdk"
 # Development kit for the Java programming language
@@ -92,6 +106,10 @@ brew "openjdk@21"
 brew "pipx"
 # Package compiler and linker metadata toolkit
 brew "pkgconf"
+# PDF rendering library (based on the xpdf-3.0 code base)
+brew "poppler"
+# Object-relational database system
+brew "postgresql@14", restart_service: :changed
 # Protocol buffers (Google's data interchange format)
 brew "protobuf"
 # Interpreted, interactive, object-oriented programming language
@@ -140,12 +158,15 @@ brew "yt-dlp"
 brew "zoxide"
 # Feature-rich syntax highlighting for Zsh
 brew "zsh-fast-syntax-highlighting"
+# Quantum Mechanical Keyboard (QMK) Firmware
+brew "qmk/qmk/qmk", trusted: true
 # Supabase CLI
 brew "supabase/tap/supabase", trusted: true
 # Command-line interface for 1Password
 cask "1password-cli"
-# Local-first dashboard for AI coding agent token usage (Claude Code, Codex, Wizard)
+# Browse, search and analyse your past AI coding sessions
 cask "agentsview"
+cask "claude-usage-tracker"
 # Ghostty-based terminal with vertical tabs and notifications for AI coding agents
 cask "cmux"
 # OpenAI's coding agent that runs in your terminal
@@ -161,8 +182,13 @@ cask "macmd-viewer"
 cask "ngrok"
 # Scientific and technical publishing system built on Pandoc
 cask "quarto"
+# Interior design application
+cask "sweet-home3d"
 # View output from scripts in the menu bar
 cask "xbar"
+# Multiplayer code editor
+cask "zed"
+vscode "adamviola.parquet-explorer"
 vscode "anthropic.claude-code"
 vscode "anysphere.cursorpyright"
 vscode "anysphere.remote-ssh"
@@ -211,23 +237,25 @@ cargo "cargo-mutants"
 cargo "cargo-nextest"
 cargo "lowfi"
 cargo "mdcat-ng"
+cargo "qcp"
 cargo "taplo-cli"
 uv "claude-code-transcripts"
 uv "cocoindex-code[full]"
-uv "dataface[chat,mcp,server]", with: ["dbt-snowflake"]
+uv "dataface[lsp,snowflake]", with: ["d3-formatfile:///Users/dataders/Developer/dataface/libs/d3-format", "markdown-svgfile:///Users/dataders/Developer/dataface/libs/markdown-svg"]
 uv "dbc"
 uv "dbt-autofix"
+uv "dbt-charts[snowflake]"
 uv "dbt-mcp"
+uv "gato-x"
 uv "harlequin", with: ["duckdb==1.4.4"]
 uv "openai-whisper"
 uv "serena-agent"
+uv "shellcheck-py"
 uv "sqlfluff"
 uv "wtg-cli"
-npm "@williamzujkowski/strudel-mcp-server"
 npm "@earendil-works/pi-coding-agent"
-npm "@dreki-gg/pi-lsp"
-npm "pi-permission-system"
-npm "pi-subagents"
+npm "@hyperdreamer/pi-webui"
+npm "@williamzujkowski/strudel-mcp-server"
 npm "mviz"
 npm "n"
 npm "tree-sitter-cli"
