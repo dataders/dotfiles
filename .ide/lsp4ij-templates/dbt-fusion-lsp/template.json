@@ -2,7 +2,7 @@
   "id": "dbt-fusion-lsp",
   "name": "dbt Fusion LSP",
   "programArgs": {
-    "default": "/Users/dataders/Developer/fs/.claude/worktrees/mega-merge/target/debug/dbt lsp --project-dir $PROJECT_DIR$"
+    "default": "/Users/dataders/.local/bin/dbt lsp --project-dir $PROJECT_DIR$"
   },
   "expandConfiguration": true,
   "fileTypeMappings": [
