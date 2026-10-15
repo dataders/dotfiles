@@ -13,5 +13,5 @@
 spotlight_testing = true
 
 [scripts]
-run = "cargo xtask test"      # fs README: the only supported way to run the full suite
-run_mode = "nonconcurrent"    # single shared root build/target — don't run in parallel
+run = "cargo xtask test" # fs README: the only supported way to run the full suite
+run_mode = "nonconcurrent" # single shared root build/target — don't run in parallel

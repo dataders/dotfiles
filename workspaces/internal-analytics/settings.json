@@ -1,4 +1,5 @@
 {
+    "dbt.dbtPath": "/Users/dataders/.local/bin/dbtz",
     "window.autoDetectColorScheme": true,
     "workbench.preferredLightColorTheme": "Catppuccin Latte",
     "workbench.preferredDarkColorTheme": "Catppuccin Mocha"

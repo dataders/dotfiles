@@ -7,6 +7,24 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "agent": {
+    "default_model": {
+      "provider": "openai-subscribed",
+      "model": "gpt-5.6-terra",
+      "enable_thinking": true,
+      "effort": "medium"
+    },
+    "favorite_models": [],
+    "model_parameters": []
+  },
+  "git_panel": {
+    "tree_view": true
+  },
+  "code_lens": "on",
+  "inlay_hints": {
+    "enabled": true,
+    "show_type_hints": true
+  },
   "icon_theme": "Zed (Default)",
   "base_keymap": "VSCode",
   "ui_font_size": 16,
@@ -15,5 +33,13 @@
     "mode": "system",
     "light": "One Light",
     "dark": "One Dark"
-  }
+  },
+  "ssh_connections": [
+    {
+      "host": "peach01",
+      "nickname": "peach01",
+      "projects": [{ "paths": ["/home/anders/Developer/fs"] }],
+      "upload_binary_over_ssh": true
+    }
+  ]
 }

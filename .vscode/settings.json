@@ -24,6 +24,7 @@
     "dbt.environmentVariables": {
         "DBT_LSP_LAZY_COMPILATION_ENABLED": "1",
         "DBT_ALLOW_EXPERIMENTAL_ADAPTERS": "1",
+        "RUST_LOG": "debug",
         "DBT_USE_INDEX": "true"
     },
     "dbt.flag.defer": true,
@@ -105,6 +106,11 @@
     "editor.minimap.enabled": true,
     "dbt.lineage.defaultDepth": 2,
     "dbt.ggsql.cliPath": "/Users/dataders/Developer/fs.ggsql-fold-in/target/debug/ggsql",
-    "dbt.dbtPath": "/Users/dataders/Developer/fs.aswanson-catalogs-v2-horizon-unity/target/debug/dbt",
-    "parquet-viewer.format": "csv"
+    "parquet-viewer.format": "csv",
+    "remote.SSH.remotePlatform": {
+        "peach01-codex": "linux"
+    },
+    "dbt.lsp.linter.enabled": true,
+    "dbt.logging.enableOtelFileExport": true,
+    "dbt.lintFixOnSave": true
 }
