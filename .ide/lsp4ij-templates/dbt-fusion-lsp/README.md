@@ -1,7 +1,6 @@
 # dbt Fusion LSP (LSP4IJ custom template)
 
-Points LSP4IJ at the locally-built `dbt` debug binary from the
-`mega-merge` jj workspace (`fs/.claude/worktrees/mega-merge`), running
+Points LSP4IJ at the released `dbt` binary (`~/.local/bin/dbt`), running
 `dbt lsp --project-dir $PROJECT_DIR$`.
 
 ## Install
@@ -19,9 +18,9 @@ Points LSP4IJ at the locally-built `dbt` debug binary from the
 
 ## Notes
 
-- The binary path in `template.json` is a local dev build. Update it if the
-  `mega-merge` worktree moves or is rebuilt elsewhere, or repoint at a
-  released `dbt` binary on `$PATH` once this ships.
+- The binary path in `template.json` is the released `dbt` (2.x ships
+  `dbt lsp`). To test an unreleased build, point it at that build's
+  `target/debug/dbt` instead.
 - `settings.json` mirrors the `dbt.lsp.*` settings shape the server pulls
   via `workspace/configuration` (see `crates/dbt-lsp/src/lsp_client_config.rs`
   and the Neovim integration at
