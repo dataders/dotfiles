@@ -17,7 +17,7 @@ Hard rules:
 - Do not delete critical `~/.dbt/*` symlinks.
 - Use explicit overlay hooks only: `secrets.zsh`, `local.zsh`,
   `gitconfig.local`, and `source_dotfiles_env`.
-- Use matching repo-backed skills from `.ai/skills`.
+- Use matching repo-backed skills from `.ai/skills` or `.agents/skills` in the current repo.
 - Use `worktrunk` / `wt` for worktrees, never `superpowers:using-git-worktrees`.
 - Spawn agent teams via the session's implicit team: `TaskCreate → Agent(name=…)`, coordinate with `SendMessage`; never `cmux claude-teams`, never inline execution, never bare `Agent(run_in_background=true)`. (`TeamCreate`/`team_name` removed in CLI 2.1.179.)
 - changie changelog entries: `author` must be `"dataders claude"` (pass `--custom 'author=dataders claude'`), never `aswanson`.
