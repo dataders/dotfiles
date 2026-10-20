@@ -14,7 +14,7 @@ Hard rules:
 - Do not delete critical `~/.dbt/*` symlinks.
 - Use explicit overlay hooks only: `secrets.zsh`, `local.zsh`,
   `gitconfig.local`, and `source_dotfiles_env`.
-- Use matching repo-backed skills from `.ai/skills`.
+- Use matching repo-backed skills from `.ai/skills` or `.agents/skills` in the current repo.
 - Do not use `superpowers:using-git-worktrees`; use `worktrunk` and `wt`.
 
 @RTK.md
