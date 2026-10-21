@@ -238,6 +238,12 @@ run_doctor() {
         doctor_private_file "$env_root/.dbt/$dbt_file"
     done
 
+    if [[ -e "$HOME/Library/LaunchAgents/com.dataders.peach01-url-healthcheck.plist" ]]; then
+        doctor_check "peach01 URL relay and ssh-agent healthy" "$repo_root/bin/peach01-url-healthcheck"
+    else
+        log "SKIP optional peach01 relay health check: LaunchAgent not linked"
+    fi
+
     doctor_optional_file "$env_root/secrets.zsh" "zsh secrets overlay"
     doctor_optional_file "$env_root/local.zsh" "zsh local overlay"
     doctor_optional_file "$env_root/gitconfig.local" "Git local overlay"

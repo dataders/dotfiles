@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Persistent peach01 reverse tunnel for the browser-OAuth URL relay, with self-heal.
+#
+# peach01's sshd runs ClientAliveCountMax 0, so it never reaps a dead tunnel
+# session. After a sleep or Tailscale flap the orphan keeps 127.0.0.1:17761
+# bound on peach01 and every new `ssh -R` dies with "remote port forwarding
+# failed". launchd restarts us every ThrottleInterval, so: if the tunnel dies
+# fast, kill the orphan (our own sshd only) and let launchd retry.
+set -u
+
+PORT="${URL_OPEN_RELAY_PORT:-17761}"
+HOST="peach01-url-open-tunnel"
+FAST_FAIL_SECS=30
+
+heal() {
+  # shellcheck disable=SC2016  # expanded on the remote side
+  ssh -T -o BatchMode=yes -o ConnectTimeout=10 "$HOST" 'bash -s' "$PORT" <<'REMOTE' 2>&1 | grep -v -E 'UNAUTHORIZED|permission to|policy|disciplinary|law enforcement|privacy|^[[:space:]]*$'
+port="$1"
+pid="$(sudo -n ss -ltnpH "sport = :$port" 2>/dev/null | sed -n 's/.*users:(("sshd",pid=\([0-9]*\),.*/\1/p' | head -1)"
+if [ -z "$pid" ]; then echo "heal: nothing holds :$port"; exit 0; fi
+owner="$(ps -o user= -p "$pid" | tr -d ' ')"
+comm="$(ps -o comm= -p "$pid" | tr -d ' ')"
+if [ "$owner" = "$(id -un)" ] && [ "$comm" = "sshd" ]; then
+  echo "heal: killing orphan sshd $pid holding :$port"
+  kill "$pid"
+else
+  echo "heal: :$port held by $owner/$comm pid $pid; not ours, leaving it"
+fi
+REMOTE
+}
+
+start=$SECONDS
+/usr/bin/ssh -N -T \
+  -o BatchMode=yes \
+  -o ExitOnForwardFailure=yes \
+  -o ServerAliveInterval=30 \
+  -o ServerAliveCountMax=3 \
+  -R "127.0.0.1:${PORT}:127.0.0.1:${PORT}" \
+  "$HOST"
+rc=$?
+
+if (( SECONDS - start < FAST_FAIL_SECS )); then
+  echo "$(date '+%F %T') tunnel exited rc=$rc after $((SECONDS - start))s; healing" >&2
+  heal >&2 || true
+fi
+exit "$rc"
