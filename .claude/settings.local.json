@@ -3,5 +3,9 @@
     "allow": [
       "Bash(/opt/homebrew/opt/fzf/install:*)"
     ]
+  },
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": false,
+    "superpowers@superpowers-marketplace": false
   }
 }

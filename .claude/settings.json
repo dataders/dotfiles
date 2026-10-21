@@ -177,6 +177,25 @@
             "timeout": 10
           }
         ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook",
+            "timeout": 86400
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "timeout": 2
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -189,6 +208,15 @@
             "timeout": 10
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "timeout": 2
+          }
+        ]
       }
     ],
     "PostToolUseFailure": [
@@ -199,6 +227,15 @@
             "type": "command",
             "command": "bash -c '[ -f ~/.claude/hooks/herdr-agent-state.sh ] && bash ~/.claude/hooks/herdr-agent-state.sh working || true'",
             "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "timeout": 2
           }
         ]
       }
@@ -230,6 +267,15 @@
             "timeout": 10
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "timeout": 2
+          }
+        ]
       }
     ],
     "SessionEnd": [
@@ -242,6 +288,15 @@
             "timeout": 10
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "timeout": 2
+          }
+        ]
       }
     ],
     "Stop": [
@@ -252,6 +307,15 @@
             "type": "command",
             "command": "bash -c '[ -f ~/.claude/hooks/herdr-agent-state.sh ] && bash ~/.claude/hooks/herdr-agent-state.sh idle || true'",
             "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "timeout": 2
           }
         ]
       }
@@ -276,6 +340,26 @@
             "type": "command",
             "command": "bash -c '[ -f ~/.claude/hooks/herdr-agent-state.sh ] && bash ~/.claude/hooks/herdr-agent-state.sh working || true'",
             "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "timeout": 2
           }
         ]
       }
