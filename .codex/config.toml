@@ -1,5 +1,5 @@
-model = "gpt-6-astra"
-model_reasoning_effort = "high"
+model = "gpt-6-sol"
+model_reasoning_effort = "medium"
 approval_policy = "on-request"
 approvals_reviewer = "guardian_subagent"
 sandbox_mode = "workspace-write"
@@ -118,14 +118,14 @@ NODE_REPL_NODE_MODULE_DIRS = "/Applications/ChatGPT.app/Contents/Resources/cua_n
 NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node"
 NODE_REPL_TRUSTED_CODE_PATHS = "/Users/dataders/.codex:/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
 CODEX_HOME = "/Users/dataders/.codex"
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab,mcpapps"
 BROWSER_USE_TINYSKY_ENABLED = "1"
 NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
 NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.924.22138"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/dataders/.codex/plugins/cache/openai-bundled/browser/26.924.22138/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+BROWSER_USE_CODEX_APP_VERSION = "26.1013.40934"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/dataders/.codex/plugins/cache/openai-bundled/browser/26.1013.40934/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
 SKY_CUA_SERVICE_PATH = "/Users/dataders/.codex/computer-use/Codex Computer Use.app"
 CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex"
 
@@ -134,6 +134,9 @@ command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.
 args = ["mcp"]
 cwd = "."
 enabled = false
+
+[mcp_servers.shrine]
+command = "/Applications/Shrine.app/Contents/Helpers/shrine-mcp"
 
 [projects."/Users/dataders/Developer"]
 trust_level = "trusted"
@@ -204,6 +207,15 @@ trust_level = "trusted"
 [projects."/Users/dataders/Developer/quantified_carl"]
 trust_level = "trusted"
 
+[projects."/Users/dataders/Developer/Jaffle-Games"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/dbt-external-tables"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/vortex-event-analytics"]
+trust_level = "trusted"
+
 [plugins."superpowers@openai-curated"]
 enabled = true
 
@@ -243,9 +255,6 @@ enabled = true
 [plugins."template-creator@openai-primary-runtime"]
 enabled = true
 
-[plugins."computer-history@openai-bundled"]
-enabled = true
-
 [plugins."chrome@openai-bundled"]
 enabled = true
 
@@ -253,6 +262,12 @@ enabled = true
 enabled = true
 
 [plugins."unified-computer-use@openai-bundled"]
+enabled = true
+
+[plugins."computer-history@openai-bundled"]
+enabled = true
+
+[plugins."code-review@openai-bundled"]
 enabled = true
 
 [[skills.config]]
@@ -268,8 +283,8 @@ source_type = "local"
 source = "/Users/dataders/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
 [marketplaces.claude-plugins-official]
-last_updated = "2026-08-22T15:41:55Z"
-last_revision = "340e33aef211d95769d252324854497af871dafe"
+last_updated = "2026-10-19T21:53:19Z"
+last_revision = "a0b04d9ddccaabe1976645f68b0eda50f74e7022"
 source_type = "git"
 source = "https://github.com/anthropics/claude-plugins-official.git"
 
@@ -285,9 +300,12 @@ status_line = [
     "current-dir",
 ]
 status_line_use_colors = true
+screen_reader_detection_done = true
+agents_overview_grouping = "status"
 
 [tui.model_availability_nux]
 "gpt-5.5" = 4
+"gpt-6.1-sol" = 3
 
 [notice]
 fast_default_opt_out = true
@@ -346,8 +364,74 @@ trusted_hash = "sha256:e2ffec558188fd0988ad51768594f675801fd2a1ba2895b5df2aca265
 [hooks.state."worktrunk@worktrunk:plugin.json#hooks[0]:stop:0:0"]
 trusted_hash = "sha256:350c210fba4996f546f4d0483fc29286d73880ca5ef01fda3583ea2ce676945d"
 
+[hooks.state."/Users/dataders/.codex/hooks.json:pre_tool_use:0:0"]
+trusted_hash = "sha256:8d3d6d48e39999e7ad27a21967903530cc535b5354e70dcdb4645848e51d9f83"
+
+[hooks.state."/Users/dataders/.codex/hooks.json:permission_request:0:0"]
+trusted_hash = "sha256:7babbdb0966a296c848dbbfd8bebe250e14ec64fa407ccaf6a498f7845570239"
+
+[hooks.state."/Users/dataders/.codex/hooks.json:post_tool_use:0:0"]
+trusted_hash = "sha256:3d7279428ca22f2a73922e10487e61293a7415df4612dd874ed1d9113af8e22b"
+
+[hooks.state."/Users/dataders/.codex/hooks.json:session_start:1:0"]
+trusted_hash = "sha256:529afc6fbdccfe634d83e62c150c9dac890b1d56b3b2d21ae93cfa9f4aa82f76"
+
+[hooks.state."/Users/dataders/.codex/hooks.json:session_end:0:0"]
+trusted_hash = "sha256:143a54272a61af9010ac932b6658427a9b8103d3e7abbe7cdbc2efd215e0d45d"
+
+[hooks.state."/Users/dataders/.codex/hooks.json:user_prompt_submit:1:0"]
+trusted_hash = "sha256:9c86e56194270931632cf9526e5c86fb0fce9365d73a18729ccab4dc3e22b08a"
+
+[hooks.state."/Users/dataders/.codex/hooks.json:stop:1:0"]
+trusted_hash = "sha256:8042a10b27caa7537c6b94e454eeb157dd8d101f9f90c1745bcac6e77c963a35"
+
+[hooks.state."/Users/dataders/.codex/hooks.json:interrupt:0:0"]
+trusted_hash = "sha256:70879f7495f75d49531a495db7c77183c2e303e8e8b165f8b3e2624805023f97"
+
+[hooks.state."browser@openai-bundled:plugin.json#hooks[0]:subagent_stop:0:0"]
+trusted_hash = "sha256:2d941ada38ef1d54b6f5751c877d2219e81069061b50da10e4a8d7cd8896114d"
+
+[hooks.state."browser@openai-bundled:plugin.json#hooks[0]:stop:0:0"]
+trusted_hash = "sha256:317a07045dfc95aef2e80c55428a2f817e2768be867e3b1ef29a73da8636ae7f"
+
+[hooks.state."chrome@openai-bundled:plugin.json#hooks[0]:subagent_stop:0:0"]
+trusted_hash = "sha256:2d941ada38ef1d54b6f5751c877d2219e81069061b50da10e4a8d7cd8896114d"
+
+[hooks.state."chrome@openai-bundled:plugin.json#hooks[0]:stop:0:0"]
+trusted_hash = "sha256:317a07045dfc95aef2e80c55428a2f817e2768be867e3b1ef29a73da8636ae7f"
+
+[hooks.state."unified-computer-use@openai-bundled:plugin.json#hooks[0]:subagent_stop:0:0"]
+trusted_hash = "sha256:9dc8e6e56fe1aaed56eba99d13697c5e0737ee0980c5437991b3480efef75667"
+
+[hooks.state."unified-computer-use@openai-bundled:plugin.json#hooks[0]:stop:0:0"]
+trusted_hash = "sha256:f41fe6e03250f6b7048987873f93fb818aaef2f9a068e21a9899a7ac3d78659b"
+
+[hooks.state."/Users/dataders/Developer/dotfiles/.codex/hooks.json:pre_tool_use:0:0"]
+trusted_hash = "sha256:8d3d6d48e39999e7ad27a21967903530cc535b5354e70dcdb4645848e51d9f83"
+
+[hooks.state."/Users/dataders/Developer/dotfiles/.codex/hooks.json:permission_request:0:0"]
+trusted_hash = "sha256:7babbdb0966a296c848dbbfd8bebe250e14ec64fa407ccaf6a498f7845570239"
+
+[hooks.state."/Users/dataders/Developer/dotfiles/.codex/hooks.json:post_tool_use:0:0"]
+trusted_hash = "sha256:3d7279428ca22f2a73922e10487e61293a7415df4612dd874ed1d9113af8e22b"
+
+[hooks.state."/Users/dataders/Developer/dotfiles/.codex/hooks.json:session_start:1:0"]
+trusted_hash = "sha256:529afc6fbdccfe634d83e62c150c9dac890b1d56b3b2d21ae93cfa9f4aa82f76"
+
+[hooks.state."/Users/dataders/Developer/dotfiles/.codex/hooks.json:session_end:0:0"]
+trusted_hash = "sha256:143a54272a61af9010ac932b6658427a9b8103d3e7abbe7cdbc2efd215e0d45d"
+
+[hooks.state."/Users/dataders/Developer/dotfiles/.codex/hooks.json:user_prompt_submit:1:0"]
+trusted_hash = "sha256:9c86e56194270931632cf9526e5c86fb0fce9365d73a18729ccab4dc3e22b08a"
+
+[hooks.state."/Users/dataders/Developer/dotfiles/.codex/hooks.json:stop:1:0"]
+trusted_hash = "sha256:8042a10b27caa7537c6b94e454eeb157dd8d101f9f90c1745bcac6e77c963a35"
+
+[hooks.state."/Users/dataders/Developer/dotfiles/.codex/hooks.json:interrupt:0:0"]
+trusted_hash = "sha256:70879f7495f75d49531a495db7c77183c2e303e8e8b165f8b3e2624805023f97"
+
 [desktop]
-followUpQueueMode = "steer"
+followUpQueueMode = "queue"
 git-show-sidebar-pr-icons = true
 conversationDetailMode = "STEPS_COMMANDS"
 open-link-in-target-preference = "external-browser"
@@ -355,6 +439,7 @@ preventSleepWhileRunning = true
 show-context-window-usage = false
 toys-confetti-enabled = true
 keepRemoteControlAwakeWhilePluggedIn = false
+agent-usage-reset-enabled = true
 
 [desktop.open-in-target-preferences]
 global = "zed"
