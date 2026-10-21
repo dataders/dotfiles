@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# End-to-end health check for the peach01 browser-OAuth relay and SSH agent.
+#
+# Checks (over one SSH connection to peach01):
+#   relay  - peach01 127.0.0.1:17761 reaches the Mac relay (expects HTTP 400 for a bad URL)
+#   agent  - ssh-add -l against peach01's prezto agent socket answers within 5s
+# On relay failure: kickstart the Mac relay/tunnel LaunchAgents and re-check.
+# Notifies on failure and on recovery only (state in ~/Library/Logs).
+#
+# Usage: peach01-url-healthcheck [--verbose]   (exit 0 healthy, 1 unhealthy)
+set -u
+
+HOST="peach01-url-open-tunnel"   # ControlMaster no: never wedge on a stale mux
+PORT=17761
+UID_N="$(id -u)"
+STATE_DIR="$HOME/Library/Logs"
+STATE_FILE="$STATE_DIR/peach01-url-healthcheck.state"
+LOG_FILE="$STATE_DIR/peach01-url-healthcheck.log"
+VERBOSE=0
+[[ "${1:-}" == "--verbose" ]] && VERBOSE=1
+mkdir -p "$STATE_DIR"
+
+log() {
+  local line
+  line="$(date '+%F %T') $*"
+  printf '%s\n' "$line" >> "$LOG_FILE"
+  (( VERBOSE )) && printf '%s\n' "$line"
+  return 0
+}
+
+notify() {
+  /usr/bin/osascript -e "display notification \"$1\" with title \"peach01 relay\"" >/dev/null 2>&1 || true
+}
+
+# Prints "relay=<http code|none> agent=<exit|none>"; hard-capped at 25s.
+probe() {
+  perl -e 'alarm 25; exec @ARGV' /usr/bin/ssh -T \
+    -o BatchMode=yes -o ConnectTimeout=10 -o ServerAliveInterval=5 -o ServerAliveCountMax=2 \
+    "$HOST" 'relay=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 -X POST \
+        -H "X-Url-Open-Relay: 1" --data-urlencode "url=ftp://healthcheck" \
+        http://127.0.0.1:'"$PORT"'/register 2>/dev/null)
+      SSH_AUTH_SOCK="$HOME/.cache/prezto/ssh-agent.sock" timeout 5 ssh-add -l >/dev/null 2>&1; agent=$?
+      echo "relay=${relay:-none} agent=$agent"' 2>/dev/null | grep -E '^relay=' | tail -1
+}
+
+kick() {
+  launchctl kickstart -k "gui/$UID_N/$1" >/dev/null 2>&1 && log "kickstarted $1"
+}
+
+result="$(probe)"
+result="${result:-relay=none agent=none}"
+relay="${result#relay=}"; relay="${relay%% *}"
+agent="${result##*agent=}"
+log "probe: $result"
+
+if [[ "$relay" != "400" ]]; then
+  # Local relay listening? If not, restart it; either way bounce the tunnel.
+  if ! curl -s -o /dev/null --max-time 3 -X POST -H 'X-Url-Open-Relay: 1' \
+      --data-urlencode 'url=ftp://healthcheck' "http://127.0.0.1:${PORT}/register"; then
+    kick com.dataders.url-open-relay
+  fi
+  kick com.dataders.peach01-url-open-tunnel
+  sleep 20
+  result="$(probe)"; result="${result:-relay=none agent=none}"
+  relay="${result#relay=}"; relay="${relay%% *}"
+  agent="${result##*agent=}"
+  log "re-probe: $result"
+fi
+
+problems=()
+[[ "$relay" == "400" ]] || problems+=("URL relay down (relay=$relay)")
+[[ "$agent" == "0" || "$agent" == "1" ]] || problems+=("peach01 ssh-agent not answering (exit $agent)")
+
+prev="$(cat "$STATE_FILE" 2>/dev/null || echo ok)"
+if (( ${#problems[@]} )); then
+  msg="$(IFS='; '; echo "${problems[*]}")"
+  log "UNHEALTHY: $msg"
+  [[ "$prev" != "bad" ]] && notify "$msg"
+  echo bad > "$STATE_FILE"
+  (( VERBOSE )) && echo "UNHEALTHY: $msg"
+  exit 1
+fi
+
+[[ "$prev" == "bad" ]] && notify "Recovered: relay and ssh-agent healthy"
+echo ok > "$STATE_FILE"
+(( VERBOSE )) && echo "healthy: $result"
+exit 0
