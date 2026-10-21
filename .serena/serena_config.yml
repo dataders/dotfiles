@@ -187,9 +187,11 @@ projects:
 - /Users/dataders/Developer/great_expectations
 - /Users/dataders/Developer/hydrate.ai
 - /Users/dataders/Developer/internal-analytics
+- /Users/dataders/Developer/jaffle-sandbox
 - /Users/dataders/Developer/james-river-gooners
 - /Users/dataders/Developer/quack
 - /Users/dataders/Developer/quantified_carl
+- /Users/dataders/Developer/vortex-event-analytics
 - /Users/dataders/dbt-wizard/workspaces/internal-analytics-48bd39/calm-panda
 - /Users/dataders/dbt-wizard/workspaces/internal-analytics-48bd39/gentle-dolphin
 - /Users/dataders/dbt-wizard/workspaces/internal-analytics-48bd39/merry-crane
