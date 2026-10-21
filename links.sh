@@ -86,6 +86,16 @@ link_item() {
     local note="${5:-}"
     local current=""
 
+    # A symlinked parent can make source and target the same directory entry.
+    # Replacing that entry with a symlink would create a loop.
+    if [[ "${source:h:A}" == "${target:h:A}" && "${source:t}" == "${target:t}" ]]; then
+        case "$mode" in
+            check) log "OK $target already resolves to $source" ;;
+            dry-run|apply|unlink) log "SKIP $target already resolves to $source" ;;
+        esac
+        return 0
+    fi
+
     case "$mode" in
         dry-run)
             ensure_parent "$target"
