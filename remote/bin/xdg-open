@@ -1,22 +1,111 @@
 #!/usr/bin/env bash
 # xdg-open shim for headless remote dev boxes (peach01, nectarine01, ...).
 #
-# CLIs doing browser-based OAuth (databricks auth login, gh auth login, gcloud
-# auth login, ...) shell out to xdg-open with no display to open. This forwards
-# the URL to a relay listening on 127.0.0.1 on the machine you SSH in from,
-# reached via the RemoteForward tunnel configured in that machine's
-# ~/.ssh/config (see remote/README section on browser-open forwarding).
+# CLIs doing browser-based OAuth shell out to xdg-open with no display to open.
+# The Mac relay opens the URL and temporarily owns the same loopback callback
+# port. A detached worker carries that callback back through the single SSH
+# RemoteForward and replays it to the CLI's listener here.
 set -euo pipefail
 
 RELAY_PORT="${REMOTE_OPEN_RELAY_PORT:-17761}"
+RELAY_URL="http://127.0.0.1:${RELAY_PORT}"
 url="${1:?Usage: xdg-open <url>}"
 
-if curl -fsS --max-time 2 -G "http://127.0.0.1:${RELAY_PORT}/open" --data-urlencode "url=${url}" >/dev/null 2>&1; then
+relay_worker() {
+  local transaction_id="$1" callback_host="$2" callback_port="$3"
+  local temp_dir event_file body_file method target_b64 type_b64 body_b64 target content_type callback_url ok=0
+
+  temp_dir="$(mktemp -d "${TMPDIR:-/tmp}/url-open-relay.XXXXXX")"
+  trap "rm -rf -- '$temp_dir'" EXIT
+  event_file="${temp_dir}/event"
+  body_file="${temp_dir}/body"
+  if ! curl -fsS --noproxy '*' --max-time 620 -H 'X-Url-Open-Relay: 1' \
+    "${RELAY_URL}/wait/${transaction_id}" -o "$event_file"; then
+    exit 0
+  fi
+  {
+    IFS= read -r method
+    IFS= read -r target_b64
+    IFS= read -r type_b64
+    IFS= read -r body_b64
+  } < "$event_file"
+  target="$(printf '%s' "$target_b64" | base64 --decode)" || exit 0
+  content_type="$(printf '%s' "$type_b64" | base64 --decode)" || exit 0
+  printf '%s' "$body_b64" | base64 --decode > "$body_file" || exit 0
+  if [[ "$callback_host" == "::1" ]]; then
+    callback_url="http://[::1]:${callback_port}${target}"
+  else
+    callback_url="http://${callback_host}:${callback_port}${target}"
+  fi
+  case "$method" in
+    GET)
+      curl -sS --noproxy '*' --max-time 15 --path-as-is -o /dev/null "$callback_url" && ok=1 || true
+      ;;
+    POST)
+      curl -sS --noproxy '*' --max-time 15 --path-as-is -o /dev/null \
+        -X POST -H "Content-Type: ${content_type}" --data-binary "@${body_file}" "$callback_url" && ok=1 || true
+      ;;
+  esac
+  curl -fsS --noproxy '*' --max-time 5 -X POST -H 'X-Url-Open-Relay: 1' \
+    --data-urlencode "ok=${ok}" "${RELAY_URL}/ack/${transaction_id}" >/dev/null 2>&1 || true
+}
+
+if [[ "${1:-}" == "--relay-worker" ]]; then
+  relay_worker "${2:?missing transaction id}" "${3:?missing callback host}" "${4:?missing callback port}"
+  exit 0
+fi
+
+discover_callback() {
+  local pid parent line address host port owner_pid
+  local -a ancestor_pids=()
+  declare -A ports=() hosts=()
+  pid="$PPID"
+  while [[ "$pid" =~ ^[0-9]+$ ]] && (( pid > 1 )); do
+    ancestor_pids+=("$pid")
+    parent="$(ps -o ppid= -p "$pid" 2>/dev/null | tr -d '[:space:]')"
+    [[ -n "$parent" && "$parent" != "$pid" ]] || break
+    pid="$parent"
+  done
+  while IFS= read -r line; do
+    for owner_pid in "${ancestor_pids[@]}"; do
+      [[ "$line" == *"pid=${owner_pid},"* ]] || continue
+      address="$(awk '{print $4}' <<< "$line")"
+      port="${address##*:}"
+      host="${address%:*}"
+      host="${host#\[}"
+      host="${host%\]}"
+      [[ "$port" =~ ^[0-9]+$ && "$port" != "$RELAY_PORT" ]] || continue
+      if [[ "$host" == "::1" ]]; then
+        hosts["$port"]="::1"
+      elif [[ "$host" == 127.* ]]; then
+        hosts["$port"]="127.0.0.1"
+      else
+        continue
+      fi
+      ports["$port"]=1
+    done
+  done < <(ss -H -ltnp 2>/dev/null || true)
+  if (( ${#ports[@]} == 1 )); then
+    for port in "${!ports[@]}"; do
+      printf '%s %s\n' "${hosts[$port]}" "$port"
+    done
+  fi
+}
+
+callback_host=""
+callback_port=""
+read -r callback_host callback_port < <(discover_callback || true) || true
+transaction_id="$(curl -fsS --noproxy '*' --max-time 5 -X POST \
+  -H 'X-Url-Open-Relay: 1' --data-urlencode "url=${url}" \
+  --data-urlencode "callback_port=${callback_port}" "${RELAY_URL}/register" 2>/dev/null)" || transaction_id=""
+if [[ -n "$transaction_id" ]]; then
+  if [[ "$transaction_id" != "-" && -n "$callback_host" && -n "$callback_port" ]]; then
+    nohup "$0" --relay-worker "$transaction_id" "$callback_host" "$callback_port" </dev/null >/dev/null 2>&1 &
+  fi
   exit 0
 fi
 
 echo "xdg-open: couldn't reach the browser relay on 127.0.0.1:${RELAY_PORT}." >&2
-echo "  Check that your local ~/.ssh/config has 'RemoteForward ${RELAY_PORT} 127.0.0.1:${RELAY_PORT}' for this host," >&2
-echo "  and that url-open-relay is running on your Mac." >&2
+echo "  Check the peach01 URL relay LaunchAgents on your Mac." >&2
 echo "Open this URL yourself: ${url}" >&2
 exit 1
