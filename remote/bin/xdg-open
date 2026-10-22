@@ -55,10 +55,33 @@ if [[ "${1:-}" == "--relay-worker" ]]; then
   exit 0
 fi
 
+# Port of a loopback redirect named in the URL's path or query (e.g. an OAuth
+# redirect_uri), decoding up to two levels of percent-encoding.
+url_callback_port() {
+  local rest
+  rest="${url#*://}"
+  [[ "$rest" == *[/?]* ]] || return 0
+  rest="${rest#*[/?]}"
+  for _ in 1 2; do
+    rest="${rest//%3A/:}"; rest="${rest//%3a/:}"
+    rest="${rest//%2F//}"; rest="${rest//%2f//}"
+    rest="${rest//%5B/[}"; rest="${rest//%5b/[}"
+    rest="${rest//%5D/]}"; rest="${rest//%5d/]}"
+    rest="${rest//%25/%}"
+  done
+  if [[ "$rest" =~ (localhost|127\.0\.0\.1|\[::1\]):([0-9]+) ]]; then
+    printf '%s\n' "${BASH_REMATCH[2]}"
+  fi
+}
+
+# Pick the CLI's callback listener: the port named in the URL if something is
+# listening on it, else the most recently opened (highest fd) loopback listener
+# of the nearest ancestor. CLIs like dbt's Snowflake runner hold many ports.
 discover_callback() {
-  local pid parent line address host port owner_pid
+  local pid parent line address host port owner_pid fd url_port best_port=""
+  local best_rank=0 best_fd=-1 i
   local -a ancestor_pids=()
-  declare -A ports=() hosts=()
+  declare -A hosts=() ranks=() fds=()
   pid="$PPID"
   while [[ "$pid" =~ ^[0-9]+$ ]] && (( pid > 1 )); do
     ancestor_pids+=("$pid")
@@ -67,28 +90,42 @@ discover_callback() {
     pid="$parent"
   done
   while IFS= read -r line; do
-    for owner_pid in "${ancestor_pids[@]}"; do
-      [[ "$line" == *"pid=${owner_pid},"* ]] || continue
-      address="$(awk '{print $4}' <<< "$line")"
-      port="${address##*:}"
-      host="${address%:*}"
-      host="${host#\[}"
-      host="${host%\]}"
-      [[ "$port" =~ ^[0-9]+$ && "$port" != "$RELAY_PORT" ]] || continue
-      if [[ "$host" == "::1" ]]; then
-        hosts["$port"]="::1"
-      elif [[ "$host" == 127.* ]]; then
-        hosts["$port"]="127.0.0.1"
-      else
-        continue
-      fi
-      ports["$port"]=1
+    address="$(awk '{print $4}' <<< "$line")"
+    port="${address##*:}"
+    host="${address%:*}"
+    host="${host#\[}"
+    host="${host%\]}"
+    [[ "$port" =~ ^[0-9]+$ && "$port" != "$RELAY_PORT" ]] || continue
+    if [[ "$host" == "::1" ]]; then
+      hosts["$port"]="::1"
+    elif [[ "$host" == 127.* ]]; then
+      hosts["$port"]="127.0.0.1"
+    else
+      continue
+    fi
+    for i in "${!ancestor_pids[@]}"; do
+      owner_pid="${ancestor_pids[$i]}"
+      [[ "$line" =~ pid=${owner_pid},fd=([0-9]+) ]] || continue
+      ranks["$port"]=$((i + 1))
+      fds["$port"]="${BASH_REMATCH[1]}"
+      break
     done
   done < <(ss -H -ltnp 2>/dev/null || true)
-  if (( ${#ports[@]} == 1 )); then
-    for port in "${!ports[@]}"; do
-      printf '%s %s\n' "${hosts[$port]}" "$port"
-    done
+
+  url_port="$(url_callback_port)"
+  if [[ -n "$url_port" && -n "${hosts[$url_port]:-}" ]]; then
+    printf '%s %s\n' "${hosts[$url_port]}" "$url_port"
+    return 0
+  fi
+  for port in "${!ranks[@]}"; do
+    fd="${fds[$port]}"
+    if [[ -z "$best_port" ]] || (( ranks[$port] < best_rank )) ||
+      (( ranks[$port] == best_rank && fd > best_fd )); then
+      best_port="$port"; best_rank="${ranks[$port]}"; best_fd="$fd"
+    fi
+  done
+  if [[ -n "$best_port" ]]; then
+    printf '%s %s\n' "${hosts[$best_port]}" "$best_port"
   fi
 }
 
