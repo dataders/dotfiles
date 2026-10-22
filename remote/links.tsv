@@ -10,6 +10,7 @@ repo:.zlogout	home:.zlogout	shell	public	zsh logout hook
 repo:.gitignore_global	home:.gitignore_global	git	public	global Git ignore file
 repo:.tmux.conf	home:.tmux.conf	terminal	public	tmux config
 repo:.config/starship.toml	home:.config/starship.toml	shell	public	Starship prompt config
+repo:.cargo/config.toml	home:.cargo/config.toml	rust	public	Cargo profile config (line-tables-only debug keeps target/ small)
 repo:.aws/config	home:.aws/config	warehouse	private	AWS config symlinked through dotfiles_env
 repo:.databrickscfg	home:.databrickscfg	warehouse	private	Databricks config symlinked through dotfiles_env
 repo:odbc.ini	home:.odbc.ini	warehouse	public	User ODBC DSN config
