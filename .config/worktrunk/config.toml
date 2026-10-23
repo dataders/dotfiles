@@ -11,5 +11,7 @@ tab = "[ -n \"$CMUX_SURFACE_ID\" ] && cmux rename-tab \"{{ repo }} · {{ branch 
 # This gives new worktrees a warm build cache without duplicating disk space
 # NOTE: requires fs/.worktreeinclude (gitignored, not in dotfiles) — create manually on new machines:
 #   echo -e "target/\nlib/\n.claude/\n.agents/" > ~/Developer/fs/.worktreeinclude
-post-start.copy = "wt step copy-ignored"
+# macOS only: Linux ext4 has no reflink, so this becomes a full 30G+ copy per
+# worktree. Remote boxes share deps via sccache instead (remote/.cargo-config.toml).
+post-start.copy = "[ \"$(uname)\" = Darwin ] && wt step copy-ignored --require-include || true"
 post-start.cargo-profile = "rustup override set beta"

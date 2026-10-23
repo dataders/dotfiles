@@ -49,3 +49,6 @@ repo:.codex/AGENTS.md	home:.codex/AGENTS.md	agents	public	Codex global instructi
 repo:.codex/RTK.md	home:.codex/RTK.md	agents	public	Codex RTK guidance
 repo:.codex/rules/default.rules	home:.codex/rules/default.rules	agents	public	Codex command approval rules
 repo:.serena/serena_config.yml	home:.serena/serena_config.yml	agents	public	Serena MCP global config
+repo:remote/.cargo-config.toml	home:.cargo/config.toml	rust	public	Linux-adapted Cargo config (sccache wrapper, no reflink on ext4)
+repo:.config/worktrunk/config.toml	home:.config/worktrunk/config.toml	worktree	public	Worktrunk user config
+repo:remote/sccache-config.toml	home:.config/sccache/config	rust	public	sccache disk cache location and size cap
