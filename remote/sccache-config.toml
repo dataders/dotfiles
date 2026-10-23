@@ -1,0 +1,5 @@
+# sccache settings for remote Linux boxes (see remote/.cargo-config.toml).
+# One shared, LRU-evicted cache for every fs worktree's compiled deps.
+[cache.disk]
+dir = "/home/anders/.cache/sccache"
+size = 64424509440 # 60 GiB

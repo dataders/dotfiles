@@ -37,12 +37,12 @@ echo "--- Installing Starship..."
 ssh "$HOST" 'command -v starship >/dev/null 2>&1 || curl -sS https://starship.rs/install.sh | sh -s -- -y'
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 3. Install rustup + cargo tools (bat, eza)
+# 3. Install rustup + cargo tools (bat, eza, sccache)
 # ─────────────────────────────────────────────────────────────────────────────
 echo "--- Installing rustup..."
 ssh "$HOST" 'command -v cargo >/dev/null 2>&1 || curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable'
-echo "--- Installing bat and eza via cargo..."
-ssh "$HOST" 'source ~/.cargo/env 2>/dev/null && { command -v bat >/dev/null 2>&1 || cargo install bat --locked; } && { command -v eza >/dev/null 2>&1 || cargo install eza --locked; }'
+echo "--- Installing bat, eza, and sccache via cargo..."
+ssh "$HOST" 'source ~/.cargo/env 2>/dev/null && { command -v bat >/dev/null 2>&1 || cargo install bat --locked; } && { command -v eza >/dev/null 2>&1 || cargo install eza --locked; } && { command -v sccache >/dev/null 2>&1 || cargo install sccache --locked; }'
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 4. Install zoxide

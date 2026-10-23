@@ -1,0 +1,26 @@
+# Linux-adapted copy of .cargo/config.toml (keep the profile sections in sync).
+#
+# Remote boxes are ext4, so worktrees can't reflink-copy target/ the way APFS
+# does on macOS. Each worktree keeps its own target/ (so `cargo clean` and
+# `wt remove` stay per-worktree), and sccache shares compiled dependencies
+# across all of them through one size-capped cache in ~/.cache/sccache
+# (cap lives in remote/sccache-config.toml).
+# Install with `cargo install sccache --locked` (remote/setup.sh does this).
+[build]
+rustc-wrapper = "sccache"
+
+[env]
+RUST_MIN_STACK = "16777216"
+
+[profile.dev]
+debug = "line-tables-only"
+incremental = true
+codegen-units = 16
+opt-level = 1
+
+[profile.dev.package."*"]
+debug = false
+opt-level = 3
+
+[profile.test]
+inherits = "dev"
