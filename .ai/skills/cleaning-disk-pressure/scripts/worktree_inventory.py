@@ -1,5 +1,6 @@
 import argparse
 import os
+import re
 import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor
@@ -95,14 +96,41 @@ def size_of(path, timeout):
     return result.stdout.split()[0]
 
 
-def status_of(path, timeout):
+def status_of(path, timeout, ignore_status):
     result = run(["git", "-C", str(path), "status", "--porcelain"], timeout=timeout)
     if result is None:
         return f"timeout>{timeout}s"
     if result.returncode != 0:
         return "missing"
-    lines = result.stdout.splitlines()
+    lines = [line for line in result.stdout.splitlines() if not (ignore_status and ignore_status.search(line))]
     return "clean" if not lines else f"dirty:{len(lines)}"
+
+
+def remote_subjects(repo):
+    # Commit subjects reachable from any remote ref; a local commit with the same
+    # subject is almost always a rebase/cherry-pick copy of pushed work.
+    result = run(["git", "-C", repo, "log", "--remotes", "--no-merges", "--format=%s"], timeout=120)
+    return set(result.stdout.splitlines()) if result and result.returncode == 0 else set()
+
+
+def unpushed_of(path, head, subjects, timeout):
+    # local = commits on HEAD not reachable from ANY remote ref (not just a same-named
+    # branch); unique = local minus merge commits minus same-subject copies of remote work.
+    if not head:
+        return "-", "-"
+    local = run(["git", "-C", str(path), "rev-list", "--count", head, "--not", "--remotes"], timeout=timeout)
+    if local is None or local.returncode != 0:
+        return "?", "?"
+    if local.stdout.strip() == "0":
+        return "0", "0"
+    log = run(
+        ["git", "-C", str(path), "log", "--no-merges", "--format=%s", head, "--not", "--remotes"],
+        timeout=timeout,
+    )
+    if log is None or log.returncode != 0:
+        return local.stdout.strip(), "?"
+    unique = sum(1 for subject in log.stdout.splitlines() if subject not in subjects)
+    return local.stdout.strip(), str(unique)
 
 
 def protection_reasons(record, protect_paths, protect_heads, protect_branches):
@@ -126,19 +154,24 @@ def protection_reasons(record, protect_paths, protect_heads, protect_branches):
     return ",".join(reasons) if reasons else "-"
 
 
-def compute_row(repo_label, record, protect_paths, protect_heads, protect_branches, du_timeout):
+def compute_row(
+    repo_label, record, protect_paths, protect_heads, protect_branches, du_timeout, ignore_status, subjects
+):
     path = Path(record.get("worktree", ""))
     branch = record.get("branch", "").removeprefix("refs/heads/")
     head = record.get("HEAD", "")
     exists = path.exists()
     size = size_of(path, du_timeout) if exists else "missing"
-    status = status_of(path, du_timeout) if exists else "missing"
+    status = status_of(path, du_timeout, ignore_status) if exists else "missing"
+    local, unique = unpushed_of(path, head, subjects, du_timeout) if exists else ("-", "-")
     return "\t".join(
         [
             repo_label,
             str(path),
             size,
             status,
+            local,
+            unique,
             head[:12],
             branch or "-",
             protection_reasons(record, protect_paths, protect_heads, protect_branches),
@@ -157,15 +190,21 @@ def main():
     parser.add_argument("--protect-branch", action="append", default=[])
     parser.add_argument("--workers", type=int, default=8, help="parallel du/status lookups per repo")
     parser.add_argument("--du-timeout", type=int, default=20, help="seconds before a single du/status call is abandoned")
+    parser.add_argument(
+        "--ignore-status",
+        default=r"^ D (target-head-pr|target-origin-main)/",
+        help="regex for `git status --porcelain` lines that don't count as dirty ('' to count everything)",
+    )
     args = parser.parse_args()
 
-    roots = [Path(p).expanduser().resolve() for p in (args.root or ["/Users/dataders/Developer"])]
+    roots = [Path(p).expanduser().resolve() for p in (args.root or ["~/Developer"])]
     protect_paths = [Path(p).expanduser().resolve() for p in args.protect_path]
     protect_heads = set(args.protect_head)
     protect_branches = set(args.protect_branch)
+    ignore_status = re.compile(args.ignore_status) if args.ignore_status else None
     repos = discover_repos(roots, args.max_depth)
 
-    print("repo\tpath\tsize\tstatus\thead\tbranch\treasons", flush=True)
+    print("repo\tpath\tsize\tstatus\tlocal\tunique\thead\tbranch\treasons", flush=True)
     for _, sample in sorted(repos.items()):
         result = run(["git", "-C", sample, "worktree", "list", "--porcelain"], timeout=10)
         if result is None or result.returncode != 0:
@@ -176,10 +215,19 @@ def main():
         if len(records) <= 1:
             continue
 
+        subjects = remote_subjects(sample)
         with ThreadPoolExecutor(max_workers=args.workers) as pool:
             futures = [
                 pool.submit(
-                    compute_row, sample, record, protect_paths, protect_heads, protect_branches, args.du_timeout
+                    compute_row,
+                    sample,
+                    record,
+                    protect_paths,
+                    protect_heads,
+                    protect_branches,
+                    args.du_timeout,
+                    ignore_status,
+                    subjects,
                 )
                 for record in records
             ]
