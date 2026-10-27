@@ -377,7 +377,8 @@
     "codex@openai-codex": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
     "superpowers@superpowers-marketplace": false,
-    "worktrunk@worktrunk": true
+    "worktrunk@worktrunk": true,
+    "runlayer-plugin@runlayer": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {
