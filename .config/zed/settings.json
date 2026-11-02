@@ -37,8 +37,30 @@
   "ssh_connections": [
     {
       "host": "peach01",
+      "args": [],
+      "projects": [
+        {
+          "paths": [
+            "/home/anders"
+          ]
+        },
+        {
+          "paths": [
+            "/home/anders/Developer"
+          ]
+        },
+        {
+          "paths": [
+            "/home/anders/Developer/analytics.codex-checks-complexity-split"
+          ]
+        },
+        {
+          "paths": [
+            "/home/anders/Developer/fs"
+          ]
+        }
+      ],
       "nickname": "peach01",
-      "projects": [{ "paths": ["/home/anders/Developer/fs"] }],
       "upload_binary_over_ssh": true
     }
   ]

@@ -110,6 +110,7 @@ command = "strudel-mcp"
 [mcp_servers.node_repl]
 args = []
 command = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
+env_vars = ["BROWSER_USE_ACCESS_EXECUTOR_ID", "BROWSER_USE_ACCESS_PIPE_PATH", "BROWSER_USE_ACCESS_VERIFYING_IDENTITY"]
 startup_timeout_sec = 120
 
 [mcp_servers.node_repl.env]
@@ -124,8 +125,8 @@ NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
 NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.1013.40934"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/dataders/.codex/plugins/cache/openai-bundled/browser/26.1013.40934/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+BROWSER_USE_CODEX_APP_VERSION = "26.1023.50603"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/dataders/.codex/plugins/cache/openai-bundled/browser/26.1023.50603/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
 SKY_CUA_SERVICE_PATH = "/Users/dataders/.codex/computer-use/Codex Computer Use.app"
 CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex"
 
@@ -216,6 +217,15 @@ trust_level = "trusted"
 [projects."/Users/dataders/Developer/vortex-event-analytics"]
 trust_level = "trusted"
 
+[projects."/Users/dataders/Documents/ChatGPT/portfolio"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Documents/ChatGPT/my playlist site"]
+trust_level = "trusted"
+
+[projects."/Users/dataders/Developer/man-on-street"]
+trust_level = "trusted"
+
 [plugins."superpowers@openai-curated"]
 enabled = true
 
@@ -265,9 +275,6 @@ enabled = true
 enabled = true
 
 [plugins."computer-history@openai-bundled"]
-enabled = true
-
-[plugins."code-review@openai-bundled"]
 enabled = true
 
 [[skills.config]]
@@ -431,14 +438,14 @@ trusted_hash = "sha256:8042a10b27caa7537c6b94e454eeb157dd8d101f9f90c1745bcac6e77
 trusted_hash = "sha256:70879f7495f75d49531a495db7c77183c2e303e8e8b165f8b3e2624805023f97"
 
 [desktop]
-followUpQueueMode = "queue"
+followUpQueueMode = "steer"
 git-show-sidebar-pr-icons = true
 conversationDetailMode = "STEPS_COMMANDS"
 open-link-in-target-preference = "external-browser"
 preventSleepWhileRunning = true
 show-context-window-usage = false
 toys-confetti-enabled = true
-keepRemoteControlAwakeWhilePluggedIn = false
+keepRemoteControlAwakeWhilePluggedIn = true
 agent-usage-reset-enabled = true
 
 [desktop.open-in-target-preferences]
