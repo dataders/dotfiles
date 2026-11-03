@@ -183,7 +183,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook",
+            "command": "[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook",
             "timeout": 86400
           }
         ]
@@ -192,7 +192,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "command": "[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
             "timeout": 2
           }
         ]
@@ -213,7 +213,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "command": "[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
             "timeout": 2
           }
         ]
@@ -234,7 +234,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "command": "[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
             "timeout": 2
           }
         ]
@@ -272,7 +272,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "command": "[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
             "timeout": 2
           }
         ]
@@ -293,7 +293,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "command": "[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
             "timeout": 2
           }
         ]
@@ -314,7 +314,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "command": "[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
             "timeout": 2
           }
         ]
@@ -347,7 +347,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "command": "[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
             "timeout": 2
           }
         ]
@@ -358,7 +358,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
+            "command": "[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
             "timeout": 2
           }
         ]
