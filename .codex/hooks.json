@@ -10,7 +10,7 @@
           }
         ]
       },
-      {"hooks":[{"command":"/Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}
+      {"hooks":[{"command":"[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}
     ],
     "Stop": [
       {
@@ -22,7 +22,7 @@
           }
         ]
       },
-      {"hooks":[{"command":"/Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}
+      {"hooks":[{"command":"[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}
     ],
     "UserPromptSubmit": [
       {
@@ -34,12 +34,12 @@
           }
         ]
       },
-      {"hooks":[{"command":"/Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}
+      {"hooks":[{"command":"[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}
     ],
-    "PreToolUse": [{"hooks":[{"command":"/Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}],
-    "PermissionRequest": [{"hooks":[{"command":"/Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}],
-    "PostToolUse": [{"hooks":[{"command":"/Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}],
-    "SessionEnd": [{"hooks":[{"command":"/Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}],
-    "Interrupt": [{"hooks":[{"command":"/Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}]
+    "PreToolUse": [{"hooks":[{"command":"[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}],
+    "PermissionRequest": [{"hooks":[{"command":"[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}],
+    "PostToolUse": [{"hooks":[{"command":"[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}],
+    "SessionEnd": [{"hooks":[{"command":"[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}],
+    "Interrupt": [{"hooks":[{"command":"[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report codex","timeout":2,"type":"command"}]}]
   }
 }
