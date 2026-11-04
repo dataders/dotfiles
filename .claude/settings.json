@@ -358,6 +358,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "bash -c '[ -f ~/.claude/hooks/browser-relay-env.sh ] && bash ~/.claude/hooks/browser-relay-env.sh || true'",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
             "command": "[ -x /Applications/Shrine.app/Contents/Helpers/shrine-hook ] || exit 0; exec /Applications/Shrine.app/Contents/Helpers/shrine-hook --report claude",
             "timeout": 2
           }
