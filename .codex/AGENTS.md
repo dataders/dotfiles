@@ -1,6 +1,6 @@
 # Agent Rules
 
-Canonical shared rules live in `/Users/dataders/Developer/dotfiles/AGENTS.md`.
+Canonical shared rules live in `~/Developer/dotfiles/AGENTS.md`.
 Use that file as source of truth. Keep this file short so Codex global context
 does not become noisy.
 
