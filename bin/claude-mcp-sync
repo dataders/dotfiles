@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+mode="${1:-check}"
+case "$mode" in
+    check|install) ;;
+    *) echo "Usage: $0 [check|install]" >&2; exit 2 ;;
+esac
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+manifest="$repo_root/.claude/user-mcp.json"
+state="${CLAUDE_CONFIG_DIR:-$HOME}/.claude.json"
+
+if [[ "$mode" == install && -L "$state" ]]; then
+    echo "Claude state is symlinked at $state. Make it a local file before installing servers." >&2
+    exit 1
+fi
+
+names="$(jq -er '.mcpServers | keys[]' "$manifest")"
+drift=0
+while IFS= read -r name; do
+    desired="$(jq -ec --arg name "$name" '.mcpServers[$name]' "$manifest")"
+    status=missing
+    if [[ -f "$state" ]]; then
+        status="$(jq -er --arg name "$name" --argjson desired "$desired" '
+            (.mcpServers // {})[$name] as $current
+            | if $current == null then "missing"
+              elif $current == $desired then "matches"
+              else "differs"
+              end
+        ' "$state")"
+    fi
+
+    case "$status:$mode" in
+        missing:install)
+            claude mcp add-json --scope user "$name" "$desired"
+            ;;
+        missing:check|differs:check)
+            printf '%s %s\n' "$name" "$status"
+            drift=1
+            ;;
+        differs:install)
+            printf '%s differs (keeping local registration)\n' "$name"
+            ;;
+        matches:*)
+            printf '%s matches\n' "$name"
+            ;;
+    esac
+done <<< "$names"
+
+exit "$drift"
