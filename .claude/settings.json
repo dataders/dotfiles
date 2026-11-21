@@ -358,6 +358,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "/bin/sh -c 'rex __internal session-start --agent claude --feature-session-naming=false 2>/dev/null || true'",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
             "command": "bash -c '[ -f ~/.claude/hooks/browser-relay-env.sh ] && bash ~/.claude/hooks/browser-relay-env.sh || true'",
             "timeout": 5
           }

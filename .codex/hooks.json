@@ -4,6 +4,16 @@
       {
         "hooks": [
           {
+            "type": "command",
+            "command": "/bin/sh -c 'rex __internal session-start --agent codex --feature-session-naming=false 2>/dev/null || true'",
+            "timeout": 5,
+            "statusMessage": "Loading Rex terminal context"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
             "command": "[ -n \"$CMUX_SURFACE_ID\" ] && command -v cmux >/dev/null 2>&1 && cmux codex-hook session-start || echo '{}'",
             "timeout": 10,
             "type": "command"
