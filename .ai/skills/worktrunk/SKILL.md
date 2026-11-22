@@ -10,6 +10,16 @@ compatibility: Requires worktrunk CLI (https://worktrunk.dev)
 
 Help users work with Worktrunk, a CLI tool for managing git worktrees.
 
+## Decide Whether a Worktree Is Needed
+
+For one sequential writer, use the current checkout when its branch, uncommitted changes, and running processes are compatible with the task. Do not create a worktree merely because Worktrunk is installed, a task has a new name, or the repository has large build artifacts.
+
+Use a separate checkout when writers must edit concurrently, an existing dirty or active checkout must be preserved, or the task needs a pinned independent branch or revision. Read-only reviewers can inspect a diff or share a checkout at the required revision. Avoid spawning parallel writers unless the tasks are independent and the added coordination is worthwhile.
+
+For repeated concurrent work in a large build repository, reuse a bounded pool of clean checkouts and warm build targets. Keep one writer per checkout and build target; check disk headroom before adding a lane. The local-compute-harness campaign uses this pattern in `process/ENGINEERING_WORK.md`. For small or infrequent tasks, create only the checkout actually needed and remove it when safe.
+
+When isolation is needed, use `wt` for creation and switching. Do not use `superpowers:using-git-worktrees` or agent-managed `isolation: worktree` in repositories whose instructions require Worktrunk.
+
 ## Available Documentation
 
 Reference files are synced from [worktrunk.dev](https://worktrunk.dev) documentation:
