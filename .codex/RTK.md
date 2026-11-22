@@ -1,32 +1,23 @@
 # RTK - Rust Token Killer (Codex CLI)
 
-**Usage**: Token-optimized CLI proxy for shell commands.
+**Usage**: Optional CLI proxy for noisy shell output.
 
-## Rule
+## When to use it
 
-Always prefix shell commands with `rtk`.
+Use `rtk` only when installed and a compact summary will answer the question. Run commands directly when exact output matters, especially searches, diffs, test failures, and diagnostics. Do not stop to install or locate RTK when it is unavailable.
 
 Examples:
 
 ```bash
 rtk git status
-rtk cargo test
-rtk npm run build
-rtk pytest -q
 ```
 
 ## Meta Commands
 
 ```bash
-rtk gain            # Token savings analytics
+rtk gain            # Estimated shell-output reduction, not bill savings
 rtk gain --history  # Recent command savings history
-rtk proxy <cmd>     # Run raw command without filtering
+rtk proxy <cmd>     # Run raw command through RTK when needed
 ```
 
-## Verification
-
-```bash
-rtk --version
-rtk gain
-which rtk
-```
+Check `command -v rtk` once if availability is unclear; otherwise proceed with the command directly.

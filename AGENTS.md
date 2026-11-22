@@ -1,115 +1,25 @@
 # Global Development Context
 
-## Environment
-- macOS (Apple Silicon)
-- Shell: zsh with Starship prompt + Prezto
-- Terminal: herdr (agent sessions) or cmux (when browser/PR sidebar needed)
-- Package manager: Homebrew
-- Python: uv-managed virtual environments; conda/miniforge not used
+## Shared rules
 
-## Python Package Management
-Bare `pip`, `pip3`, and `python3` invocations are blocked by a PreToolUse hook. Always use:
-- `uv run python3 -c "..."` — inline Python
-- `uv run python3 script.py` — run a script
-- `uv add <package>` — add a dependency to a project
-- `uvx <tool>` — run a one-off tool (e.g. `uvx ruff check`)
+- Keep changes minimal and focused. Prefer editing existing files.
+- Use `uv` for Python packages and scripts; never bare `pip`, `pip3`, or `python3`. Do not use conda or miniforge.
+- Keep public config in `~/Developer/dotfiles` and private config in `~/Developer/dotfiles_env`.
+- Use explicit private overlay hooks only: `secrets.zsh`, `local.zsh`, `gitconfig.local`, and `source_dotfiles_env`.
+- For symlink changes, update `links.tsv` and run `./links.sh dry-run`, `./links.sh check`, and `./links.sh doctor`. Run `apply` only from the primary `~/Developer/dotfiles` checkout; running it from a worktree repoints home symlinks into a temporary checkout.
+- Preserve critical `~/.dbt/*` symlinks to `dotfiles_env`. Before committing a changed symlink inside the public dotfiles repo, check that it still is a symlink; atomic replacement can put private data in the public tree.
+- Use a matching repo-backed skill from `.ai/skills` or `.agents/skills` when one applies.
 
-## Dotfiles Structure
-- **Public configs**: `~/Developer/dotfiles` (git-tracked, GitHub)
-- **Private/secrets**: `~/Developer/dotfiles_env` (local only, not pushed)
-- Symlinks managed by: `links.tsv` plus `links.sh`; use `./links.sh dry-run`, `./links.sh check`, and `./links.sh doctor` before/after link changes.
-- **Never run `./links.sh apply` from a worktree or Conductor workspace.** `links.sh` derives its repo root from the script's own location, so applying from a throwaway worktree repoints your `~` symlinks (`.zshrc`, `.gitconfig`, MCP configs, etc.) into that worktree — they break when the worktree is archived. Run `apply` only from the primary checkout `~/Developer/dotfiles`. From a worktree, `dry-run`/`check`/`doctor` (read-only) are fine.
-- Overlay hooks are explicit only: `.zshrc` may source `dotfiles_env/secrets.zsh` and `dotfiles_env/local.zsh`; `.gitconfig` may include `dotfiles_env/gitconfig.local`; direnv projects may call `source_dotfiles_env`. Do not add profile flags or broad auto-discovery.
-- **Critical symlinks in `~/.dbt/`** point to `~/Developer/dotfiles_env/.dbt/` (profiles.yml, dbt_cloud.yml, mcp.yml, keyfile.json, .user.yml). **Do NOT delete these symlinks.** If you must remove one for testing, restore it immediately when done (e.g. `ln -sf ~/Developer/dotfiles_env/.dbt/dbt_cloud.yml ~/.dbt/dbt_cloud.yml`).
-- **Symlinks nested inside `dotfiles` itself**: a few files tracked *within* the public repo are themselves symlinks into `dotfiles_env` — e.g. `.ssh/known_hosts`, `.ssh/id_ed25519`/`.pub`. This is separate from the `links.tsv` overlay (which symlinks `~` paths to files living directly in `dotfiles`). Tools that do an atomic replace on such a path — `ssh` recording a new host key is the common case — silently swap the symlink for a real file containing private data (host keys, IPs). If that gets committed, it leaks into the public repo. After connecting to a new host, or whenever such a path shows an unexpected diff, `readlink` it first; if it's no longer a symlink, merge the new content into the `dotfiles_env` target and restore the symlink (`ln -sf ~/Developer/dotfiles_env/<path> dotfiles/<path>`) before committing.
+## Tools
 
-### Serena per-repo config
+- Use `rg` for text search, `ast-grep` for syntax patterns, and Serena for symbol meaning across files when available.
+- RTK is optional when installed. Use it for noisy output when a summary is enough. Use raw output for debugging, exact matches, test failures, and quoted evidence. Do not delay work to install or locate RTK.
 
-`.serena/` is globally gitignored. Per-repo `project.yml` + `memories/` live in
-`serena/projects/<repo>/` and are symlinked back via `links.tsv`. Register a new
-repo with `bin/serena-link <repo-path> [--lang <lang>]`, then `./links.sh apply`
-from the primary checkout. dotfiles' own `.serena/project.yml` is tracked in
-place (no symlink). Recovery: if a `memories/` symlink breaks and Serena
-recreates a real dir, remove it before re-running `./links.sh apply`.
+## Worktrees
 
-## Primary Work
-- dbt (data build tool) development
-- Multiple dbt installations available:
-  - `dbtf` - dbt Cloud CLI
-  - `dbt-core` - dbt-core from venv
-  - `dbtd` / `dbtr` - custom debug/release builds
-- Data warehouses: Snowflake, BigQuery, Redshift, Databricks
+- Use the current checkout for sequential work when its branch, changes, and active processes are compatible. Create a separate checkout only when concurrent writers need exclusive files, an existing checkout must be preserved, or work needs an independent pinned branch or revision.
+- For worktree workflows use the `worktrunk` skill and `wt`, never `superpowers:using-git-worktrees` or agent-managed `isolation: worktree`. In large build repos with repeated parallel work, reuse a bounded pool of clean worktrees and warm build targets. Build artifact size alone does not require a worktree.
 
-## Code Search
-Three tiers, cheapest first — escalate only when the cheaper tool can't express the query:
-- **Text** — `rg` (ripgrep). Literal/regex string matches.
-- **Structural (syntax)** — `ast-grep`. Matches code *shape* within a file without a language server. Cheap, stateless, scriptable; great for sweeps and rewrites.
-- **Semantic (symbols)** — `serena` MCP (LSP-backed). Use when the question is about *meaning across files*: "where is this defined", "who calls/references this", "rename this symbol", file symbol overview. Tools: `find_symbol`, `find_referencing_symbols`, `find_implementations`, `get_symbols_overview`, `rename_symbol`. Serena auto-activates the project for the cwd (`--project-from-cwd`); the dashboard runs at `http://localhost:24282/dashboard/` (next free port if multiple instances: 24283, 24284, …).
+## Response style
 
-Structural / AST search + rewrite with `ast-grep` (binary is `sg`, but invoke as `ast-grep` to avoid the zsh `sg` builtin collision). Prefer it over `rg` when matching on code shape — function signatures, call patterns, macro/attribute usage, struct/enum defs — especially in the Rust `fs` monorepo (`~/Developer/fs`).
-  - Pattern uses `$VAR` for single-node metavars, `$$$` for variadic. Set language explicitly in non-obvious trees: `ast-grep -l rust -p '<pattern>' crates/`.
-  - One-off run (search): `ast-grep -l rust -p 'unwrap()' crates/`
-  - Rewrite preview: `ast-grep -l rust -p '$X.unwrap()' -r '$X.expect("TODO")' --dry-run`
-  - For reusable lint rules, prefer a project `sgconfig.yml` + `rules/` over ad-hoc one-liners.
-
-## Output Style
-- Respond like smart caveman. Cut all filler, keep technical substance.
-  - Drop articles (a, an, the), filler (just, really, basically, actually).
-  - Drop pleasantries (sure, certainly, happy to).
-  - No hedging. Fragments fine. Short synonyms.
-  - Technical terms stay exact. Code blocks unchanged.
-  - Pattern: [thing] [action] [reason]. [next step].
-
-## Preferences
-- Keep changes minimal and focused
-- Prefer editing existing files over creating new ones
-- Do not use conda or miniforge; use `uv` and project virtual environments
-- Use direnv for project-specific environment variables
-- Do not use `superpowers:using-git-worktrees`; use the `worktrunk` skill and `wt` for worktree workflows
-- In Pi, never use pi-subagents managed `worktree` or `isolation: worktree`; create lanes with `wt`, then pass the resolved worktree path as subagent `cwd`.
-- Check `.ai/skills` and `.agents/skills` in the current repo when present. If a task matches a skill name or description, open its `SKILL.md` first and follow it.
-
-## Agent Teams
-
-### Orchestration (always)
-Every session has a single implicit team — there is no team to create. Spawn
-parallel teammates with native tools in this order:
-1. `TaskCreate` — seed the shared task list
-2. `Agent` tool with a `name` parameter — spawns the teammate into the implicit team
-
-Never use inline execution or bare `Agent(run_in_background=true)` for
-implementation work; always route through this native orchestration.
-
-Use `SendMessage` (by teammate id or name) to communicate and `TaskUpdate` to
-track progress.
-
-Note: `TeamCreate` / `TeamDelete` / `TeamList` were removed in CLI 2.1.179, and
-the `Agent` tool's `team_name` parameter is deprecated and ignored.
-`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set in `~/.claude/settings.json`.
-The `superpowers:dispatching-parallel-agents` skill is disabled in settings.json.
-
-### Inside herdr
-`HERDR_ENV=1` when running inside herdr. The herdr Claude integration reports lifecycle
-state (working/blocked/idle) to the herdr sidebar automatically via installed hooks.
-
-`teammateMode` is `"tmux"` in settings.json. Inside herdr `$TMUX` is not set, so teammates
-spawned via the `Agent` tool run as background processes — they appear in the herdr sidebar
-via process detection but have no visible pane. To spawn an agent with visible output:
-
-```bash
-NEW=$(herdr pane split <your-pane-id> --direction right --no-focus \
-      | uv run python3 -c 'import sys,json; print(json.load(sys.stdin)["result"]["pane"]["pane_id"])')
-herdr pane run "$NEW" "claude"
-herdr wait output "$NEW" --match ">" --timeout 15000
-herdr pane run "$NEW" "your task prompt here"
-```
-
-Re-read pane IDs from `herdr pane list` rather than assuming they are stable.
-
-### Inside cmux
-The `claude()` wrapper in `.zshrc` auto-routes through `cmux claude-teams` when inside cmux,
-with a recursion guard so subagents fall through to `command claude` directly. Don't manually
-call `cmux claude-teams` or `cmux new-workspace` (creates a plain terminal, not a teammate).
-With cmux, `teammateMode: "tmux"` works and teammates get their own panes automatically.
-
-@RTK.md
+Be direct and concise. Keep technical terms exact and report evidence and limits.
