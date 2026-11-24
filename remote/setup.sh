@@ -70,10 +70,10 @@ ssh "$HOST" '[[ -d ~/.zprezto/contrib ]] || (cd ~/.zprezto && git clone --recurs
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 6. Clone dotfiles on the remote, then sync dotfiles_env and wire up every
-#    managed config/credential symlink via remote/links.tsv (see
+#    managed config/credential path via links.shared.tsv and remote/links.tsv (see
 #    remote/sync-env.sh — also the command to re-run later to refresh a host).
 #    This covers the Linux-adapted shell/git/codex configs (from remote/),
-#    portable public dotfiles (tmux, starship, .zprofile, ...), private
+#    portable public dotfiles (tmux, starship, .zprofile), private
 #    warehouse/dbt credentials (from dotfiles_env), and portable Claude/Codex
 #    agent config (hooks, RTK.md, settings) — anything macOS-only (editor
 #    app configs, karabiner, launchagents, gh auth token, .claude.json's
@@ -107,14 +107,10 @@ ssh "$HOST" 'zsh -lic "pi-webui install --host 127.0.0.1 --port 8809"'
 ssh "$HOST" 'chmod go-w ~/.pi-webui ~/.config/pi-webui; systemctl --user restart pi-webui-sessiond.service pi-webui.service'
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 10. Register portable MCP servers with Claude Code (github, lucid)
+# 10. Install shared user-scope Claude Code MCP servers
 # ─────────────────────────────────────────────────────────────────────────────
-# ~/.claude.json isn't linked/copied — it mixes secrets/session state with
-# config. serena and parallel-search are skipped: they're stdio servers backed
-# by local scripts/tools this host doesn't have.
 echo "--- Registering Claude Code MCP servers..."
-ssh "$HOST" 'bash -lc "source ~/Developer/dotfiles_env/secrets.zsh 2>/dev/null; claude mcp add --scope user --transport http github https://api.githubcopilot.com/mcp --header \"Authorization: Bearer \$GITHUB_PAT_MCP\""' || echo "Skipping github MCP registration (claude CLI or secrets.zsh not ready)"
-ssh "$HOST" 'bash -lc "claude mcp add --scope user --transport http lucid https://dbt.runlayer.com/api/v1/proxy/5bcab31b-de80-4be2-a8ea-553d8c365fea/mcp"' || echo "Skipping lucid MCP registration"
+ssh "$HOST" 'PATH="$HOME/.local/bin:$PATH" bash "$HOME/Developer/dotfiles/bin/claude-mcp-sync" install' || echo "Claude MCP registration incomplete"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 11. Install Ghostty terminfo (so TERM=xterm-ghostty works over SSH)

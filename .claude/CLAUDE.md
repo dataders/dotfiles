@@ -1,6 +1,6 @@
 # Agent Rules
 
-Canonical shared rules live in `/Users/dataders/Developer/dotfiles/AGENTS.md`.
+Canonical shared rules live in `~/Developer/dotfiles/AGENTS.md`.
 Use that file as source of truth. Keep this file short so Claude global context
 does not become noisy.
 
@@ -22,11 +22,13 @@ Hard rules:
 - Spawn teammates only when independent work benefits from parallel execution. Use the session's native agent tools and assign each writer an exclusive checkout when needed.
 - changie changelog entries: `author` must be `"dataders claude"` (pass `--custom 'author=dataders claude'`), never `aswanson`.
 - In a background session (`CLAUDE_JOB_DIR` set) never run `open` — it can't reach the display and silently no-ops. Print the URL/path as a clickable link instead; suggest `! open <url>`. Enforced by the `block-open-in-bg.sh` PreToolUse hook.
+  On the Linux remote boxes, `xdg-open <url>` works even in background sessions
+  (SSH URL relay to the Mac, OAuth callbacks included); `browser-relay-env.sh`
+  resets Claude's `BROWSER=true` to it so browser-SSO CLIs work.
 
-MCP config layout (all tracked in dotfiles via links.tsv):
-
-- Claude Code reads MCP servers from `~/.claude.json` (→ `dotfiles/.claude.json`); top-level `mcpServers` = user scope. Add via `claude mcp add <name> --scope user …`. Currently: github, lucid, serena, parallel-search. (`~/.claude/mcp.json` is NOT read by Claude Code — kept empty.)
-- `~/.codex/config.toml` → `dotfiles/.codex/config.toml` — Codex MCP servers (local MCPs + Runlayer remotes, incl. lucid).
-- `~/.claude/settings.json` and `~/.claude.json` are symlinked too; `mcpServers` is NOT valid in settings files — it belongs in `~/.claude.json` top-level, not `settings.json`.
+- Register Claude MCP servers with `claude mcp add <name> --scope user …`.
+  User-scope MCP definitions and app state live in the local `~/.claude.json`.
+- Codex MCP servers live in the local `~/.codex/config.toml`, initially seeded
+  from the platform template in dotfiles.
 
 @RTK.md

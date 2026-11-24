@@ -1,7 +1,22 @@
 .DS_Store
 ./zshenv
-.claude/settings.local.json
-.claude/worktrees/
+# Agent runtime files and locally installed packages
+/.claude.json
+/.claude/settings.local.json
+/.claude/.credentials.json
+/.claude/projects/
+/.claude/history.jsonl
+/.claude/plugins/
+/.claude/worktrees/
+/.codex/auth.json
+/.codex/.codex-global-state.json*
+/.codex/history.jsonl
+/.codex/sessions/
+/.codex/archived_sessions/
+/.codex/plugins/
+/.codex/.tmp/
+/.codex/*.sqlite*
+/.pi/agent/
 logs/
 .dbt/
 .ssh/known_hosts.old

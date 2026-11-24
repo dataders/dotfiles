@@ -5,7 +5,7 @@ boundary, and a quick validation command.
 
 | Topic | Source | Target | Privacy | Validation |
 | --- | --- | --- | --- | --- |
-| Link manifest | `links.tsv` | consumed by `links.sh` | public | `./links.sh dry-run` |
+| Link manifest | `links.shared.tsv`, `links.tsv` (macOS), `remote/links.tsv` (Linux) | consumed by `links.sh` | public | `./links.sh dry-run` |
 | Link health | `links.sh` | managed symlinks under `~`, `~/.config`, app dirs, and workspaces | mixed | `./links.sh check` |
 | Doctor checks | `links.sh doctor` | shell/tool/dbt/private overlay health | mixed | `./links.sh doctor` |
 | zsh/Prezto | `.zshrc`, `.zprofile`, `.zshenv`, `.zpreztorc`, `.zlogin`, `.zlogout` | `~/.*` | public with private overlay hooks | `zsh -lc 'command -v uv && command -v direnv && command -v starship'` |
@@ -14,9 +14,10 @@ boundary, and a quick validation command.
 | Git overlay | `~/Developer/dotfiles_env/gitconfig.local` | included by `.gitconfig` when present | private | `./links.sh doctor` |
 | Direnv | `.config/direnv/direnvrc` | `~/.config/direnv/direnvrc` | public helper, private project env files | `direnv status` |
 | Direnv project overlays | `~/Developer/dotfiles_env/projects/<repo>.envrc` | sourced by `source_dotfiles_env` from repo `.envrc` files | private | `direnv reload` in project |
-| Claude | `.claude/*` | `~/.claude/*`, `~/.claude.json` | mostly public, settings local tracked here | `./links.sh check` |
-| Codex | `.codex/*` | `~/.codex/*` | public rules/config, no secrets | `./links.sh check` |
-| Shared skills | `.ai/skills/*` | `~/.codex/skills/*`, `~/.claude/skills/*` | public | `./links.sh check` |
+| Claude | `.claude/settings.json`, hooks, and instructions | `~/.claude/*` | public settings, local app state | `./links.sh check` |
+| Codex | `.codex/*` and `remote/.codex-config.toml` | `~/.codex/*` | public templates and rules, local active TOML | `./links.sh check` |
+| Shared skills | `.ai/skills/*` | `~/.codex/skills/*`, `~/.claude/skills/*`, `~/.pi/agent/skills/*` | public | `./links.sh check` |
+| Rex | `.ai/skills/rex`, Claude and Codex SessionStart hooks | linked skills and hooks | public integration, local servers and account state | `rex version` |
 | dbt | `~/Developer/dotfiles_env/.dbt/*` | `~/.dbt/*` | private direct links | `readlink ~/.dbt/profiles.yml` |
 | Warehouse config | `.aws/config`, `.snowflake/connections.toml`, `.databrickscfg` | `~/.aws/config`, `~/.snowflake/connections.toml`, `~/.databrickscfg` | private via `dotfiles_env` symlinks | `./links.sh check` |
 | Editors | `.vscode/settings.json`, `.config/zed/settings.json` | Code, Insiders, Cursor, Zed user settings | public | `./links.sh check` |

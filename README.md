@@ -45,25 +45,68 @@ global files that point back here plus the few hard guardrails agents must see
 immediately. This keeps global context clean instead of duplicating the same
 wall of rules in every agent config.
 
-Codex and Claude config are repo-backed, then symlinked into `~/.codex` and
-`~/.claude` by `links.sh`. Codex uses `.codex/config.toml` for model, sandbox,
-MCP servers, plugins, trusted projects, hooks, and Guardian review; command
-approvals live separately in `.codex/rules/default.rules`.
+Claude settings and hooks, Codex hooks and command rules, and Pi prompts and
+settings are repo-backed. A new Codex install seeds `~/.codex/config.toml` from
+`.codex/config.toml` on macOS or `remote/.codex-config.toml` on Linux. On an
+existing setup, `links.sh apply` copies a previously managed config symlink
+into a private local file, preserving current settings, project trust, hook
+trust, and app preferences. Later template changes can be merged into that
+local file when needed.
 
-Claude uses `.claude/settings.json`, `.claude/settings.local.json`,
-`.claude/hooks/*.sh`, and `.claude/CLAUDE.md`. Keep shared behavior in the
-canonical rule file unless a tool genuinely needs its own config syntax.
+### Claude across macOS and Linux
 
-Shared custom skills live only in `.ai/skills`. `links.sh` removes old generated
-skill dirs and symlinks each skill into both `~/.codex/skills` and
-`~/.claude/skills`, so plugin caches stay derived state instead of source of
-truth.
+- **Shared preferences and hooks** live in `.claude/settings.json`, linked into
+  `~/.claude/settings.json` on both machines. Review changes from `/config` or
+  permission prompts before committing them. Promote reusable defaults, hooks,
+  plugin choices, and general permission rules with
+  `git add -p -- .claude/settings.json`.
+- **Project-local settings** live in each project's own
+  `.claude/settings.local.json`. Use that file for permissions or overrides
+  specific to one checkout.
+- **Account and project state** lives in `~/.claude.json`. Git's legacy
+  snapshot contains MCP definitions alongside account metadata, caches, and
+  project trust. `links.sh apply` preserves existing managed symlinks as local
+  copies. If a checkout still links to a removed snapshot, `links.sh apply`
+  recovers it from the last version in local Git history. Run from the primary
+  checkout and use a full clone for this migration. If Git refuses a pull due
+  to local edits to a legacy file, preserve that edited copy before updating.
+
+GitHub and Lucid share a user-scope registration recipe in
+`.claude/user-mcp.json`. Run these from the dotfiles checkout on either machine.
+
+```zsh
+bash bin/claude-mcp-sync check
+bash bin/claude-mcp-sync install
+```
+
+`check` reports missing or differing registrations by name. `install` adds
+missing entries and preserves existing ones, including servers outside the
+recipe. GitHub's recipe stores the literal `${GITHUB_PAT_MCP}` reference.
+That variable must be exported in the environment that starts Claude.
+Lucid login stays local to each machine. Verify connections in `/mcp`.
+
+`links.sh` links authored skills from `.ai/skills` into Codex, Claude, and Pi.
+If an installed skill already occupies the same path as a real directory,
+`apply` reports the collision and preserves the directory.
 
 Agents should use a skill when the task name or shape matches one of these
 repo-backed skills. Open the relevant `SKILL.md` first, follow its workflow, and
 prefer skill scripts/templates over recreating the same logic. Current shared
-skills: `business-value-case`, `bvc-benchmarks`, `content-intelligence`,
-`fusion-diary`, `gh-fix-ci`, `mviz`, and `worktrunk`.
+skills include `business-value-case`, `fusion-diary`, `rex`, and `worktrunk`.
+
+### Rex
+
+Install Rex on the Mac and on any Linux host where it will run sessions. The
+shared skill uses `rex skill show` from the installed binary. The tracked
+Claude and Codex SessionStart hooks load Rex terminal context, and the skill
+also works in Pi. In Codex, use `/hooks` to trust the Rex hook the first time.
+Rex's global installer writes directly into the settings and hook files
+managed here, so use `./links.sh apply` for this setup.
+
+Check the binary with `rex version`. From a terminal inside Rex, run
+`rex whoami --json` to confirm which server, session, and pane you are using.
+Manage server addresses and login on each account. A Rex Lua config is optional
+and is read by the server from `~/.config/rex/init.lua` by default.
 
 ## cmux Agent Terminal
 
@@ -263,10 +306,10 @@ when deciding whether a config belongs in this public repo or in
 | Direnv | `.config/direnv/direnvrc` | `~/.config/direnv/direnvrc` | Defines `source_dotfiles_env` for private per-project env overlays |
 | GitHub CLI | `.config/gh/hosts.yml` | `~/.config/gh/hosts.yml` | Auth host config, symlinked through `links.sh` |
 | GitHub notification sweep | `bin/github-notification-sweep`, `Library/LaunchAgents/com.dataders.github-notification-sweep.plist` | `~/Library/LaunchAgents/...` | Local launchd job marks stale CI notifications done when PR merged or head moved |
-| Codex | `.codex/config.toml`, `.codex/AGENTS.md`, `.codex/RTK.md`, `.codex/rules/default.rules` | `~/.codex/...` | Model, sandbox, MCP servers, plugins, rules, trusted projects |
-| Claude | `.claude/CLAUDE.md`, `.claude/settings*.json`, `.claude/hooks/*.sh`, `.claude/RTK.md` | `~/.claude/...` | Shared instructions, hooks, permissions, RTK guidance |
+| Codex | Platform config templates, `.codex/hooks.json`, `.codex/AGENTS.md`, `.codex/RTK.md`, `.codex/rules/default.rules` | `~/.codex/...` | Local TOML for model, sandbox, MCP servers, and trust. Linked hooks, rules, and guidance |
+| Claude | `.claude/CLAUDE.md`, `.claude/settings.json`, `.claude/hooks/*.sh`, `.claude/RTK.md` | `~/.claude/...` | Shared instructions, hooks, permissions, RTK guidance |
 | Pi | `.pi/settings.json`, `AGENTS.md`, `.pi/themes/*`, `.pi/extensions/*`, `.pi/prompts/*` | `~/.pi/agent/...` | TUI, permissions, Worktrunk-native subagents, notifications, prompts, keybindings, theme, and LSP defaults; auth and sessions stay local |
-| Shared AI skills | `.ai/skills/*` | `~/.codex/skills/*`, `~/.claude/skills/*`, `~/.pi/agent/skills/*` | `links.sh` replaces old skill dirs and symlinks each skill into all agents |
+| Shared AI skills | `.ai/skills/*` | `~/.codex/skills/*`, `~/.claude/skills/*`, `~/.pi/agent/skills/*` | Links each authored skill into all three agents |
 | dbt | `~/Developer/dotfiles_env/.dbt/*` | `~/.dbt/*` | Private profiles, Cloud config, MCP config, keyfile, user state |
 | dbt CLIs | `.zshrc` aliases | shell aliases | `dbtf`, `dbt-core`, `dbtd`, `dbtr`, `dbtc` route to Cloud/core/debug/release helpers |
 | Database drivers | `odbcinst.ini`, `odbc.ini`, `freetds.conf` | `/opt/homebrew/etc/...` and `~/.odbc.ini` | ODBC, FreeTDS, and user DSN config |
@@ -290,8 +333,11 @@ This repo has three layers:
 3. Home paths under `~`, `~/.config`, app config dirs, and `/opt/homebrew/etc`
    point back to the right source with symlinks.
 
-`links.tsv` is the declarative manifest for managed symlinks. Each row records
-source, target, topic group, privacy classification, and a note.
+`links.shared.tsv` contains targets used on both platforms. `links.tsv` adds
+macOS targets and `remote/links.tsv` adds Linux targets. Each row records
+source, target, topic group, policy, and a note. Public and private entries
+are links. `seed` creates a local file from a template if needed, and
+`detach` converts only a previous managed link to a local file.
 
 `links.sh` consumes that manifest and supports:
 
@@ -303,8 +349,12 @@ source, target, topic group, privacy classification, and a note.
 ./links.sh doctor   # run link, shell, tool, dbt, and overlay health checks
 ```
 
-It wires nested config dirs, agent config, dbt private config, editor settings,
-workspaces, Rust, Worktrunk, and AI skills.
+The script selects the platform automatically. Preview macOS paths from Linux
+with a temporary home.
+
+```zsh
+DOTFILES_HOME="$(mktemp -d)" DOTFILES_PLATFORM=Darwin ./links.sh dry-run
+```
 
 `symmer.sh` is the older broad helper for top-level dotfiles and `.conf`/`.ini`
 files. Prefer adding new links to `links.tsv` so `links.sh check` and
@@ -367,9 +417,9 @@ remote/setup.sh     bootstrap a brand-new host: packages, Prezto, Starship,
                      Web UI, then
                      hands off to sync-env.sh
 remote/sync-env.sh   refresh an already-bootstrapped host: git pull dotfiles,
-                     rsync dotfiles_env, re-apply remote/links.tsv
-remote/links.tsv     curated symlink manifest for remote hosts (see below)
-remote/.zshrc, .zpreztorc, .zshenv, .gitconfig, .codex-config.toml
+                     rsync dotfiles_env, apply Linux config
+remote/links.tsv     Linux targets added to links.shared.tsv
+remote/.zshrc, .zpreztorc, .zshenv, .codex-config.toml
                      Linux-adapted overrides for files that are macOS-specific
                      in the main repo (Homebrew paths, GPG signing key,
                      Computer Use app paths, ...)
@@ -388,22 +438,15 @@ changes:
 remote/sync-env.sh peach01
 ```
 
-`remote/links.tsv` is a separate, smaller manifest passed to `links.sh` via
-`DOTFILES_MANIFEST` — it reuses the same `links.sh apply/check/dry-run`
-engine as the main manifest, but only lists what's actually portable to a
-headless Linux box: the `remote/`-adapted shell/git/codex configs, portable Pi
-config, plain
-public dotfiles (tmux, starship, `.zprofile`, ...), private warehouse/dbt
-credentials from `dotfiles_env`, and the portable subset of Claude/Codex
-agent config (hooks, `RTK.md`, settings). It deliberately excludes anything
-macOS-only (editor `app:` configs, Karabiner, LaunchAgents) and anything
-that mixes secrets with local session state (`~/.claude.json`, the GitHub
-CLI auth token) — those stay machine-specific, not synced.
+The Linux manifest adds headless shell, Cargo, and initial Codex config, plus
+the browser relay. Both platforms share the agent instructions, hook wiring,
+skills, and private warehouse/dbt links. Claude account state and CLI auth stay
+on each machine.
 
 Verify a host's managed links:
 
 ```zsh
-ssh peach01 'cd ~/Developer/dotfiles && DOTFILES_MANIFEST=remote/links.tsv ./links.sh check'
+ssh peach01 'cd ~/Developer/dotfiles && ./links.sh check'
 ```
 
 Pi can either run persistently on the host (`ssh peach01`, then `tmux new -As
@@ -419,9 +462,9 @@ Snowflake, AWS, and Databricks files either point into that private tree or stay
 out of git.
 
 This repo has a pre-commit hook at `.githooks/pre-commit`. It blocks staged
-paths that usually contain private config, then scans the staged diff with
-TruffleHog. The TruffleHog scan does not call verification endpoints, so
-detected credentials are not sent to provider APIs.
+credential files and agent runtime state, then scans the staged diff with
+TruffleHog with provider verification disabled. If the scan finds a credential,
+the hook suppresses its value.
 
 Enable it in this checkout:
 

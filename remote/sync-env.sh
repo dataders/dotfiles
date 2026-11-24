@@ -22,7 +22,7 @@ ENV_DIR="${HOME}/Developer/dotfiles_env"
 echo "==> Refreshing ${HOST}"
 
 echo "--- Pulling dotfiles (public config)..."
-ssh "$HOST" 'cd ~/Developer/dotfiles && git pull --ff-only' || echo "git pull failed on ${HOST} — resolve manually (local changes or diverged history?)"
+ssh "$HOST" 'cd ~/Developer/dotfiles && git pull --ff-only'
 
 if [[ -d "$ENV_DIR" ]]; then
     echo "--- Syncing dotfiles_env (private config)..."
@@ -31,9 +31,9 @@ else
     echo "--- Skipping dotfiles_env sync (${ENV_DIR} not found locally)"
 fi
 
-echo "--- Re-applying managed symlinks (remote/links.tsv)..."
-ssh "$HOST" 'cd ~/Developer/dotfiles && DOTFILES_MANIFEST=remote/links.tsv ./links.sh apply'
+echo "--- Re-applying managed configuration..."
+ssh "$HOST" 'cd ~/Developer/dotfiles && ./links.sh apply'
 
 echo ""
 echo "==> Done. Verify with:"
-echo "    ssh ${HOST} 'cd ~/Developer/dotfiles && DOTFILES_MANIFEST=remote/links.tsv ./links.sh check'"
+echo "    ssh ${HOST} 'cd ~/Developer/dotfiles && ./links.sh check'"

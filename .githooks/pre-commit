@@ -6,53 +6,56 @@ if [ "${SKIP_SECRET_SCAN:-}" = "1" ]; then
   exit 0
 fi
 
-if ! command -v trufflehog >/dev/null 2>&1; then
-  echo "secret scan: trufflehog not found" >&2
-  echo "Install it with: brew install trufflehog" >&2
-  exit 1
-fi
-
 if git diff --cached --quiet --no-ext-diff --; then
   echo "secret scan: no staged changes"
   exit 0
 fi
 
-tmp="${TMPDIR:-/tmp}/dotfiles-staged-diff.$$"
-paths="${TMPDIR:-/tmp}/dotfiles-staged-paths.$$"
-blocked="${TMPDIR:-/tmp}/dotfiles-blocked-paths.$$"
-trap 'rm -f "$tmp" "$paths" "$blocked"' EXIT HUP INT TERM
+scratch="$(mktemp -d "${TMPDIR:-/tmp}/dotfiles-secret-scan.XXXXXX")"
+trap 'rm -rf "$scratch"' EXIT
+trap 'exit 1' HUP INT TERM
 
-git diff --cached --name-only --diff-filter=ACMR > "$paths"
+git diff --cached --name-only --diff-filter=ACMR > "$scratch/paths"
 while IFS= read -r path; do
   case "$path" in
-    .env|.env.*|*/.env|*/.env.*|*secret*|*secrets*|*.pem|*.key|credentials/*|.aws/config|.snowflake/connections.toml|.databrickscfg|.dbt/profiles.yml|.dbt/dbt_cloud.yml|.dbt/mcp.yml|.dbt/keyfile.json|.dbt/.user.yml)
-      echo "$path" >> "$blocked"
+    .env|.env.*|*/.env|*/.env.*|*secret*|*secrets*|*.pem|*.key|credentials/*|.aws/config|.snowflake/connections.toml|.databrickscfg|.dbt/profiles.yml|.dbt/dbt_cloud.yml|.dbt/mcp.yml|.dbt/keyfile.json|.dbt/.user.yml|.claude.json|.claude/settings.local.json|.claude/.credentials.json|.claude/projects/*|.claude/history.jsonl|.codex/auth.json|.codex/history.jsonl|.codex/sessions/*|.codex/archived_sessions/*|.pi/agent/*)
+      echo "$path" >> "$scratch/blocked"
       ;;
   esac
-done < "$paths"
+done < "$scratch/paths"
 
-if [ -s "$blocked" ]; then
+if [ -s "$scratch/blocked" ]; then
   echo "secret scan: blocked likely-sensitive staged path(s)" >&2
-  sed 's/^/  /' "$blocked" >&2
+  sed 's/^/  /' "$scratch/blocked" >&2
   echo "Move secrets to ~/Developer/dotfiles_env or keep only symlinks in git." >&2
   echo "Bypass only after review: SKIP_SECRET_SCAN=1 git commit ..." >&2
   exit 1
 fi
 
-git diff --cached --no-ext-diff --binary > "$tmp"
+if ! command -v trufflehog >/dev/null 2>&1; then
+  echo "secret scan: trufflehog not found" >&2
+  echo "Install it with: brew install trufflehog, or use its Linux release binary." >&2
+  exit 1
+fi
+
+git diff --cached --no-ext-diff --binary > "$scratch/diff"
 
 echo "secret scan: trufflehog staged diff"
 set +e
-trufflehog --log-level=-1 stdin \
+trufflehog --log-level=-1 stdin --json \
   --no-update \
   --no-verification \
   --fail \
-  --fail-on-scan-errors < "$tmp"
+  --fail-on-scan-errors < "$scratch/diff" > "$scratch/findings"
 status=$?
 set -e
 
 if [ "$status" -ne 0 ]; then
-  echo "secret scan: failed" >&2
+  if [ -s "$scratch/findings" ]; then
+    echo "secret scan: possible credentials in staged diff (values suppressed)" >&2
+  else
+    echo "secret scan: TruffleHog failed with exit $status" >&2
+  fi
   echo "Move secrets to ~/Developer/dotfiles_env or unstage them." >&2
   echo "Bypass only after review: SKIP_SECRET_SCAN=1 git commit ..." >&2
   exit "$status"

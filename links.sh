@@ -8,7 +8,13 @@ repo_root="${DOTFILES_ROOT:-${script_path:h}}"
 home_root="${DOTFILES_HOME:-$HOME}"
 env_root="${DOTFILES_ENV:-$home_root/Developer/dotfiles_env}"
 developer_root="${DOTFILES_DEVELOPER:-$home_root/Developer}"
-manifest="${DOTFILES_MANIFEST:-$repo_root/links.tsv}"
+platform="${DOTFILES_PLATFORM:-$(uname -s)}"
+case "$platform" in
+    Linux) platform_manifest="$repo_root/remote/links.tsv" ;;
+    Darwin) platform_manifest="$repo_root/links.tsv" ;;
+    *) platform_manifest="" ;;
+esac
+manifest="${DOTFILES_MANIFEST:-$platform_manifest}"
 failures=0
 
 usage() {
@@ -16,11 +22,14 @@ usage() {
 Usage: links.sh [apply|dry-run|check|unlink|doctor]
 
 Modes:
-  apply    Create or update managed symlinks. Default.
-  dry-run  Print planned symlink changes without touching the filesystem.
-  check    Verify managed symlinks point to expected targets.
+  apply    Install managed links and initial local config. Default.
+  dry-run  Print planned changes without touching the filesystem.
+  check    Verify managed links and local config.
   unlink   Remove only managed symlinks that point to expected targets.
   doctor   Run link checks plus shell/tool/private-config health checks.
+
+The manifest defaults to the current OS. DOTFILES_PLATFORM selects Darwin or
+Linux for preview. DOTFILES_MANIFEST selects a specific manifest.
 EOF
 }
 
@@ -61,23 +70,6 @@ ensure_parent() {
     fi
 }
 
-safe_remove_existing_skill_dir() {
-    local target="$1"
-
-    [[ "$mode" == "apply" ]] || return 0
-    [[ -e "$target" && ! -L "$target" ]] || return 0
-
-    case "$target" in
-        "$home_root/.codex/skills/"*|"$home_root/.claude/skills/"*|"$home_root/.pi/agent/skills/"*)
-            rm -rf "$target"
-            ;;
-        *)
-            fail "refusing to replace non-symlink target: $target"
-            return 1
-            ;;
-    esac
-}
-
 link_item() {
     local source="$1"
     local target="$2"
@@ -102,10 +94,15 @@ link_item() {
             log "DRY-RUN ln -sfn $source $target [$group/$visibility] $note"
             ;;
         apply)
-            ensure_parent "$target"
-            safe_remove_existing_skill_dir "$target" || return 0
-            ln -sfn "$source" "$target"
-            log "LINK $target -> $source"
+            if [[ -e "$target" && ! -L "$target" ]]; then
+                fail "refusing to replace non-symlink target: $target"
+            elif [[ -L "$target" && "$(readlink "$target")" == "$source" ]]; then
+                log "OK $target -> $source"
+            elif ensure_parent "$target" && ln -sfn "$source" "$target"; then
+                log "LINK $target -> $source"
+            else
+                fail "could not link $target to $source"
+            fi
             ;;
         check)
             if [[ ! -L "$target" ]]; then
@@ -146,11 +143,62 @@ link_item() {
     esac
 }
 
-process_manifest() {
+local_file() {
+    local source="$1" target="$2" policy="$3" staged
+
+    [[ "$mode" == "unlink" ]] && return 0
+    if [[ -L "$target" ]]; then
+        if [[ "$(readlink "$target")" != "$source" ]]; then
+            fail "refusing to replace unmanaged symlink: $target"
+            return 0
+        fi
+    elif [[ -f "$target" || ( "$policy" == "detach" && ! -e "$target" ) ]]; then
+        log "OK local $target"
+        return 0
+    elif [[ -e "$target" ]]; then
+        fail "expected a local file: $target"
+        return 0
+    fi
+
+    case "$mode" in
+        check) fail "$target needs a local copy; run ./links.sh apply" ;;
+        dry-run) log "DRY-RUN copy $source to local file $target" ;;
+        apply)
+            if ! ensure_parent "$target" || ! staged="$(mktemp "${target}.XXXXXX")"; then
+                fail "could not create temporary file for $target"
+                return 0
+            fi
+            if copy_local_source "$source" "$policy" > "$staged" && mv -f "$staged" "$target"; then
+                log "LOCAL $target"
+            else
+                rm -f "$staged"
+                fail "could not save local copy of $target"
+            fi
+            ;;
+    esac
+}
+
+copy_local_source() {
+    local source="$1" policy="$2" repo_path revision
+
+    if [[ -f "$source" ]]; then
+        cat "$source"
+    elif [[ "$policy" == "detach" && "$source" == "$repo_root/"* ]]; then
+        # Recover an old managed link after Git removed its legacy snapshot.
+        repo_path="${source#$repo_root/}"
+        revision="$(git -C "$repo_root" log -1 --format=%H --diff-filter=AM -- "$repo_path")"
+        [[ -n "$revision" ]] && git -C "$repo_root" show "$revision:$repo_path"
+    else
+        return 1
+    fi
+}
+
+process_manifest_file() {
+    local manifest_file="$1"
     local source_spec target_spec group visibility note source target
 
-    if [[ ! -f "$manifest" ]]; then
-        fail "manifest not found: $manifest"
+    if [[ ! -f "$manifest_file" ]]; then
+        fail "manifest not found: $manifest_file"
         return 0
     fi
 
@@ -159,8 +207,24 @@ process_manifest() {
 
         source="$(expand_path "$source_spec")"
         target="$(expand_path "$target_spec")"
-        link_item "$source" "$target" "$group" "$visibility" "$note"
-    done < "$manifest"
+        case "$visibility" in
+            seed|detach) local_file "$source" "$target" "$visibility" ;;
+            *) link_item "$source" "$target" "$group" "$visibility" "$note" ;;
+        esac
+    done < "$manifest_file"
+}
+
+process_manifest() {
+    if [[ -z "$manifest" ]]; then
+        fail "no default manifest for $platform; set DOTFILES_MANIFEST"
+        return 0
+    fi
+    case "${manifest:A}" in
+        "${repo_root:A}/links.tsv"|"${repo_root:A}/remote/links.tsv")
+            process_manifest_file "$repo_root/links.shared.tsv"
+            ;;
+    esac
+    process_manifest_file "$manifest"
 }
 
 process_shared_skills() {
@@ -181,7 +245,7 @@ process_shared_skills() {
         fi
     fi
 
-    for skill_dir in "$shared_skills_root"/*; do
+    for skill_dir in "$shared_skills_root"/*(N); do
         [[ -d "$skill_dir" ]] || continue
         skill_name="${skill_dir:t}"
         link_item "$skill_dir" "$home_root/.codex/skills/$skill_name" agents public "shared Codex skill"
@@ -248,7 +312,7 @@ run_doctor() {
         doctor_private_file "$env_root/.dbt/$dbt_file"
     done
 
-    if [[ -e "$HOME/Library/LaunchAgents/com.dataders.peach01-url-healthcheck.plist" ]]; then
+    if [[ "$platform" == "Darwin" && -e "$home_root/Library/LaunchAgents/com.dataders.peach01-url-healthcheck.plist" ]]; then
         doctor_check "peach01 URL relay and ssh-agent healthy" "$repo_root/bin/peach01-url-healthcheck"
     else
         log "SKIP optional peach01 relay health check: LaunchAgent not linked"
