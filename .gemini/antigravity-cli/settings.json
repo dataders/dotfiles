@@ -1,0 +1,27 @@
+{
+  "agentMode": "accept-edits",
+  "toolPermission": "always-proceed",
+  "permissions": {
+    "ask": [
+      "command(regex:git push --force-with-lease.*)",
+      "execute_url(*)"
+    ],
+    "deny": [
+      "command(sudo)",
+      "command(doas)",
+      "command(pip)",
+      "command(pip3)",
+      "command(python3)",
+      "command(rm -rf)",
+      "command(rm -fr)",
+      "command(mkfs)",
+      "command(dd)",
+      "command(git reset --hard)",
+      "command(git push --force)",
+      "command(git push -f)",
+      "command(git push --mirror)",
+      "command(git push --delete)",
+      "command(git push --all)"
+    ]
+  }
+}
